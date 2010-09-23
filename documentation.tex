@@ -1614,6 +1614,50 @@ n/a
    ]
 }
 \end{lstlisting}
+\subsection{Add a new position to a document}
+Adds an alternative position as the origin of a document.
+\subsubsection{URI}
+\texttt{http://apipath/documents/\fbox{doc-id}/positions
+}\subsubsection{HTTP Methods}
+\texttt{POST}
+\subsubsection{Parameters}
+\begin{tabular}{|l|l|}\hline
+doc-id & UUID of the document \\
+\hline
+\end{tabular}
+\subsubsection{Formats}
+JSON
+\subsubsection{Authentication Required}
+true
+\subsubsection{Request Entity}
+\jslisting
+\lstset{caption=}
+\begin{lstlisting}
+{
+   "location":{
+      "position":{
+         "type":"Point",
+         "coordinates":[
+            100.0,
+            0.0
+         ]
+      },
+      "variance":100
+   }
+}
+\end{lstlisting}
+\subsubsection{Responses}
+\begin{tabular}{|l|l|}\hline
+201 & Created + Location \\
+\hline
+400 & Invalid position data \\
+\hline
+404 & Document not found \\
+\hline
+\end{tabular}
+\subsubsection{Response Entity}
+n/a
+
 \subsection{Get a position by its id }
 Returns information about a position data entry by its id.
 \subsubsection{URI}
@@ -2114,6 +2158,44 @@ n/a
    ]
 }
 \end{lstlisting}
+\subsection{Add a new origin time to a document}
+Adds an alternative date/time as the origin of a document.
+\subsubsection{URI}
+\texttt{http://apipath/documents/\fbox{doc-id}/times
+}\subsubsection{HTTP Methods}
+\texttt{POST}
+\subsubsection{Parameters}
+\begin{tabular}{|l|l|}\hline
+doc-id & UUID of the document \\
+\hline
+\end{tabular}
+\subsubsection{Formats}
+JSON
+\subsubsection{Authentication Required}
+true
+\subsubsection{Request Entity}
+\jslisting
+\lstset{caption=}
+\begin{lstlisting}
+{
+   "date":{
+      "before":"2010-06-29T19:15:51.765Z",
+      "after":"2010-06-29T19:15:50.000Z"
+   }
+}
+\end{lstlisting}
+\subsubsection{Responses}
+\begin{tabular}{|l|l|}\hline
+201 & Created + Location \\
+\hline
+400 & Invalid time data \\
+\hline
+404 & Document not found \\
+\hline
+\end{tabular}
+\subsubsection{Response Entity}
+n/a
+
 \subsection{Get a time entry by its id }
 Returns information about a time data entry by its id.
 \subsubsection{URI}
