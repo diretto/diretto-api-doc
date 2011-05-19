@@ -1,0 +1,1758 @@
+API DOCUMENTATION: diretto Task API
+===================================
+
+Author:		Benjamin Erb
+Version:	v2 - Draft
+Base URI:	http://taskservice/v2
+Auth:		Basic Authentication
+
+
+Description
+###########
+
+The Task API represents an external service that enables the handling of certain tasks.
+	In terms of the diretto platform, a task is a request of specific footage. Reporters may take in 
+	part in tasks and contribute required documents as submissions. A task is always bound to a location
+	and a time frame. A title and description define the task and optional tags allow to categorize it.
+	Votes help to prioritize different tasks within the community. Tasks can be commented for exchange of ideas. 
+	Finally, every user can submit an existing document as footage for the task.
+	The community can then rate the suitability of the submission regarding the task request.
+	Besides the of directed collection of live footage, the Task API can also be used for specialized search queries.
+	In this case, a task represents a search query and all potential results are submissions. This user-driven
+	search is helpful for queries when only users can reason about appropriate hits by analyzing the documents. 
+	
+
+
+Overview
+########
+
+1 Comment
+	1.1 Create a new comment
+	1.2 Get all comments of task
+	1.3 Retrieve a single comment
+
+2 Index
+	2.1 Get service instance data
+
+3 Query
+	3.1 Dispatch a query
+	3.2 Execute a common location-based query
+	3.3 Forward to query result page
+	3.4 Get query result page
+
+4 Submission
+	4.1 Create a new submission
+	4.2 Get all submissions of task
+	4.3 Retrieve submission details
+
+5 Tag
+	5.1 Append a tag to a resource
+	5.2 Create a new tag
+	5.3 Retrieve all tags of a resource
+	5.4 Retrieve a single tag of a resource
+	5.5 Retrieve a tag
+
+6 Task
+	6.1 Create a new task
+	6.2 Fetch multiple task snapshots
+	6.3 Retrieve a single task snapshot
+	6.4 Retrieve task meta data
+
+7 Vote
+	7.1 Get all votes
+	7.2 Get a vote of the user
+	7.3 Undo a vote on a resource
+	7.4 Vote on a resource
+
+
+
+1. Comment
+##########
+URI:			http://taskservice/v2/task/{task-id}/comment/{comment-id}
+URI Params:
+			{task-id}: task ID
+			{comment-id}: comment ID
+
+This resource represents a comment. Comments can be added by users to a task in order to discuss the task.
+
+
+1.1 Create a new comment
+========================
+Adds a new comment to the task.
+
+URI:			http://taskservice/v2/task/{task-id}/comments
+URI Params:
+			{task-id}: task ID
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			POST
+Auth:			required
+
+Entities:
+Format: js
++----------------------------------------------------------------+
+{
+   "content":"blablabla"
+}
++----------------------------------------------------------------+
+
+
+RESPONSE
+--------
+
+Answers:
+			201 ("Created"):  Comment has been created. The location header contains its URI and thus also the comment id.			400 ("Bad Request"):  Invalid comment data.			404 ("Not Found"):  Task not found.
+
+
+1.2 Get all comments of task
+============================
+Returns all comments of task.
+
+URI:			http://taskservice/v2/task/{task-id}/comments
+URI Params:
+			{task-id}: task ID
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Comment list in response entity.			404 ("Not Found"):  Task not found
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      },
+      "list":[
+         {
+            "comment":{
+               "id":"8e252710-77cf-11e0-a1f0-0800200c9a66",
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+               },
+               "content":"blablabla",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "id":"123456",
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}
++----------------------------------------------------------------+
+
+
+
+1.3 Retrieve a single comment
+=============================
+Returns a single comment.
+
+URI:			http://taskservice/v2/task/{task-id}/comment/{comment-id}
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  			404 ("Not Found"):  
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "comment":{
+      "id":"8e252710-77cf-11e0-a1f0-0800200c9a66",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      },
+      "content":"blablabla",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "id":"123456",
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+
+
+2. Index
+########
+URI:			http://taskservice/v2
+URI Params:
+
+This entry resource provides information about the service instance.
+
+
+2.1 Get service instance data
+=============================
+Returns a static information about the deployed Task service instance.
+
+URI:			http://taskservice/v2
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			not required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Service instance data in response entity
+Entities:
+Language: js
++----------------------------------------------------------------+{
+   "api":{
+      "name":"org.diretto.api.external.task",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Task Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Task Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://coreservice/v2"
+         }
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+
+
+3. Query
+########
+URI:			http://taskservice/v2/query/stored/{query-id}
+URI Params:
+			{query-id}: query id
+
+An interface resource for query execution. A query must be dispatched to the server 
+			which will return a URI for the query. This URI then contains the results. Results are paginated using cursors.
+			A query resource stores the initial query parameters, not the result set. Thus, queries can be re-executed by using the same URI,
+			although the corresponding results may have changed. Be aware of this fact when applying caching to query results.
+Language: plain
++----------------------------------------------------------------+
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |      (1) POST Query           |
+     |------------------------------>|
+     |                               |
+     |      (2) 202 + Location       |
+     |<------------------------------|
+     |                               |
+     |                               |
+     |      (3) GET Query Resource   |
+     |------------------------------>|
+     |                               |
+     |      (4) 303 + 1st page URI   |
+     |<------------------------------|
+     |                               |
+     |                               |
+     |      (5) GET 1st result page  |
+     |------------------------------>|
+     |                               |
+     |      (6) 200 + First page     |
+     |<------------------------------|
+     |                               |
+
++----------------------------------------------------------------+
+		
+Note that step 5 and 6 must be repeated for additional result pages. Also, step 1 and 2 can be skipped if an existing query (client already knows query URI) should be re-executed.			
+			
+
+
+3.1 Dispatch a query
+====================
+Sends a query.
+
+URI:			http://taskservice/v2/query
+URI Params:
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			POST
+Auth:			required
+
+Entities:
+Format: js
++----------------------------------------------------------------+{
+   "query":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox":[
+            100.0,
+            0.0,
+            105.0,
+            1.0
+         ]
+      },
+      "tags":[
+		"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      ]
+   }
+}
++----------------------------------------------------------------+
+
+
+RESPONSE
+--------
+
+Answers:
+			202 ("Accepted"):  Query accepted, result location in header.			400 ("Bad Request"):  Invalid query parameters.
+
+
+3.2 Execute a common location-based query
+=========================================
+A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results.
+
+URI:			http://taskservice/v2/query/common/{type}?lat={latitude}&lon={longitude}
+URI Params:
+			{type}: type: one of 'newest', 'unattended', 'expiring' or 'popular'
+			{latitude}: latitude
+			{longitude}: longitude
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			303 ("See Other"):  Query accepted, result location in header.			404 ("Not Found"):  Invalid coordinates.
+
+
+3.3 Forward to query result page
+================================
+A request to a query URI will always be forwarded to the first page of the result set using the first cursor.
+
+URI:			http://taskservice/v2/query
+URI Params:
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			303 ("See Other"):  Query accepted, result location in header.			404 ("Not Found"):  Query not found.
+
+
+3.4 Get query result page
+=========================
+Returns a paginated result page, identified by the cursor. A result page always contains links to the previous and next result page, if existing.
+
+URI:			http://taskservice/v2/query/stored/{query-id}/cursor/{cursor-id}
+URI Params:
+			{cursor-id}: cursor id
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Result page in response.			404 ("Not Found"):  Query or cursor not found.
+Entities:
+Language: js
++----------------------------------------------------------------+{
+   "query":{
+      "id":"128ecf542a35ac5270a87dc740918404",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404"
+      }
+   },
+   "results":{
+      "count":101,
+      "page":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
+         },
+         "list":[
+            {
+               "task":{
+                  "id":"2671f383-a28c-44d5-b86b-f7f04bb0a015",
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+                  }
+               }
+            }
+         ],
+         "related":[
+            {
+               "link":{
+                  "rel":"first",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"previous",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"next",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
+               }
+            }
+         ]
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+
+
+4. Submission
+#############
+URI:			http://taskservice/v2/task/{task-id}/submission/{submission-id}
+URI Params:
+			{task-id}: task ID
+			{submission-id}: submission ID
+
+This resource represents a submission. A submission basically suggests that a document represents a possible solution to the task.
+
+
+4.1 Create a new submission
+===========================
+Creates a new  submission. A submission is represented by a document, identified by it's URI.
+
+URI:			http://taskservice/v2/task/{task-id}/submissions
+URI Params:
+			{task-id}: task ID
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			POST
+Auth:			required
+
+Entities:
+Format: js
++----------------------------------------------------------------+
+{
+   "document":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+RESPONSE
+--------
+
+Answers:
+			201 ("Created"):  The submission has been accepted. The location header contains its URI and thus also the submission id.			400 ("Bad Request"):  The provided data are incomplete or invalid.			403 ("Forbidden"):  The document does not represent a valid submission for this task (spatial location or time origin).			409 ("Conflict"):  The document is already a submission for this task.
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "error":{
+      "reason":"The spatial location of the document is outside the task area."
+   }
+}
++----------------------------------------------------------------+
+
+
+
+4.2 Get all submissions of task
+===============================
+Returns all submissions of task.
+
+URI:			http://taskservice/v2/task/{task-id}/submissions
+URI Params:
+			{task-id}: task ID
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Submission list in response entity.			404 ("Not Found"):  Task not found
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      },
+      "list":[
+         {
+            "submission":{
+               "id":"550e8400-e29b-11d4-a716-446655440000",
+               "self":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+               },
+               "up":123,
+               "down":42
+            },
+            "document":{
+            	"link":{
+            		"rel":"self",
+            		"href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+            	}
+            },
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "id":"123456",
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "tags":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+               },
+               "list":[
+                  {
+                     "tag":{
+                        "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        },
+                        "baseTag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           }
+                        },
+                        "value":"mytag",
+                        "creationTime":"2010-07-17T18:54:11.939Z",
+                        "creator":{
+                           "id":"123456",
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core/v2/user/123456"
+                           }
+                        },
+                        "votes":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                           },
+                           "up":12,
+                           "down":2
+                        }
+                     }
+                  }
+               ]
+            }
+         }
+      ]
+   }
+}
++----------------------------------------------------------------+
+
+
+
+4.3 Retrieve submission details
+===============================
+Provides detailed information about this submission.
+
+URI:			http://taskservice/v2/task/{task-id}/submission/{submission-id}
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  The submission details are available in the response entity.			404 ("Not Found"):  Submission not found.
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "submission":{
+      "id":"550e8400-e29b-11d4-a716-446655440000",
+      "self":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+   },
+   "votes":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+      },
+      "up":123,
+      "down":42
+   },
+   "document":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+      }
+   },
+   "creationTime":"2010-07-17T18:54:11.939Z",
+   "creator":{
+      "id":"123456",
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456"
+      }
+   },
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "id":"123456",
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}						
+						
++----------------------------------------------------------------+
+
+
+
+
+
+5. Tag
+######
+URI:			http://taskservice/v2/tag/{tag-id}
+URI Params:
+			{tag-id}: tag ID
+
+This resource represents a tag. Users can append tags on various resources. 
+			The tag URI path is appended to the original URI. The following resources of the Task API can be voted on: Task and Submission
+			
+Language: plain
++----------------------------------------------------------------+
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |   (1) POST Tag                |
+     |------------------------------>|
+     |                               |
+     |   (2) 201/202 + Location      |
+     |<------------------------------|
+     |                               |
+     |                               |
+     |   (3) POST Tag to Resource    |
+     |------------------------------>|
+     |                               |
+     |   (4) 201/202 + Location      |
+     |<------------------------------|
+     |                               |
+     |                               |
+
++----------------------------------------------------------------+
+				
+		Steps 1+2 create a tag, steps 3+4 append the tag to a resource.
+
+
+5.1 Append a tag to a resource
+==============================
+Appends a new tag to the resource.
+
+URI:			http://taskservice/v2/{resource}/tags
+URI Params:
+			{resource}: resource
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			POST
+Auth:			required
+
+Entities:
+Format: js
++----------------------------------------------------------------+
+{
+   "baseTag":{
+      "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+RESPONSE
+--------
+
+Answers:
+			201 ("Created"):  Tag has been appended. The location header contains its URI and thus also the tag id.			202 ("Accepted"):  Tag already exists, but accepted.			400 ("Bad Request"):  Invalid tag data (i.e. ID mismatch).			404 ("Not Found"):  Tag or resource not found.
+
+
+5.2 Create a new tag
+====================
+Create a new tag that can be appended to resource thereafter.
+
+URI:			http://taskservice/v2/tags
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			POST
+Auth:			required
+
+Entities:
+Format: js
++----------------------------------------------------------------+
+{
+   "value":"mytag"
+}
++----------------------------------------------------------------+
+
+
+RESPONSE
+--------
+
+Answers:
+			201 ("Created"):  Tag has been created. The location header contains its URI and thus also the tag id.			202 ("Accepted"):  Tag already exists, but accepted.			400 ("Bad Request"):  Invalid tag data (i.e. length).
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "baseTag":{
+      "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+5.3 Retrieve all tags of a resource
+===================================
+Returns a single tag entry.
+
+URI:			http://taskservice/v2/{resource}/tags
+URI Params:
+			{resource}: resource
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  			404 ("Not Found"):  Resource not found.
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/resource/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "id":"123456",
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}
++----------------------------------------------------------------+
+
+
+
+5.4 Retrieve a single tag of a resource
+=======================================
+Returns a single tag entry that has been appended to a resource.
+
+URI:			http://taskservice/v2/tag/{tag-id}/{resource}/tag/{tag-id}
+URI Params:
+			{resource}: resource identifier
+			{tag-id}: tag ID
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  			404 ("Not Found"):  Resource not found.
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "tag":{
+      "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "baseTag" : {
+	      "link":{
+	         "rel":"self",
+	         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+	      }
+      }, 
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "id":"123456",
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+5.5 Retrieve a tag
+==================
+Returns a tag entry.
+
+URI:			http://taskservice/v2/tag/{tag-id}
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  			404 ("Not Found"):  Tag not found.
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "baseTag":{
+      "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "id":"123456",
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+
+
+6. Task
+#######
+URI:			http://taskservice/v2/task/{task-id}
+URI Params:
+			{task-id}: task ID
+
+This resource represents a task.
+
+
+6.1 Create a new task
+=====================
+Creates a new task.
+
+URI:			http://taskservice/v2/tasks
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			POST
+Auth:			required
+
+Entities:
+Format: js
++----------------------------------------------------------------+
+{
+   "constraints":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox": [100.0, 0.0, 105.0, 1.0]
+      }
+   },
+   "title":"foo bar",
+   "description":"foo bar asd lorem"
+}
++----------------------------------------------------------------+
+
+
+RESPONSE
+--------
+
+Answers:
+			201 ("Created"):  Task has been created. The location header contains its URI and thus also the task id.			400 ("Bad Request"):  The provided data are incomplete or invalid.
+
+
+6.2 Fetch multiple task snapshots
+=================================
+Fetches a set of task snapshots.
+
+URI:			http://taskservice/v2/task/{task-id}/snapshot
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			POST
+Auth:			required
+
+Entities:
+Format: js
++----------------------------------------------------------------+
+{
+   "tasks":[
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://taskservice/v2/task/2671f383-a28c-bla"
+   ]
+}
++----------------------------------------------------------------+
+
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Results in response body. Note that tasks may still have raised errors (i.e. when not found).			400 ("Bad Request"):  Invalid query or too many items requested.
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "results":{
+      "http://taskservice/v2/task/2671f383-a28c-bla":{
+         "error":{
+            "message":"Not found"
+         }
+      },
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+         "task":{
+            "id":"2671f383-a28c-44d5-b86b-f7f04bb0a015",
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+            },
+            "constraints":{
+               "time":{
+                  "start":"2010-06-29T19:15:51.765Z",
+                  "end":"2010-06-29T19:15:50.000Z"
+               },
+               "location":{
+                  "bbox":[
+                     100.0,
+                     0.0,
+                     105.0,
+                     1.0
+                  ]
+               }
+            },
+            "title":"foo bar",
+            "description":"foo bar asd lorem",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "id":"123456",
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            }
+         },
+         "submissions":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+            },
+            "list":[
+               {
+                  "submission":{
+                     "id":"550e8400-e29b-11d4-a716-446655440000",
+                     "self":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                     },
+                     "up":123,
+                     "down":42
+                  },
+                  "document":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+                     }
+                  },
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "id":"123456",
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/user/123456"
+                     }
+                  },
+                  "tags":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                     },
+                     "list":[
+                        {
+                           "tag":{
+                              "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              },
+                              "baseTag":{
+                                 "link":{
+                                    "rel":"self",
+                                    "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                 }
+                              },
+                              "value":"mytag",
+                              "creationTime":"2010-07-17T18:54:11.939Z",
+                              "creator":{
+                                 "id":"123456",
+                                 "link":{
+                                    "rel":"self",
+                                    "href":"http://core/v2/user/123456"
+                                 }
+                              },
+                              "votes":{
+                                 "link":{
+                                    "rel":"self",
+                                    "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                 },
+                                 "up":12,
+                                 "down":2
+                              }
+                           }
+                        }
+                     ]
+                  }
+               }
+            ]
+         },
+         "comments":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+            },
+            "list":[
+               {
+                  "comment":{
+                     "id":"8e252710-77cf-11e0-a1f0-0800200c9a66",
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                     },
+                     "content":"blablabla",
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "id":"123456",
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        },
+                        "up":12,
+                        "down":2
+                     }
+                  }
+               }
+            ]
+         },
+         "tags":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/resource/tags"
+            },
+            "list":[
+               {
+                  "tag":{
+                     "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     },
+                     "baseTag":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        }
+                     },
+                     "value":"mytag",
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "id":"123456",
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        },
+                        "up":12,
+                        "down":2
+                     }
+                  }
+               }
+            ]
+         }
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+6.3 Retrieve a single task snapshot
+===================================
+Returns a complete set of data of this task, including comments, votes and sumbissions.
+
+URI:			http://taskservice/v2/task/{task-id}/snapshot
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  			404 ("Not Found"):  
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "task":{
+      "id":"2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      },
+      "constraints":{
+         "time":{
+            "start":"2010-06-29T19:15:51.765Z",
+            "end":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "bbox":[
+               100.0,
+               0.0,
+               105.0,
+               1.0
+            ]
+         }
+      },
+      "title":"foo bar",
+      "description":"foo bar asd lorem",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "id":"123456",
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      }
+   },
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      },
+      "list":[
+         {
+            "submission":{
+               "id":"550e8400-e29b-11d4-a716-446655440000",
+               "self":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+               },
+               "up":123,
+               "down":42
+            },
+            "document":{
+            	"link":{
+            		"rel":"self",
+            		"href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+            	}
+            },
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "id":"123456",
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "tags":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+               },
+               "list":[
+                  {
+                     "tag":{
+                        "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        },
+                        "baseTag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           }
+                        },
+                        "value":"mytag",
+                        "creationTime":"2010-07-17T18:54:11.939Z",
+                        "creator":{
+                           "id":"123456",
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core/v2/user/123456"
+                           }
+                        },
+                        "votes":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                           },
+                           "up":12,
+                           "down":2
+                        }
+                     }
+                  }
+               ]
+            }
+         }
+      ]
+   },
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      },
+      "list":[
+         {
+            "comment":{
+               "id":"8e252710-77cf-11e0-a1f0-0800200c9a66",
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+               },
+               "content":"blablabla",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "id":"123456",
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   },
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/resource/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "id":"ef7987f2bd22f4a8cf236c83a57c1f6b",
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "id":"123456",
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}
++----------------------------------------------------------------+
+
+
+
+6.4 Retrieve task meta data
+===========================
+Returns all meta data of this task.
+
+URI:			http://taskservice/v2/task/{task-id}
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  			404 ("Not Found"):  
+Entities:
+Language: js
++----------------------------------------------------------------+
+{
+   "task":{
+      "id":"2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      },
+      "constraints":{
+         "time":{
+            "start":"2010-06-29T19:15:51.765Z",
+            "end":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "bbox":[
+               100.0,
+               0.0,
+               105.0,
+               1.0
+            ]
+         }
+      },
+      "title":"foo bar",
+      "description":"foo bar asd lorem",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "id":"123456",
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      }
+   },
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      }
+   },
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      }
+   },
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+      }
+   }
+}
++----------------------------------------------------------------+
+
+
+
+
+
+7. Vote
+#######
+URI:			http://taskservice/v2/{resource}/vote/user/{user-id}
+URI Params:
+			{resource}: resource identifier
+			{user-id}: user ID
+
+This resource represents a vote. Users can vote on various resources. The voting URI path is appended to the original URI. The following resources of the Task API can be voted on: Task, Submission, Comment and Tag (for tasks and submissions) 
+
+
+7.1 Get all votes
+=================
+Returns a summary of all votes for this resource.
+
+URI:			http://taskservice/v2/{resource}/votes
+URI Params:
+			{resource}: resource identifier
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Votes in response body.			404 ("Not Found"):  Resource not found
+Entities:
+Language: js
++----------------------------------------------------------------+{
+   "votes":{
+      "up":123,
+      "down":42
+   }
+}
++----------------------------------------------------------------+
+
+
+
+7.2 Get a vote of the user
+==========================
+Returns the current vote of the user authenticating the request.
+
+URI:			http://taskservice/v2/{resource}/vote/user/{user-id}
+URI Params:
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Vote in response body.			403 ("Forbidden"):  Mismatch of voted and authenticated user.			404 ("Not Found"):  User has not yet voted
+Entities:
+Language: js
++----------------------------------------------------------------+{
+   "vote": "up"
+}
++----------------------------------------------------------------+
+
+Language: js
++----------------------------------------------------------------+{
+   "vote": "down"
+}
++----------------------------------------------------------------+
+
+
+
+7.3 Undo a vote on a resource
+=============================
+Undos a vote that has been casted before.
+
+URI:			http://taskservice/v2/{resource}/vote/user/{user-id}
+URI Params:
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			DELETE
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			204 ("No Content"):  Vote has been removed.			403 ("Forbidden"):  Mismatch of voting and authenticated user.			404 ("Not Found"):  No vote found.
+
+
+7.4 Vote on a resource
+======================
+Casts a vote by the user authenticating the request.
+
+URI:			http://taskservice/v2/{resource}/vote/user/{user-id}/{vote}
+URI Params:
+			{vote}: up or down
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			PUT
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			202 ("Accepted"):  Vote has been casted.			403 ("Forbidden"):  Mismatch of voting and authenticated user.
+
+
