@@ -1,0 +1,221 @@
+API DOCUMENTATION: diretto Storage API
+======================================
+
+Author:		Benjamin Erb
+Version:	v2 - Draft
+Base URI:	http://mediaserver/
+Auth:		Basic Authentication
+
+
+Description
+###########
+
+The Storage API is responsible for the reception, storage and delivery of submitted attachments of documents. 
+The Storage API is designed to support HTTP mechanisms like caching and conditional GETs for improved performance.   
+			
+	
+	
+
+
+Overview
+########
+
+1 Attachment
+	1.1 Download an attachment
+	1.2 Retrieve attachment's meta data
+	1.3 Upload a new attachment
+
+2 Index
+	2.1 Get static information
+
+
+
+1. Attachment
+#############
+URI:			http://mediaserver/{document-id}/{attachment-id}.{attachment-ext}
+URI Params:
+			{document-id}: document ID
+			{attachment-id}: attachment ID
+			{attachment-ext}: attachment extension
+
+An attachment is a media file that belongs to an abstract document. 
+Each document owns one or more attachments. The first attachment should be considered as the "original" item, 
+while all additional attachments represent derivated or customized versions.
+			
+
+
+1.1 Download an attachment
+==========================
+This operation allows to download an existing attachment. Conditional GETs must be supported by the storage server.
+				Clients should support caching and dispatch conditional requests whenever possible.
+
+URI:			http://mediaserver/{document-id}/{attachment-id}.{attachment-ext}
+URI Params:
+
+Formats:		varying 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			not required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Attachment in response entity			304 ("Not Modified"):  Cache hit (conditional request)			403 ("Forbidden"):  The requested resource URI is not allowed			404 ("Not Found"):  Attachment and/or document not found			500 ("Internal Server Error"):  Internal error while streaming the attachment
+
+
+1.2 Retrieve attachment's meta data
+===================================
+A HEAD request against an attachment allows to retrieve several meta data.
+				Servers must provide the following HTTP headers: Content-Type (mime type), 
+				Content-Length (file size) and ETag (caching identifier).  
+				This operation should also be used for checking the existence of an attachment.   
+				
+
+URI:			http://mediaserver/{document-id}/{attachment-id}.{attachment-ext}
+URI Params:
+
+Formats:		n/a 
+
+REQUEST
+-------
+
+Method:			HEAD
+Auth:			not required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Attachment exists, contents omitted			304 ("Not Modified"):  Cache hit (conditional request)			403 ("Forbidden"):  The requested resource URI is not allowed			404 ("Not Found"):  Attachment and/or document not found			500 ("Internal Server Error"):  Internal error while streaming the attachment
+
+
+1.3 Upload a new attachment
+===========================
+New attachments must be uploaded to the storage server as part of a three-part workflow.
+				First, meta data must be sent to the API server. When the API server grants the creation of a new attachment,
+				it also provides an access token that is needed for the actual upload against the storage server.
+				Without a valid access token, no upload can be performed. On succcessful upload, the storage server also
+				creates a token that must be sent to the API server to approve the upload process.
+				This operation does not support chunked uploads and the following request headers are mandatory:  
+				Content-Type (mime type), Content-Length (file size) and authentication. The actual media file
+				must be provided as it is in the request entity. 
+				Please note that creating an initial attachment includes creating a document itself. 
+				Thus, the first API call slightly differs, because a PUT against the targeted document location is required instead
+				of a POST. 
+				The complete flow is listed here:  
+				
+				
+Language: plain
++----------------------------------------------------------------+
+   Client           API Server        Media Storage
+
+     |                    |                   |
+     |                    |                   |
+     | (1) POST Metadata  |                   |
+     |------------------->|                   |
+     |                    |                   |
+     | (2) 202 + Location |                   |
+     |<-------------------|                   |
+     |                    |                   |
+     | (3) PUT Entity (Signed URI)            |
+     |--------------------+------------------>|
+     |                    |                   |
+     | (4) 201 Created + Accept Key in Body   |
+     |<-------------------+-------------------|
+     |                    |                   |
+     | (5) DELETE Lock (via Accept Key)       |
+     |------------------->|                   |
+     |                    |                   |
+     | (6) 204            |                   |
+     |<-------------------|                   |
+     |                    |                   |
+     |                    |                   |
+
++----------------------------------------------------------------+
+				
+				
+
+URI:			http://mediaserver/{document-id}/{attachment-id}.{attachment-ext}?token={token}
+URI Params:
+			{token}: access token
+
+Formats:		varying application/json 
+
+REQUEST
+-------
+
+Method:			PUT
+Auth:			required
+
+RESPONSE
+--------
+
+Answers:
+			201 ("Created"):  The attachment has been created			400 ("Bad Request"):  The upload has been rejected (i.e. due to invalid file size)			401 ("Unauthorized"):  Wrong or invalid credentials			403 ("Forbidden"):  The targeted path or the provided access token is invalid			409 ("Conflict"):  The media file already exists			411 ("Length Required"):  Upload failed due to missing Content-Length information			500 ("Internal Server Error"):  Internal server error while handling the upload
+Entities:
+Language: js
++----------------------------------------------------------------+{
+	"successToken" : "9365929d8479d2ca39826878984ff5f2b70b5d65"
+}
++----------------------------------------------------------------+
+
+Language: js
++----------------------------------------------------------------+{
+	"error" : "The attachment size exceeds the server limits for uploads"
+}
++----------------------------------------------------------------+
+
+
+
+
+
+2. Index
+########
+URI:			http://mediaserver/
+URI Params:
+
+The index resource provides static information about the deployed service.
+			
+
+
+2.1 Get static information
+==========================
+This operation allows to receive static information about the deployment.
+				HEAD requests against this resource may be useful to check the service's availability.
+
+URI:			http://mediaserver/
+URI Params:
+
+Formats:		application/json 
+
+REQUEST
+-------
+
+Method:			GET
+Auth:			not required
+
+RESPONSE
+--------
+
+Answers:
+			200 ("OK"):  Service information in response entity
+Entities:
+Language: js
++----------------------------------------------------------------+{
+   "api":{
+      "name":"org.diretto.api.storage",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Media Node",
+      "version":"0.2.0"
+   }
+}
++----------------------------------------------------------------+
+
+
+
