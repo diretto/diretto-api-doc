@@ -1,0 +1,3 @@
+[submodule "vendor/rest-doc-template"]
+	path = vendor/rest-doc-template
+	url = git://github.com/berb/rest-doc-template.git
