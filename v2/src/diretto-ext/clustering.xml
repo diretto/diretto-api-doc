@@ -1,0 +1,14 @@
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Clustering API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The Clustering API is provided by an external service that extracts additional information from the collected documents and user-provided data.</description>
+	<baseuri>http://clustering/v2</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	<resources></resources>
+</api>
+
+ 

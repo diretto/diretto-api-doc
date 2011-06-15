@@ -1,0 +1,15 @@
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Mapping &amp; Imagery API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The Mapping &amp; Imagery API is provided by an external service that handles additional mapping data.</description>
+	<baseuri>http://mappingservice/v2</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	<resources>
+	</resources>
+</api>
+
+ 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Streaming API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The diretto Streaming API enables dedicated subscribtions to consume event notifications in real-time. Therefore, an open HTTP streaming connection and special JSON messages are utilized.</description>
+	<baseuri>http://streamingserver/v2</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	<resources></resources>
+</api>
+
+ 

@@ -1,0 +1,62 @@
+<project name="rest-api-doc" basedir=".">
+	<description>
+        Buildfile for XSL(T) batch transformations.
+    </description>
+
+	<property name="apidir" value="diretto" />
+	<property name="apiname" value="core" />
+
+	<property name="output" location="dist" />
+	<property name="source" location="src/${apidir}" />
+	<property name="tmp" location="tmp" />
+
+
+	<target name="init">
+		<tstamp />
+		<mkdir dir="${output}" />
+		<mkdir dir="${tmp}" />
+	</target>
+
+	<target name="plain" depends="init">
+		<xslt in="${source}/${apiname}.xml" out="${output}/${apidir}/${apiname}.txt" style="../vendor/rest-doc-template/xsl/text.xsl">
+			<outputproperty name="omit-xml-declaration" value="yes" />
+			<outputproperty name="method" value="text" />
+			<outputproperty name="indent" value="no" />
+			<outputproperty name="media-type" value="text/plain" />
+		</xslt>
+	</target>
+
+	<target name="xhtml" depends="init">
+		<xslt in="${source}/${apiname}.xml" out="${output}/${apidir}/${apiname}.html" style="../vendor/rest-doc-template/xsl/xhtml.xsl">
+		</xslt>
+	</target>
+
+	<target name="tex" depends="init">
+		<xslt in="${source}/${apiname}.xml" out="${tmp}/${apiname}.tex" style="../vendor/rest-doc-template/xsl/latex.xsl">
+			<outputproperty name="omit-xml-declaration" value="yes" />
+			<outputproperty name="method" value="text" />
+			<outputproperty name="indent" value="no" />
+			<outputproperty name="media-type" value="application/x-tex" />
+		</xslt>
+	</target>
+
+	<target name="pdf" depends="tex">
+		<exec dir="${tmp}" executable="pdflatex">
+			<arg value="${tmp}/${apiname}.tex" />
+		</exec>
+		<exec dir="${tmp}" executable="pdflatex">
+			<arg value="/${tmp}/${apiname}.tex" />
+		</exec>
+		<copy file="${tmp}/${apiname}.pdf" tofile="${output}/${apidir}/${apiname}.pdf" />
+	</target>
+
+
+	<target name="all" depends="plain,xhtml,pdf" />
+
+
+	<target name="clean" description="clean up">
+		<delete dir="${output}" />
+		<delete dir="${tmp}" />
+	</target>
+</project>
+

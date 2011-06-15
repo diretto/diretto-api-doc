@@ -1,0 +1,2092 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns:api="http://www.ioexception.de/rest-api-doc" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css">
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPlain.js" type="text/javascript"></script>
+<style type="text/css">
+			
+body {
+	background: #FFF;
+	color: #333;
+	font: normal 100% sans-serif;
+margin-left: auto;
+	margin-right: auto;
+
+	line-height: 1.5;
+	width:66%;
+}
+
+
+.uripart {
+	background:#666;
+	color: #fff;
+	font-style: italic;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+	color: #444;
+	font-weight: normal;
+	line-height: 1;
+	margin-bottom: 0.6em;
+	font-family:  Helvetica, sans-serif;
+
+}
+h4,h5,h6 {font-weight: bold;}
+
+h1 {font-size: 2.6em;}
+h2 {font-size: 2em;margin-top:3em;}
+h3 {font-size: 1.5em;margin-top:1.5em;}
+h4 {font-size: 1.25em;}
+h5 {font-size: 1.1em;}
+h6 {font-size: 1em;}
+
+h1 img, h2 img, h3 img, h4 img, h5 img, h6 img {margin: 0;}
+
+pre {
+	font: normal 100% monospace; 
+}
+
+
+dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-left:0.3em; padding-right:0.3em;  text-align: right; }  dd { margin: 0 0 0 110px; padding: 0 0 0.5em 0; }
+
+.statuscode, .method {
+	font: bold 100% monospace; 
+}
+
+#watermark {
+        position:fixed; 
+        left:0px; 
+        top:0px;
+        width:32px;
+        height:100%;
+        background-color:#EEE;
+        padding:0px;
+        margin:0px;
+} 
+
+
+
+#watermark-text {
+	color:#999;
+	border:0px solid red;
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform: rotate(90deg);
+	white-space:nowrap;
+	display:block;
+	bottom:0px;
+	width:20px;
+	height:20px;
+	font-family: Helvetica, sans-serif;
+	letter-spacing: 5px;
+	font-size:24px;
+	font-weight:normal;
+	text-shadow: 0px 0px 1px #999;
+	padding:0 10px 10px 5px;
+}
+
+#watermark-text span{
+	padding-left: 30px;
+}
+
+#sidemenu {
+z-index:300;  display:none;margin: 0;  text-align:left;
+}
+
+#sidemenu  li{
+	font-size: 0.8em;
+}
+#sidemenu  li a{
+	color: #333;
+	font-weight:bold;
+}
+
+#sidemenuopener{
+z-index:300; color: #333; background-color: #EEEEEE; border:1px solid #DDD; margin: 0;  position: fixed; top: 16px;  left: auto;  width: 56px;  right: 0px; text-align:center;
+min-height:32px;
+}
+
+#sidemenuopener a{
+	color: #333;
+	font-weight:bold;
+}
+
+a{
+	text-decoration: none;
+}
+
+#sidemenuopenerbox{
+	position: fixed; right:12px;
+}
+
+.shadow {
+	-moz-box-shadow: 2px 2px 3px #333;
+	-webkit-box-shadow: 2px 2px 3px #333;
+	box-shadow: 2px 2px 3px #333;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
+	
+}
+
+
+			</style>
+<script type="text/javascript">
+					SyntaxHighlighter.all();
+			</script><script type="text/javascript">
+			function showElement(layer,sx,t1,t2){
+			var l = document.getElementById(layer);
+			var s = document.getElementById(sx);
+			if(l.style.display=="none"){
+			l.style.display="block";
+			l.backgroundPosition="top";
+			s.innerHTML= t2;
+			} else {
+			l.style.display="none";
+			s.innerHTML= t1;
+			}
+			}
+			
+			function boxSize(x,a,b){
+				var el = document.getElementById(x);
+				if(el.style.width === a){
+					el.style.width = b;
+				}
+				else{
+					el.style.width = a;
+				}
+			}
+			
+			</script>
+<title>diretto Task API - RESTful API Documentation</title>
+</head>
+<body>
+<div id="watermark">
+<div id="watermark-text">
+<span>diretto Task API</span><span>v2 - Draft</span>
+</div>
+</div>
+<div id="sidemenuopener" class="shadow">
+<div id="sidemenuopenerbox">
+<a href="#" class="button" id="menuopener" onclick="javascript:showElement('sidemenu','menuopener','TOC','X'); boxSize('sidemenuopener','25%','56px'); return false;">TOC</a>
+</div>
+<ol id="sidemenu" style="display:none;">
+<li>
+<a id="lN66120" href="#" onclick="javascript:showElement('XN66120','lN66120','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N66120">Comment</a>
+<ol id="XN66120" style="display:none;">
+<li>
+<a href="#N66138">Create a new comment</a>
+</li>
+<li>
+<a href="#N66198">Get all comments of task</a>
+</li>
+<li>
+<a href="#N66254">Retrieve a single comment</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65566" href="#" onclick="javascript:showElement('XN65566','lN65566','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65566">Index</a>
+<ol id="XN65566" style="display:none;">
+<li>
+<a href="#N65576">Get service instance data</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65626" href="#" onclick="javascript:showElement('XN65626','lN65626','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65626">Query</a>
+<ol id="XN65626" style="display:none;">
+<li>
+<a href="#N65644">Dispatch a query</a>
+</li>
+<li>
+<a href="#N65748">Execute a common location-based query</a>
+</li>
+<li>
+<a href="#N65700">Forward to query result page</a>
+</li>
+<li>
+<a href="#N65805">Get query result page</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN66525" href="#" onclick="javascript:showElement('XN66525','lN66525','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N66525">Submission</a>
+<ol id="XN66525" style="display:none;">
+<li>
+<a href="#N66599">Create a new submission</a>
+</li>
+<li>
+<a href="#N66543">Get all submissions of task</a>
+</li>
+<li>
+<a href="#N66677">Retrieve submission details</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN66726" href="#" onclick="javascript:showElement('XN66726','lN66726','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N66726">Tag</a>
+<ol id="XN66726" style="display:none;">
+<li>
+<a href="#N66926">Append a tag to a resource</a>
+</li>
+<li>
+<a href="#N66750">Create a new tag</a>
+</li>
+<li>
+<a href="#N66990">Retrieve all tags of a resource</a>
+</li>
+<li>
+<a href="#N66866">Retrieve a single tag of a resource</a>
+</li>
+<li>
+<a href="#N66814">Retrieve a tag</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN66303" href="#" onclick="javascript:showElement('XN66303','lN66303','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N66303">Task</a>
+<ol id="XN66303" style="display:none;">
+<li>
+<a href="#N66472">Create a new task</a>
+</li>
+<li>
+<a href="#N66366">Fetch multiple task snapshots</a>
+</li>
+<li>
+<a href="#N66317">Retrieve a single task snapshot</a>
+</li>
+<li>
+<a href="#N66426">Retrieve task meta data</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65865" href="#" onclick="javascript:showElement('XN65865','lN65865','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65865">Vote</a>
+<ol id="XN65865" style="display:none;">
+<li>
+<a href="#N66013">Get all votes</a>
+</li>
+<li>
+<a href="#N65944">Get a vote of the user</a>
+</li>
+<li>
+<a href="#N66070">Undo a vote on a resource</a>
+</li>
+<li>
+<a href="#N65895">Vote on a resource</a>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<h1>diretto Task API</h1>
+<a name="introduction"></a>
+<h2>Introduction</h2>
+<h4>Version</h4>
+<p>v2 - Draft</p>
+<h4>Author</h4>
+<p>Benjamin Erb</p>
+<h4>Description</h4>
+<p>The Task API represents an external service that enables the handling of certain tasks.
+	In terms of the diretto platform, a task is a request of specific footage. Reporters may take in 
+	part in tasks and contribute required documents as submissions. A task is always bound to a location
+	and a time frame. A title and description define the task and optional tags allow to categorize it.
+	Votes help to prioritize different tasks within the community. Tasks can be commented for exchange of ideas. 
+	Finally, every user can submit an existing document as footage for the task.
+	The community can then rate the suitability of the submission regarding the task request.
+	Besides the of directed collection of live footage, the Task API can also be used for specialized search queries.
+	In this case, a task represents a search query and all potential results are submissions. This user-driven
+	search is helpful for queries when only users can reason about appropriate hits by analyzing the documents. 
+	</p>
+<h4>Authentication Schemes</h4>
+<p>
+<ul>
+<li>Basic Authentication</li>
+</ul>
+</p>
+<h4>Base URI</h4>
+<p>
+<a xmlns="" href="http://task.diretto.org/v2">http://task.diretto.org/v2</a>
+</p>
+<a name="index"></a>
+<h2>Index of Resources and Operations</h2>
+<ol>
+<li xmlns="http://www.w3.org/1999/xhtml">
+<a href="#N66120">Comment</a>
+<ol>
+<li>
+<a href="#N66138">Create a new comment</a>
+</li>
+<li>
+<a href="#N66198">Get all comments of task</a>
+</li>
+<li>
+<a href="#N66254">Retrieve a single comment</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65566">Index</a>
+<ol>
+<li>
+<a href="#N65576">Get service instance data</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65626">Query</a>
+<ol>
+<li>
+<a href="#N65644">Dispatch a query</a>
+</li>
+<li>
+<a href="#N65748">Execute a common location-based query</a>
+</li>
+<li>
+<a href="#N65700">Forward to query result page</a>
+</li>
+<li>
+<a href="#N65805">Get query result page</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N66525">Submission</a>
+<ol>
+<li>
+<a href="#N66599">Create a new submission</a>
+</li>
+<li>
+<a href="#N66543">Get all submissions of task</a>
+</li>
+<li>
+<a href="#N66677">Retrieve submission details</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N66726">Tag</a>
+<ol>
+<li>
+<a href="#N66926">Append a tag to a resource</a>
+</li>
+<li>
+<a href="#N66750">Create a new tag</a>
+</li>
+<li>
+<a href="#N66990">Retrieve all tags of a resource</a>
+</li>
+<li>
+<a href="#N66866">Retrieve a single tag of a resource</a>
+</li>
+<li>
+<a href="#N66814">Retrieve a tag</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N66303">Task</a>
+<ol>
+<li>
+<a href="#N66472">Create a new task</a>
+</li>
+<li>
+<a href="#N66366">Fetch multiple task snapshots</a>
+</li>
+<li>
+<a href="#N66317">Retrieve a single task snapshot</a>
+</li>
+<li>
+<a href="#N66426">Retrieve task meta data</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65865">Vote</a>
+<ol>
+<li>
+<a href="#N66013">Get all votes</a>
+</li>
+<li>
+<a href="#N65944">Get a vote of the user</a>
+</li>
+<li>
+<a href="#N66070">Undo a vote on a resource</a>
+</li>
+<li>
+<a href="#N65895">Vote on a resource</a>
+</li>
+</ol>
+</li>
+</ol>
+<a xmlns="" name="N66120"></a>
+<h2 class="resource">1. Comment</h2>
+<h4>Description</h4>
+<p>This resource represents a comment. Comments can be added by users to a task in order to discuss the task.</p>
+<h4>Resource URI</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comment/<span class="uripart">{comment-id}</span>
+</pre>
+<dl>
+<dt class="uripart">task-id</dt>
+<dd>task ID</dd>
+<dt class="uripart">comment-id</dt>
+<dd>comment ID</dd>
+</dl>
+<a name="N66138"></a>
+<h3 class="operation">1.1 Create a new comment</h3>
+<h4>Description</h4>Adds a new comment to the task.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comments</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{task-id}</dt>
+<dd>task ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "content":"blablabla"
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Comment has been created. The location header contains its URI and thus also the comment id.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid comment data.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Task not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66198"></a>
+<h3 class="operation">1.2 Get all comments of task</h3>
+<h4>Description</h4>Returns all comments of task.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comments</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{task-id}</dt>
+<dd>task ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Comment list in response entity.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Task not found</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      },
+      "list":[
+         {
+            "comment":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+               },
+               "content":"blablabla",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N66254"></a>
+<h3 class="operation">1.3 Retrieve a single comment</h3>
+<h4>Description</h4>Returns a single comment.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/{task-id}/comment/{comment-id}</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd></dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "comment":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      },
+      "content":"blablabla",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}</pre>
+						
+					
+<a name="N65566"></a>
+<h2 class="resource">2. Index</h2>
+<h4>Description</h4>
+<p>This entry resource provides information about the service instance.</p>
+<h4>Resource URI</h4>
+<pre>http://task.diretto.org/v2</pre>
+<dl></dl>
+<a name="N65576"></a>
+<h3 class="operation">2.1 Get service instance data</h3>
+<h4>Description</h4>Returns a static information about the deployed Task service instance.<h4>URI</h4>
+<pre>http://task.diretto.org/v2</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Service instance data in response entity</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "api":{
+      "name":"org.diretto.api.external.task",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Task Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Task Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://coreservice/v2"
+         }
+      }
+   }
+}</pre>
+						The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.
+						
+					<a name="N65626"></a>
+<h2 class="resource">3. Query</h2>
+<h4>Description</h4>
+<p>An interface resource for query execution. A query must be dispatched to the server 
+			which will return a URI for the query. This URI then contains the results. Results are paginated using cursors.
+			A query resource stores the initial query parameters, not the result set. Thus, queries can be re-executed by using the same URI,
+			although the corresponding results may have changed. Be aware of this fact when applying caching to query results.
+<pre class="brush: plain">
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |      (1) POST Query           |
+     |------------------------------&gt;|
+     |                               |
+     |      (2) 202 + Location       |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (3) GET Query Resource   |
+     |------------------------------&gt;|
+     |                               |
+     |      (4) 303 + 1st page URI   |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (5) GET 1st result page  |
+     |------------------------------&gt;|
+     |                               |
+     |      (6) 200 + First page     |
+     |&lt;------------------------------|
+     |                               |
+</pre>		
+Note that step 5 and 6 must be repeated for additional result pages. Also, step 1 and 2 can be skipped if an existing query (client already knows query URI) should be re-executed.			
+			</p>
+<h4>Resource URI</h4>
+<pre>http://task.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>
+</pre>
+<dl>
+<dt class="uripart">query-id</dt>
+<dd>query id</dd>
+</dl>
+<a name="N65644"></a>
+<h3 class="operation">3.1 Dispatch a query</h3>
+<h4>Description</h4>Sends a query.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/query</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>		
+						
+
+<pre class="brush: js">{
+   "query":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox":[
+            100.0,
+            0.0,
+            105.0,
+            1.0
+         ]
+      },
+      "tags":[
+		"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      ]
+   }
+}</pre>
+						A query is built using three parameters. While time frame and spatial bounding box are mandatory, the tag list may be empty.
+						Please not that all parameters are combined conjunctively (using boolean AND), thus each emitted result entry matches all of the parameters.
+										
+					<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Query accepted, result location in header.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid query parameters.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N65748"></a>
+<h3 class="operation">3.2 Execute a common location-based query</h3>
+<h4>Description</h4>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/query/common/<span class="uripart">{type}</span>?lat=<span class="uripart">{latitude}</span>&amp;lon=<span class="uripart">{longitude}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{type}</dt>
+<dd>type: one of 'newest', 'unattended', 'expiring' or 'popular'</dd>
+<dt class="uripart">{latitude}</dt>
+<dd>latitude</dd>
+<dt class="uripart">{longitude}</dt>
+<dd>longitude</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">303 See Other</dt>
+<dd>Query accepted, result location in header.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Invalid coordinates.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N65700"></a>
+<h3 class="operation">3.3 Forward to query result page</h3>
+<h4>Description</h4>A request to a query URI will always be forwarded to the first page of the result set using the first cursor.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/query/stored/{query-id}</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Query returned no results.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Query found, result location in header.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Query not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N65805"></a>
+<h3 class="operation">3.4 Get query result page</h3>
+<h4>Description</h4>Returns a paginated result page, identified by the cursor. A result page always contains links to the previous and next result page, if existing.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/query/stored/{query-id}/cursor/<span class="uripart">{cursor-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{cursor-id}</dt>
+<dd>cursor id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Result page in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Query or cursor not found.</dd>
+</dl>
+<h4>Response Entities</h4>	
+						
+
+<pre class="brush: js">{
+   "query":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404"
+      }
+   },
+   "results":{
+      "count":101,
+      "page":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
+         },
+         "list":[
+            {
+               "task":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+                  }
+               }
+            }
+         ],
+         "related":[
+            {
+               "link":{
+                  "rel":"first",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"previous",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"next",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
+               }
+            }
+         ]
+      }
+   }
+}</pre>
+						A query result page containing links to the previous, next and first page. The first page link is always present, the others only when the other pages acutally exist.
+							
+					<a name="N66525"></a>
+<h2 class="resource">4. Submission</h2>
+<h4>Description</h4>
+<p>This resource represents a submission. A submission basically suggests that a document represents a possible solution to the task.</p>
+<h4>Resource URI</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submission/<span class="uripart">{submission-id}</span>
+</pre>
+<dl>
+<dt class="uripart">task-id</dt>
+<dd>task ID</dd>
+<dt class="uripart">submission-id</dt>
+<dd>submission ID</dd>
+</dl>
+<a name="N66599"></a>
+<h3 class="operation">4.1 Create a new submission</h3>
+<h4>Description</h4>Creates a new  submission. A submission is represented by a document, identified by it's URI.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submissions</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{task-id}</dt>
+<dd>task ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "document":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+      }
+   }
+}</pre>
+							An example submission of a document.
+												
+					<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>The submission has been accepted. The location header contains its URI and thus also the submission id.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>The provided data are incomplete or invalid.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>The document does not represent a valid submission for this task (spatial location or time origin).</dd>
+<dt class="statuscode">409 Conflict</dt>
+<dd>The document is already a submission for this task.</dd>
+</dl>
+<h4>Response Entities</h4>						
+						
+							
+<pre class="brush: js">
+{
+   "error":{
+      "reason":"The spatial location of the document is outside the task area."
+   }
+}</pre>
+							A rejected submission (403) of a document, here due to it's meta data.
+							
+					<a name="N66543"></a>
+<h3 class="operation">4.2 Get all submissions of task</h3>
+<h4>Description</h4>Returns all submissions of task.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submissions</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{task-id}</dt>
+<dd>task ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Submission list in response entity.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Task not found</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      },
+      "list":[
+         {
+            "submission":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                  },
+                  "up":123,
+                  "down":42
+               },
+               "document":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+                  }
+               },
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "tags":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                  },
+                  "list":[
+                     {
+                        "tag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           },
+                           "baseTag":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              }
+                           },
+                           "value":"mytag",
+                           "creationTime":"2010-07-17T18:54:11.939Z",
+                           "creator":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/user/123456"
+                              }
+                           },
+                           "votes":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                              },
+                              "up":12,
+                              "down":2
+                           }
+                        }
+                     }
+                  ]
+               }
+            }
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N66677"></a>
+<h3 class="operation">4.3 Retrieve submission details</h3>
+<h4>Description</h4>Provides detailed information about this submission.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/{task-id}/submission/{submission-id}</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>The submission details are available in the response entity.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Submission not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: js">
+{
+   "submission":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+         },
+         "up":123,
+         "down":42
+      },
+      "document":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+         }
+      },
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "tags":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+         },
+         "list":[
+            {
+               "tag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  },
+                  "baseTag":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     }
+                  },
+                  "value":"mytag",
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/user/123456"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     },
+                     "up":12,
+                     "down":2
+                  }
+               }
+            }
+         ]
+      }
+   }
+}						
+						</pre>
+						
+					
+<a name="N66726"></a>
+<h2 class="resource">5. Tag</h2>
+<h4>Description</h4>
+<p>This resource represents a tag. Users can append tags on various resources. 
+			The tag URI path is appended to the original URI. The following resources of the Task API can be tagged: <em>Task</em> and <em>Submission</em>
+			
+
+<pre class="brush: plain">
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |   (1) POST Tag                |
+     |------------------------------&gt;|
+     |                               |
+     |   (2) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |   (3) POST Tag to Resource    |
+     |------------------------------&gt;|
+     |                               |
+     |   (4) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+</pre>				
+		Steps 1+2 create a tag, steps 3+4 append the tag to a resource.</p>
+<h4>Resource URI</h4>
+<pre>http://task.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>
+</pre>
+<dl>
+<dt class="uripart">tag-id</dt>
+<dd>tag ID</dd>
+</dl>
+<a name="N66926"></a>
+<h3 class="operation">5.1 Append a tag to a resource</h3>
+<h4>Description</h4>Appends a new tag to the resource.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Tag has been appended. The location header contains its URI and thus also the tag id.</dd>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Tag already exists, but accepted.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid tag data (i.e. ID mismatch).</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Tag or resource not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66750"></a>
+<h3 class="operation">5.2 Create a new tag</h3>
+<h4>Description</h4>Create a new tag that can be appended to resource thereafter.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/tags</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "value":"mytag"
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Tag has been created. The location header contains its URI and thus also the tag id.</dd>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Tag already exists, but accepted.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid tag data (i.e. length).</dd>
+</dl>
+<h4>Response Entities</h4>
+
+							
+<pre class="brush: js">
+{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}</pre>
+											
+					
+<a name="N66990"></a>
+<h3 class="operation">5.3 Retrieve all tags of a resource</h3>
+<h4>Description</h4>Returns a single tag entry.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Resource not found.</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/resource/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N66866"></a>
+<h3 class="operation">5.4 Retrieve a single tag of a resource</h3>
+<h4>Description</h4>Returns a single tag entry that has been appended to a resource.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/tag/{tag-id}/<span class="uripart">{resource}</span>/tag/<span class="uripart">{tag-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">{tag-id}</dt>
+<dd>tag ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Resource not found.</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "tag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "baseTag" : {
+	      "link":{
+	         "rel":"self",
+	         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+	      }
+      }, 
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}</pre>
+							Note that the creation time denotes the time this tag has been appended to the resource for the first time.
+						
+					<a name="N66814"></a>
+<h3 class="operation">5.5 Retrieve a tag</h3>
+<h4>Description</h4>Returns a tag entry.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/tag/{tag-id}</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Tag not found.</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      }
+   }
+}</pre>
+							Note that the creation time denotes the initial usage of this time.
+						
+					<a name="N66303"></a>
+<h2 class="resource">6. Task</h2>
+<h4>Description</h4>
+<p>This resource represents a task.</p>
+<h4>Resource URI</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>
+</pre>
+<dl>
+<dt class="uripart">task-id</dt>
+<dd>task ID</dd>
+</dl>
+<a name="N66472"></a>
+<h3 class="operation">6.1 Create a new task</h3>
+<h4>Description</h4>Creates a new task.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/tasks</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "constraints":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox": [100.0, 0.0, 105.0, 1.0]
+      }
+   },
+   "title":"foo bar",
+   "description":"foo bar asd lorem"
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Task has been created. The location header contains its URI and thus also the task id.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>The provided data are incomplete or invalid.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66366"></a>
+<h3 class="operation">6.2 Fetch multiple task snapshots</h3>
+<h4>Description</h4>Fetches a set of task snapshots.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/tasks/snapshots</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "tasks":[
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://taskservice/v2/task/2671f383-a28c-bla"
+   ]
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Results in response body. Note that tasks may still have raised errors (i.e. when not found).</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid query or too many items requested.</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "results":{
+      "http://taskservice/v2/task/2671f383-a28c-bla":{
+         "error":{
+            "message":"Not found"
+         }
+      },
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+         "task":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+            },
+            "constraints":{
+               "time":{
+                  "start":"2010-06-29T19:15:51.765Z",
+                  "end":"2010-06-29T19:15:50.000Z"
+               },
+               "location":{
+                  "bbox":[
+                     100.0,
+                     0.0,
+                     105.0,
+                     1.0
+                  ]
+               }
+            },
+            "title":"foo bar",
+            "description":"foo bar asd lorem",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+			"votes":{
+			     "link":{
+			            "rel":"self",
+			            "href":"http://taskservice/v2/resource/votes"
+			         },
+			      "up":123,
+			      "down":42
+			   }      
+		   }            
+         },
+         "submissions":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+            },
+            "list":[
+               {
+                  "submission":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                        },
+                        "up":123,
+                        "down":42
+                     },
+                     "document":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+                        }
+                     },
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "tags":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                        },
+                        "list":[
+                           {
+                              "tag":{
+                                 "link":{
+                                    "rel":"self",
+                                    "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                 },
+                                 "baseTag":{
+                                    "link":{
+                                       "rel":"self",
+                                       "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                    }
+                                 },
+                                 "value":"mytag",
+                                 "creationTime":"2010-07-17T18:54:11.939Z",
+                                 "creator":{
+                                    "link":{
+                                       "rel":"self",
+                                       "href":"http://core/v2/user/123456"
+                                    }
+                                 },
+                                 "votes":{
+                                    "link":{
+                                       "rel":"self",
+                                       "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                    },
+                                    "up":12,
+                                    "down":2
+                                 }
+                              }
+                           }
+                        ]
+                     }
+                  }
+               }
+            ]
+         },
+         "comments":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+            },
+            "list":[
+               {
+                  "comment":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                     },
+                     "content":"blablabla",
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        },
+                        "up":12,
+                        "down":2
+                     }
+                  }
+               }
+            ]
+         },
+         "tags":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/resource/tags"
+            },
+            "list":[
+               {
+                  "tag":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     },
+                     "baseTag":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        }
+                     },
+                     "value":"mytag",
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        },
+                        "up":12,
+                        "down":2
+                     }
+                  }
+               }
+            ]
+         }
+      }
+   }
+}</pre>
+						
+					
+<a name="N66317"></a>
+<h3 class="operation">6.3 Retrieve a single task snapshot</h3>
+<h4>Description</h4>Returns a complete set of data of this task, including comments, votes and sumbissions.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/{task-id}/snapshot</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd></dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "task":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      },
+      "constraints":{
+         "time":{
+            "start":"2010-06-29T19:15:51.765Z",
+            "end":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "bbox":[
+               100.0,
+               0.0,
+               105.0,
+               1.0
+            ]
+         }
+      },
+      "title":"foo bar",
+      "description":"foo bar asd lorem",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+	"votes":{
+	     "link":{
+	            "rel":"self",
+	            "href":"http://taskservice/v2/resource/votes"
+	         },
+	      "up":123,
+	      "down":42
+	   }      
+   },
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      },
+      "list":[
+         {
+            "submission":{
+               "link":{
+                  "rel":"self",
+                  "self":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                  },
+                  "up":123,
+                  "down":42
+               },
+               "document":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+                  }
+               },
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "tags":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                  },
+                  "list":[
+                     {
+                        "tag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           },
+                           "baseTag":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              }
+                           },
+                           "value":"mytag",
+                           "creationTime":"2010-07-17T18:54:11.939Z",
+                           "creator":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/user/123456"
+                              }
+                           },
+                           "votes":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                              },
+                              "up":12,
+                              "down":2
+                           }
+                        }
+                     }
+                  ]
+               }
+            }
+         }
+      ]
+   },
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      },
+      "list":[
+         {
+            "comment":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+               },
+               "content":"blablabla",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   },
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/resource/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N66426"></a>
+<h3 class="operation">6.4 Retrieve task meta data</h3>
+<h4>Description</h4>Returns all meta data of this task.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/task/{task-id}</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd></dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "task":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      },
+      "constraints":{
+         "time":{
+            "start":"2010-06-29T19:15:51.765Z",
+            "end":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "bbox":[
+               100.0,
+               0.0,
+               105.0,
+               1.0
+            ]
+         }
+      },
+      "title":"foo bar",
+      "description":"foo bar asd lorem",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+		"votes":{
+		     "link":{
+		            "rel":"self",
+		            "href":"http://taskservice/v2/resource/votes"
+		         },
+		      "up":123,
+		      "down":42
+		   }      
+	   }      
+   },
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      }
+   },
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      }
+   },
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+      }
+   }
+}</pre>
+						
+					
+<a name="N65865"></a>
+<h2 class="resource">7. Vote</h2>
+<h4>Description</h4>
+<p>This resource represents a vote. Users can vote on various resources. The voting URI path is appended to the original URI. The following resources of the Task API can be voted on: <em>Task</em>, <em>Submission</em>, <em>Comment</em> and <em>Tag</em> (for tasks and submissions) </p>
+<h4>Resource URI</h4>
+<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+</pre>
+<dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<a name="N66013"></a>
+<h3 class="operation">7.1 Get all votes</h3>
+<h4>Description</h4>Returns a summary of all votes for this resource.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/votes</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource identifier</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Votes in response body.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Resource not found</dd>
+</dl>
+<h4>Response Entities</h4>	
+						
+
+<pre class="brush: js">{
+   "votes":{
+  	 "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/resource/votes"
+         },
+      "up":123,
+      "down":42
+   }
+}</pre>
+												
+					
+<a name="N65944"></a>
+<h3 class="operation">7.2 Get a vote of the user</h3>
+<h4>Description</h4>Returns the current vote of the user authenticating the request.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/{resource}/vote/user/{user-id}</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Vote in response body.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Mismatch of voted and authenticated user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User has not yet voted</dd>
+</dl>
+<h4>Response Entities</h4>	
+						
+
+<pre class="brush: js">{
+   "vote": "up"
+}</pre>
+						A response containing an up-vote. 
+						
+						
+<pre class="brush: js">{
+   "vote": "down"
+}</pre>
+						A response containing a down-vote. 
+												
+					<a name="N66070"></a>
+<h3 class="operation">7.3 Undo a vote on a resource</h3>
+<h4>Description</h4>Undos a vote that has been casted before.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/{resource}/vote/user/{user-id}</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">DELETE</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Vote has been removed.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Mismatch of voting and authenticated user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>No vote found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N65895"></a>
+<h3 class="operation">7.4 Vote on a resource</h3>
+<h4>Description</h4>Casts a vote by the user authenticating the request.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/{resource}/vote/user/{user-id}/<span class="uripart">{vote}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{vote}</dt>
+<dd>up or down</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">PUT</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Vote has been casted.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Mismatch of voting and authenticated user.</dd>
+</dl>
+<h4>Response Entities</h4>n/a</body>
+</html>

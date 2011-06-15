@@ -1,0 +1,459 @@
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Lite API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb, Michael Mueller, Tobias Schlecht</author>
+	<description>The Lite API provides a subset of the original diretto Core and Media APIs. It is a non-RESTful web service enabling older clients and devices to access parts of the platform's services. The Lite API only uses <tt>GET</tt> and <tt>POST</tt> requests and is based on RPC-equivalent calls.</description>
+	<baseuri>http://liteservice/v2</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	<resources>
+	
+		<resource>
+			<name>Index</name>
+			<description>This entry resource provides information about the service instance.</description>
+			<path></path>
+			<operation>
+				<name>Get service instance data</name>
+				<description>Returns a static information about the deployed Lite service instance.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service instance data in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "service":{
+      "name":"org.diretto.services.external.lite",
+      "version":"v2"
+   },
+   "deployment":{
+      "title":"diretto Project Team Development",
+      "contact":"n/a",
+      "website":"http://www.diretto.org"
+   },
+   "direttoMainServices":{
+      "core":"http://core/v2",
+      "media":"http://media/v2"
+   }
+}]]></code>
+						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main services.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>			
+		</resource>	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<resource>
+			<name>User</name>
+			<description>This entry resource provides information about the service instance.</description>
+			<path>/user/<param description="user ID">user-id</param></path>
+		<operation>
+				<name>Create a new user account</name>
+				<description>Creates a new user account, if service instances has allowed this feature.</description>
+				<path omitResourcePath="true">/users</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="false" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+	 "email" : "john@doe.net",
+	 "password" : "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">User account has been created. The location header contains its URI.</answer>
+						<answer code="400">The provided data are incomplete or invalid.</answer>
+						<answer code="403">The service instance does not allow the creation of new user accounts.</answer>
+						<answer code="409">The user account has not been created, because there already exists an account with matching parameters.</answer>
+					</responses>
+					<entities />										
+				</response>
+			</operation>	
+								<operation>
+				<name>Change a user account</name>
+				<description>Changes an existing user account. This operation can only be executed for the user that is authenticating the request. Please note that the user id cannot be changed.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+	 "email" : "john@doe.net",
+	 "password" : "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">User account has been changed.</answer>
+						<answer code="400">The provided data are incomplete or invalid.</answer>
+						<answer code="403">The user making this call is not allowed to change this user account.</answer>
+					</responses>
+					<entities />										
+				</response>
+			</operation>		
+			<operation>
+				<name>Retrieve user data</name>
+				<description>Provides information about a user except the password.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">User data is available in response entity.</answer>
+						<answer code="404">No user found with the given user id.</answer>
+					</responses>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+	 "email" : "john@doe.net",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>						
+					</entities>									
+				</response>
+			</operation>	
+		</resource>	
+				
+		<resource>
+			<name>Document</name>
+			<description>This is the main resource for reported items. 
+			Documents can be upload by all users and every user can access all submitted documents. The upload process
+			consist of two steps: providing meta data and the posting the actual document:
+<code language="plain">
+   Client           Lite Server
+
+     |                    |
+     |                    |
+     | (1) POST Metadata  |
+     |------------------->|
+     |                    |
+     | (2) 202 + Location |
+     |&lt;-------------------|
+     |                    |
+     | (3) POST document  |
+     |------------------->|
+     |                    |
+     | (4) 201            |
+     |&lt;-------------------|
+     |                    |
+</code>
+			
+			</description>
+			<path>/document/<param description="document ID">doc-id</param></path>
+			
+			<operation>
+				<name>Upload a document (1/2) - Provide meta data </name>
+				<description>Upload meta data as part of a upload procedure.</description>
+				<path omitResourcePath="true">/documents/upload</path>
+				<formats>
+					<format>application/json</format>
+				</formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true"/>
+					<entities>
+					<entity>
+					<code language="js">
+<![CDATA[{
+   "document":{
+      "contentType":"image/jpeg",
+      "contentLength":123,
+      "origin":{
+         "date":{
+            "before":"2010-06-29T19:15:51.765Z",
+            "after":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "position":{
+               "type":"Point",
+               "coordinates":[
+                  100.0,
+                  0.0
+               ]
+            },
+            "variance":100
+         }
+      },
+      "tags":[
+         "foo",
+         "bar"
+      ]
+   }
+}]]></code>
+						<description>The set of metadata must contain all fields, although the array of <tt>tags</tt> may be empty. In a normal use case, values for <tt>before</tt> and <tt>after</tt> will contain the same value, as a correct creation time is assumed.</description>
+					</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Accepted; Upload URI is provided as Location header</answer>
+						<answer code="400">Invalid meta data, response entity contains error message.</answer>
+						<answer code="413">Document size is too large, rejected.</answer>
+						<answer code="415">Document size is not supported, rejected.</answer>
+					</responses>
+					<entities>
+					
+					<entity>
+						<code language="js">
+<![CDATA[{
+   "error":{
+      "reason":"Document size is too large."
+   }
+}]]></code>
+						<description>An example error response.</description>
+					</entity>
+					
+					<entity>
+						<code language="js">
+<![CDATA[{
+   "document":{
+      "id":"550e8400-e29b-11d4-a716-446655440000",
+      "uploadKey":"wxdd2p1tzer9ui1hvaew3632hko402w3"
+   }
+}]]></code>
+						<description>An example success response. The <tt>id</tt> and <tt>uploadKey</tt> is needed for the actual file upload, and is also provided as <tt>Location</tt> header in the response.</description>
+					</entity>
+					
+					</entities>
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Upload a document (2/2) - Upload media file</name>
+				<description>Upload the original file as second part of a upload procedure. An <tt>uploadKey</tt> from the previous step is needed.</description>
+				<path omitResourcePath="true">/documents/upload/<param description="the document ID">doc-id</param>?key=<param description="upload key">key</param></path>
+				<formats>
+					<format>n/a</format>
+				</formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true"/>
+					<entities>
+					<entity>
+					<description>The original file to be uploaded (raw).</description>
+					</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Created; Document ID is provided as Location header</answer>
+						<answer code="400">The upload has been rejected (i.e. due to invalid file size)</answer>
+						<answer code="401">Wrong or invalid credentials</answer>
+						<answer code="403">The targeted path or the provided access token is invalid</answer>
+						<answer code="409">The media file already exists</answer>
+						<answer code="411">Upload failed due to missing Content-Length information</answer>
+						<answer code="500">Internal server error while handling the upload</answer>
+					</responses>
+					<entities></entities>
+				</response>
+			</operation>
+			
+
+			<operation>
+				<name>Get document meta data</name>
+				<description></description>
+				<formats>
+					<format>application/json</format>
+				</formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+					</responses>
+					<entities>
+						<entity>
+					<code language="js">
+<![CDATA[{
+   "document":{
+   	  "uploader":"userid",
+   	  "uploadDate":"2010-07-17T18:54:11.939Z",
+      "contentType":"image/jpeg",
+      "contentLength":123,
+      "origin":{
+         "date":{
+            "before":"2010-06-29T19:15:51.765Z",
+            "after":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "position":{
+               "type":"Point",
+               "coordinates":[
+                  100.0,
+                  0.0
+               ]
+            },
+            "variance":100
+         }
+      },
+      "tags":[
+         "foo",
+         "bar"
+      ]
+   }
+}]]></code>						</entity>
+					</entities>
+					
+				</response>
+			</operation>
+			
+			
+			<operation>
+				<name>Get a raw document</name>
+				<description></description>
+				<path>/file/raw</path>
+				<formats>
+					<format>n/a</format>
+				</formats>
+				<request>
+					<method></method>
+					<authentication mandatory="true"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404"></answer>
+					</responses>
+					<entities>
+					<entity><description>The raw media file</description></entity>
+					</entities>
+					
+				</response>
+			</operation>			
+
+						
+			<operation>
+				<name>Get a thumbnail of the document</name>
+				<description></description>
+				<path>/file/thumbnail/<param description="Width (px)">W</param>x<param description="Height (px)">H</param></path>
+				<formats>
+					<format>n/a</format>
+				</formats>
+				<request>
+					<method></method>
+					<authentication mandatory="true"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404"></answer>
+					</responses>
+					<entities>
+					<entity><description>The raw media file</description></entity>
+					</entities>
+					
+				</response>
+			</operation>			
+
+			
+			
+		</resource>	
+		
+		<resource>
+			<name>Query</name>
+			<description>This entry resource provides information about the service instance.</description>
+			<path>/query</path>
+			
+			<operation>
+				<name>Execute a query</name>
+				<description></description>
+				<formats>
+					<format>application/json</format>
+				</formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true"/>
+					<entities>
+											<entity>
+					<code language="js">
+<![CDATA[{
+   "query":[]
+}]]></code>						</entity>
+					
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+					</responses>
+										<entities>
+						<entity>
+					<code language="js">
+<![CDATA[{
+   "resultlist":[]
+}]]></code>						</entity>
+					</entities>
+					
+				</response>
+			</operation>
+			
+		</resource>	
+		
+	</resources>
+	
+<!-- 
+			<operation>
+				<name></name>
+				<description></description>
+				<formats>
+					<format>n/a</format>
+				</formats>
+				<request>
+					<method></method>
+					<authentication mandatory="true"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="100"></answer>
+					</responses>
+					<entities></entities>
+					
+				</response>
+			</operation>
+
+ -->	
+</api>
+
+ 

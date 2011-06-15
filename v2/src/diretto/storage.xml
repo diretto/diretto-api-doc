@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Storage API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The Storage API is responsible for the reception, storage and delivery of submitted attachments of documents. 
+The Storage API is designed to support HTTP mechanisms like caching and conditional GETs for improved performance.   
+			
+	
+	</description>
+	<baseuri>http://mediaserver/</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	<resources>
+	
+		<resource>
+			<name>Attachment</name>
+			<description>An attachment is a media file that belongs to an abstract document. 
+Each document owns one or more attachments. The first attachment should be considered as the "original" item, 
+while all additional attachments represent derivated or customized versions.
+			</description>
+			<path><param description="document ID">document-id</param>/<param description="attachment ID">attachment-id</param>.<param description="attachment extension">attachment-ext</param></path>
+			
+			<operation>
+				<name>Download an attachment</name>
+				<description>This operation allows to download an existing attachment. Conditional GETs must be supported by the storage server.
+				Clients should support caching and dispatch conditional requests whenever possible.</description>
+				<path />
+				<formats><format>varying</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="false" />
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Attachment in response entity</answer>
+						<answer code="304">Cache hit (conditional request)</answer>
+						<answer code="403">The requested resource URI is not allowed</answer>
+						<answer code="404">Attachment and/or document not found</answer>
+						<answer code="500">Internal error while streaming the attachment</answer>
+					</responses>
+					<entities></entities>
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>Upload a new attachment</name>
+				<description>New attachments must be uploaded to the storage server as part of a three-part workflow.
+				First, meta data must be sent to the API server. When the API server grants the creation of a new attachment,
+				it also provides an access token that is needed for the actual upload against the storage server.
+				Without a valid access token, no upload can be performed. On succcessful upload, the storage server also
+				creates a token that must be sent to the API server to approve the upload process.
+				This operation does not support chunked uploads and the following request headers are mandatory:  
+				<tt>Content-Type</tt> (mime type), <tt>Content-Length</tt> (file size) and authentication. The actual media file
+				must be provided as it is in the request entity. 
+				Please note that creating an initial attachment includes creating a document itself. 
+				Thus, the first API call slightly differs, because a <tt>PUT</tt> against the targeted document location is required instead
+				of a <tt>POST</tt>. 
+				The complete flow is listed here:  
+				
+				
+<code language="plain">
+   Client           API Server        Media Storage
+
+     |                    |                   |
+     |                    |                   |
+     | (1) POST Metadata  |                   |
+     |------------------->|                   |
+     |                    |                   |
+     | (2) 202 + Location |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     | (3) PUT Entity (Signed URI)            |
+     |--------------------+------------------>|
+     |                    |                   |
+     | (4) 201 Created + Accept Key in Body   |
+     |&lt;-------------------+-------------------|
+     |                    |                   |
+     | (5) DELETE Lock (via Accept Key)       |
+     |------------------->|                   |
+     |                    |                   |
+     | (6) 204            |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     |                    |                   |
+</code>				
+				</description>
+				<path>?token=<param description="access token">token</param></path>
+				<formats>
+					<format>varying</format>
+					<format>application/json</format>
+				</formats>
+				<request>
+					<method>PUT</method>
+					<authentication  mandatory="true" />
+					<entities />
+					<!--  attachment-specific (must be the same as indicated to the API server) -->
+				</request>
+				<response>
+					<responses>
+						<answer code="201">The attachment has been created</answer>
+						<answer code="400">The upload has been rejected (i.e. due to invalid file size)</answer>
+						<answer code="401">Wrong or invalid credentials</answer>
+						<answer code="403">The targeted path or the provided access token is invalid</answer>
+						<answer code="409">The media file already exists</answer>
+						<answer code="411">Upload failed due to missing Content-Length information</answer>
+						<answer code="500">Internal server error while handling the upload</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">{
+	"successToken" : "9365929d8479d2ca39826878984ff5f2b70b5d65"
+}</code>
+						<description>In case of a successful upload (201), a response key is provided that must be send to
+						the API server in order to prove the upload.</description>
+						</entity>
+						<entity>
+						<code language="js">{
+	"error" : "The attachment size exceeds the server limits for uploads"
+}</code>
+						<description>Otherwise, an error message is available as entity.</description>
+						</entity>						
+					</entities>
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Retrieve attachment's meta data</name>
+				<description>A HEAD request against an attachment allows to retrieve several meta data.
+				Servers must provide the following HTTP headers: <tt>Content-Type</tt> (mime type), 
+				<tt>Content-Length</tt> (file size) and <tt>ETag</tt> (caching identifier).  
+				This operation should also be used for checking the existence of an attachment.   
+				</description>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>HEAD</method>
+					<authentication  mandatory="false" />
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Attachment exists, contents omitted</answer>
+						<answer code="304">Cache hit (conditional request)</answer>
+						<answer code="403">The requested resource URI is not allowed</answer>
+						<answer code="404">Attachment and/or document not found</answer>
+						<answer code="500">Internal error while streaming the attachment</answer>
+					</responses>
+					<entities></entities>
+				</response>
+			</operation>
+
+<!-- 		
+			<operation>
+				<name>Redirect to initial attachment</name>
+				<description>This operation allows to retrieve the URI of an initial attachment only by document ID.
+				If available, the response must contain the location of the initial attachment.</description>
+				<path omitResourcePath="true"><param description="document ID">document-id</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="false" />
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="303">Location-Header contains full URI of the attachment</answer>
+						<answer code="403">The requested resource URI is not allowed</answer>
+						<answer code="404">Document not found</answer>
+					</responses>
+					<entities></entities>
+				</response>
+			</operation>		
+ -->
+ 				
+		</resource>
+
+	<resource>
+			<name>Index</name>
+			<description>The index resource provides static information about the deployed service.
+			</description>
+			<path />
+			
+			<operation>
+				<name>Get static information</name>
+				<description>This operation allows to receive static information about the deployment.
+				<tt>HEAD</tt> requests against this resource may be useful to check the service's availability.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="false" />
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service information in response entity</answer>
+					</responses>
+					<entities>
+					<entity>
+					<code language="js">{
+   "api":{
+      "name":"org.diretto.api.storage",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Media Node",
+      "version":"0.2.0"
+   }
+}</code>
+					</entity></entities>
+				</response>
+			</operation>	
+		</resource>
+	
+	</resources>
+
+
+
+
+</api>

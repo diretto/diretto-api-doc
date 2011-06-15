@@ -1,0 +1,1598 @@
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Task API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The Task API represents an external service that enables the handling of certain tasks.
+	In terms of the diretto platform, a task is a request of specific footage. Reporters may take in 
+	part in tasks and contribute required documents as submissions. A task is always bound to a location
+	and a time frame. A title and description define the task and optional tags allow to categorize it.
+	Votes help to prioritize different tasks within the community. Tasks can be commented for exchange of ideas. 
+	Finally, every user can submit an existing document as footage for the task.
+	The community can then rate the suitability of the submission regarding the task request.
+	Besides the of directed collection of live footage, the Task API can also be used for specialized search queries.
+	In this case, a task represents a search query and all potential results are submissions. This user-driven
+	search is helpful for queries when only users can reason about appropriate hits by analyzing the documents. 
+	</description>
+	<baseuri>http://task.diretto.org/v2</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	<resources>	
+	
+		<resource>
+			<name>Index</name>
+			<description>This entry resource provides information about the service instance.</description>
+			<path></path>
+			<operation>
+				<name>Get service instance data</name>
+				<description>Returns a static information about the deployed Task service instance.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service instance data in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "api":{
+      "name":"org.diretto.api.external.task",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Task Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Task Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://coreservice/v2"
+         }
+      }
+   }
+}]]></code>
+						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>			
+		</resource>	
+	
+		<resource>
+			<name>Query</name>
+			<description>An interface resource for query execution. A query must be dispatched to the server 
+			which will return a URI for the query. This URI then contains the results. Results are paginated using cursors.
+			A query resource stores the initial query parameters, not the result set. Thus, queries can be re-executed by using the same URI,
+			although the corresponding results may have changed. Be aware of this fact when applying caching to query results.
+<code language="plain">
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |      (1) POST Query           |
+     |------------------------------>|
+     |                               |
+     |      (2) 202 + Location       |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (3) GET Query Resource   |
+     |------------------------------>|
+     |                               |
+     |      (4) 303 + 1st page URI   |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (5) GET 1st result page  |
+     |------------------------------>|
+     |                               |
+     |      (6) 200 + First page     |
+     |&lt;------------------------------|
+     |                               |
+</code>		
+Note that step 5 and 6 must be repeated for additional result pages. Also, step 1 and 2 can be skipped if an existing query (client already knows query URI) should be re-executed.			
+			</description>
+			<path>/query/stored/<param description="query id">query-id</param></path>
+			
+			
+			<operation>
+				<name>Dispatch a query</name>
+				<description>Sends a query.</description>
+				<path omitResourcePath="true">/query</path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>		
+						<entity>
+<code language="js"><![CDATA[{
+   "query":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox":[
+            100.0,
+            0.0,
+            105.0,
+            1.0
+         ]
+      },
+      "tags":[
+		"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      ]
+   }
+}]]></code>
+						<description>A query is built using three parameters. While time frame and spatial bounding box are mandatory, the tag list may be empty.
+						Please not that all parameters are combined conjunctively (using boolean AND), thus each emitted result entry matches all of the parameters.</description>
+						</entity>				
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Query accepted, result location in header.</answer>
+						<answer code="400">Invalid query parameters.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Forward to query result page</name>
+				<description>A request to a query URI will always be forwarded to the first page of the result set using the first cursor.</description>
+				<path></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>		
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Query returned no results.</answer>
+						<answer code="303">Query found, result location in header.</answer>
+						<answer code="404">Query not found.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>	
+			
+						
+			<operation>
+				<name>Execute a common location-based query</name>
+				<description>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results.</description>
+				<path omitResourcePath="true">/query/common/<param description="type: one of 'newest', 'unattended', 'expiring' or 'popular'">type</param>?lat=<param description="latitude">latitude</param>&amp;lon=<param description="longitude">longitude</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>		
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="303">Query accepted, result location in header.</answer>
+						<answer code="404">Invalid coordinates.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>Get query result page</name>
+				<description>Returns a paginated result page, identified by the cursor. A result page always contains links to the previous and next result page, if existing.</description>
+				<path omitResourcePath="false">/cursor/<param description="cursor id">cursor-id</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>		
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Result page in response.</answer>
+						<answer code="404">Query or cursor not found.</answer>
+					</responses>
+					<entities>	
+						<entity>
+<code language="js"><![CDATA[{
+   "query":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404"
+      }
+   },
+   "results":{
+      "count":101,
+      "page":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
+         },
+         "list":[
+            {
+               "task":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+                  }
+               }
+            }
+         ],
+         "related":[
+            {
+               "link":{
+                  "rel":"first",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"previous",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"next",
+                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
+               }
+            }
+         ]
+      }
+   }
+}]]></code>
+						<description>A query result page containing links to the previous, next and first page. The first page link is always present, the others only when the other pages acutally exist.</description>
+						</entity>	
+					</entities>										
+				</response>
+			</operation>
+			
+		</resource>	
+	
+
+	
+		<resource>
+			<name>Vote</name>
+			<description>This resource represents a vote. Users can vote on various resources. The voting URI path is appended to the original URI. The following resources of the Task API can be voted on: <it>Task</it>, <it>Submission</it>, <it>Comment</it> and <it>Tag</it> (for tasks and submissions) </description>
+			<path>/<param description="resource identifier">resource</param>/vote/user/<param description="user ID">user-id</param></path>
+			
+			<operation>
+				<name>Vote on a resource</name>
+				<description>Casts a vote by the user authenticating the request.</description>
+				<path omitResourcePath="false">/<param description="up or down">vote</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>PUT</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Vote has been casted.</answer>
+						<answer code="403">Mismatch of voting and authenticated user.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>		
+			
+			<operation>
+				<name>Get a vote of the user</name>
+				<description>Returns the current vote of the user authenticating the request.</description>
+				<path omitResourcePath="false"></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Vote in response body.</answer>
+						<answer code="403">Mismatch of voted and authenticated user.</answer>
+						<answer code="404">User has not yet voted</answer>
+					</responses>
+					<entities>	
+						<entity>
+<code language="js"><![CDATA[{
+   "vote": "up"
+}]]></code>
+						<description>A response containing an up-vote. </description>
+						</entity>
+						<entity>
+<code language="js"><![CDATA[{
+   "vote": "down"
+}]]></code>
+						<description>A response containing a down-vote. </description>
+						</entity>						
+					</entities>										
+				</response>
+			</operation>			
+
+			<operation>
+				<name>Get all votes</name>
+				<description>Returns a summary of all votes for this resource.</description>
+				<path omitResourcePath="true">/<param description="resource identifier">resource</param>/votes</path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Votes in response body.</answer>
+						<answer code="404">Resource not found</answer>
+					</responses>
+					<entities>	
+						<entity>
+<code language="js"><![CDATA[{
+   "votes":{
+  	 "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/resource/votes"
+         },
+      "up":123,
+      "down":42
+   }
+}]]></code>
+						</entity>						
+					</entities>										
+				</response>
+			</operation>			
+								
+			<operation>
+				<name>Undo a vote on a resource</name>
+				<description>Undos a vote that has been casted before.</description>
+				<path omitResourcePath="false" />
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>DELETE</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Vote has been removed.</answer>
+						<answer code="403">Mismatch of voting and authenticated user.</answer>
+						<answer code="404">No vote found.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>				
+		</resource>	
+	
+		<resource>
+			<name>Comment</name>
+			<description>This resource represents a comment. Comments can be added by users to a task in order to discuss the task.</description>
+			<path>/task/<param description="task ID">task-id</param>/comment/<param description="comment ID">comment-id</param></path>
+			
+			<operation>
+				<name>Create a new comment</name>
+				<description>Adds a new comment to the task.</description>
+				<path omitResourcePath="true">/task/<param description="task ID">task-id</param>/comments</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "content":"blablabla"
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Comment has been created. The location header contains its URI and thus also the comment id.</answer>						
+						<answer code="400">Invalid comment data.</answer>						
+						<answer code="404">Task not found.</answer>						
+					</responses>
+					<entities />										
+				</response>
+			</operation>			
+			
+			<operation>
+				<name>Get all comments of task</name>
+				<description>Returns all comments of task.</description>
+				<path omitResourcePath="true">/task/<param description="task ID">task-id</param>/comments</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Comment list in response entity.</answer>
+						<answer code="404">Task not found</answer>
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      },
+      "list":[
+         {
+            "comment":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+               },
+               "content":"blablabla",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>			
+			
+			<operation>
+				<name>Retrieve a single comment</name>
+				<description>Returns a single comment.</description>
+				<path/>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404"></answer>
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "comment":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      },
+      "content":"blablabla",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+			
+					
+		</resource>
+	
+		<resource>
+			<name>Task</name>
+			<description>This resource represents a task.</description>
+			<path>/task/<param description="task ID">task-id</param></path>
+			
+			<operation>
+				<name>Retrieve a single task snapshot</name>
+				<description>Returns a complete set of data of this task, including comments, votes and sumbissions.</description>
+				<path>/snapshot</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404"></answer>
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "task":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      },
+      "constraints":{
+         "time":{
+            "start":"2010-06-29T19:15:51.765Z",
+            "end":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "bbox":[
+               100.0,
+               0.0,
+               105.0,
+               1.0
+            ]
+         }
+      },
+      "title":"foo bar",
+      "description":"foo bar asd lorem",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+	"votes":{
+	     "link":{
+	            "rel":"self",
+	            "href":"http://taskservice/v2/resource/votes"
+	         },
+	      "up":123,
+	      "down":42
+	   }      
+   },
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      },
+      "list":[
+         {
+            "submission":{
+               "link":{
+                  "rel":"self",
+                  "self":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                  },
+                  "up":123,
+                  "down":42
+               },
+               "document":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+                  }
+               },
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "tags":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                  },
+                  "list":[
+                     {
+                        "tag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           },
+                           "baseTag":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              }
+                           },
+                           "value":"mytag",
+                           "creationTime":"2010-07-17T18:54:11.939Z",
+                           "creator":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/user/123456"
+                              }
+                           },
+                           "votes":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                              },
+                              "up":12,
+                              "down":2
+                           }
+                        }
+                     }
+                  ]
+               }
+            }
+         }
+      ]
+   },
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      },
+      "list":[
+         {
+            "comment":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+               },
+               "content":"blablabla",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   },
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/resource/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+						
+			<operation>
+				<name>Fetch multiple task snapshots</name>
+				<description>Fetches a set of task snapshots.</description>
+				<path omitResourcePath="true">/tasks/snapshots</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true"/>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "tasks":[
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://taskservice/v2/task/2671f383-a28c-bla"
+   ]
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Results in response body. Note that tasks may still have raised errors (i.e. when not found).</answer>
+						<answer code="400">Invalid query or too many items requested.</answer>
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "results":{
+      "http://taskservice/v2/task/2671f383-a28c-bla":{
+         "error":{
+            "message":"Not found"
+         }
+      },
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+         "task":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+            },
+            "constraints":{
+               "time":{
+                  "start":"2010-06-29T19:15:51.765Z",
+                  "end":"2010-06-29T19:15:50.000Z"
+               },
+               "location":{
+                  "bbox":[
+                     100.0,
+                     0.0,
+                     105.0,
+                     1.0
+                  ]
+               }
+            },
+            "title":"foo bar",
+            "description":"foo bar asd lorem",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+			"votes":{
+			     "link":{
+			            "rel":"self",
+			            "href":"http://taskservice/v2/resource/votes"
+			         },
+			      "up":123,
+			      "down":42
+			   }      
+		   }            
+         },
+         "submissions":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+            },
+            "list":[
+               {
+                  "submission":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                        },
+                        "up":123,
+                        "down":42
+                     },
+                     "document":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+                        }
+                     },
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "tags":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                        },
+                        "list":[
+                           {
+                              "tag":{
+                                 "link":{
+                                    "rel":"self",
+                                    "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                 },
+                                 "baseTag":{
+                                    "link":{
+                                       "rel":"self",
+                                       "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                    }
+                                 },
+                                 "value":"mytag",
+                                 "creationTime":"2010-07-17T18:54:11.939Z",
+                                 "creator":{
+                                    "link":{
+                                       "rel":"self",
+                                       "href":"http://core/v2/user/123456"
+                                    }
+                                 },
+                                 "votes":{
+                                    "link":{
+                                       "rel":"self",
+                                       "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                    },
+                                    "up":12,
+                                    "down":2
+                                 }
+                              }
+                           }
+                        ]
+                     }
+                  }
+               }
+            ]
+         },
+         "comments":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+            },
+            "list":[
+               {
+                  "comment":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                     },
+                     "content":"blablabla",
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        },
+                        "up":12,
+                        "down":2
+                     }
+                  }
+               }
+            ]
+         },
+         "tags":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/resource/tags"
+            },
+            "list":[
+               {
+                  "tag":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     },
+                     "baseTag":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        }
+                     },
+                     "value":"mytag",
+                     "creationTime":"2010-07-17T18:54:11.939Z",
+                     "creator":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core/v2/user/123456"
+                        }
+                     },
+                     "votes":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        },
+                        "up":12,
+                        "down":2
+                     }
+                  }
+               }
+            ]
+         }
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Retrieve task meta data</name>
+				<description>Returns all meta data of this task.</description>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404"></answer>
+					</responses>
+
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "task":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      },
+      "constraints":{
+         "time":{
+            "start":"2010-06-29T19:15:51.765Z",
+            "end":"2010-06-29T19:15:50.000Z"
+         },
+         "location":{
+            "bbox":[
+               100.0,
+               0.0,
+               105.0,
+               1.0
+            ]
+         }
+      },
+      "title":"foo bar",
+      "description":"foo bar asd lorem",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+		"votes":{
+		     "link":{
+		            "rel":"self",
+		            "href":"http://taskservice/v2/resource/votes"
+		         },
+		      "up":123,
+		      "down":42
+		   }      
+	   }      
+   },
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      }
+   },
+   "comments":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+      }
+   },
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Create a new task</name>
+				<description>Creates a new task.</description>
+				<path omitResourcePath="true">/tasks</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "constraints":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox": [100.0, 0.0, 105.0, 1.0]
+      }
+   },
+   "title":"foo bar",
+   "description":"foo bar asd lorem"
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Task has been created. The location header contains its URI and thus also the task id.</answer>						
+						<answer code="400">The provided data are incomplete or invalid.</answer>						
+					</responses>
+					<entities />										
+				</response>
+			</operation>
+		</resource>	
+	
+		
+		<resource>
+			<name>Submission</name>
+			<description>This resource represents a submission. A submission basically suggests that a document represents a possible solution to the task.</description>
+			<path>/task/<param description="task ID">task-id</param>/submission/<param description="submission ID">submission-id</param></path>
+
+
+			<operation>
+				<name>Get all submissions of task</name>
+				<description>Returns all submissions of task.</description>
+				<path omitResourcePath="true">/task/<param description="task ID">task-id</param>/submissions</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Submission list in response entity.</answer>
+						<answer code="404">Task not found</answer>
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "submissions":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+      },
+      "list":[
+         {
+            "submission":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                  },
+                  "up":123,
+                  "down":42
+               },
+               "document":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+                  }
+               },
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "tags":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                  },
+                  "list":[
+                     {
+                        "tag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           },
+                           "baseTag":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              }
+                           },
+                           "value":"mytag",
+                           "creationTime":"2010-07-17T18:54:11.939Z",
+                           "creator":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/user/123456"
+                              }
+                           },
+                           "votes":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                              },
+                              "up":12,
+                              "down":2
+                           }
+                        }
+                     }
+                  ]
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>	
+
+
+
+			<operation>
+				<name>Create a new submission</name>
+				<description>Creates a new  submission. A submission is represented by a document, identified by it's URI.</description>
+				<path omitResourcePath="true">/task/<param description="task ID">task-id</param>/submissions</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "document":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+      }
+   }
+}]]></code>
+							<description>An example submission of a document.</description>
+						</entity>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">The submission has been accepted. The location header contains its URI and thus also the submission id.</answer>
+						<answer code="400">The provided data are incomplete or invalid.</answer>
+						<answer code="403">The document does not represent a valid submission for this task (spatial location or time origin).</answer>
+						<answer code="409">The document is already a submission for this task.</answer>
+					</responses>
+					<entities>						
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "error":{
+      "reason":"The spatial location of the document is outside the task area."
+   }
+}]]></code>
+							<description>A rejected submission (403) of a document, here due to it's meta data.</description>
+						</entity>	
+					</entities>										
+				</response>
+			</operation>		
+			
+			<operation>
+				<name>Retrieve submission details</name>
+				<description>Provides detailed information about this submission.</description>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities></entities>					
+				</request>
+				<response>
+					<responses>
+						<answer code="200">The submission details are available in the response entity.</answer>
+						<answer code="404">Submission not found.</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">
+<![CDATA[{
+   "submission":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+         },
+         "up":123,
+         "down":42
+      },
+      "document":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+         }
+      },
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "tags":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+         },
+         "list":[
+            {
+               "tag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  },
+                  "baseTag":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     }
+                  },
+                  "value":"mytag",
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/user/123456"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     },
+                     "up":12,
+                     "down":2
+                  }
+               }
+            }
+         ]
+      }
+   }
+}]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+					
+		</resource>	
+
+
+		<resource>
+			<name>Tag</name>
+			<description>This resource represents a tag. Users can append tags on various resources. 
+			The tag URI path is appended to the original URI. The following resources of the Task API can be tagged: <it>Task</it> and <it>Submission</it>
+			
+<code language="plain">
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |   (1) POST Tag                |
+     |------------------------------>|
+     |                               |
+     |   (2) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |   (3) POST Tag to Resource    |
+     |------------------------------>|
+     |                               |
+     |   (4) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+</code>				
+		Steps 1+2 create a tag, steps 3+4 append the tag to a resource.</description>
+			<path>/tag/<param description="tag ID">tag-id</param></path>
+			
+			<operation>
+				<name>Create a new tag</name>
+				<description>Create a new tag that can be appended to resource thereafter.</description>
+				<path omitResourcePath="true">/tags</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "value":"mytag"
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Tag has been created. The location header contains its URI and thus also the tag id.</answer>						
+						<answer code="202">Tag already exists, but accepted.</answer>						
+						<answer code="400">Invalid tag data (i.e. length).</answer>						
+					</responses>
+					<entities >
+<entity>
+							<code language="js">
+<![CDATA[{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}]]></code>
+						</entity>					
+					</entities>										
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Retrieve a tag</name>
+				<description>Returns a tag entry.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404">Tag not found.</answer>						
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      }
+   }
+}]]></code>
+							<description>Note that the creation time denotes the initial usage of this time.</description>
+						</entity>
+					</entities>					
+				</response>
+			</operation>				
+						
+			<operation>
+				<name>Retrieve a single tag of a resource</name>
+				<description>Returns a single tag entry that has been appended to a resource.</description>
+				<path>/<param description="resource identifier">resource</param>/tag/<param description="tag ID">tag-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404">Resource not found.</answer>						
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "tag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "baseTag" : {
+	      "link":{
+	         "rel":"self",
+	         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+	      }
+      }, 
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}]]></code>
+							<description>Note that the creation time denotes the time this tag has been appended to the resource for the first time.</description>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Append a tag to a resource</name>
+				<description>Appends a new tag to the resource.</description>
+				<path omitResourcePath="true">/<param description="resource">resource</param>/tags</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Tag has been appended. The location header contains its URI and thus also the tag id.</answer>						
+						<answer code="202">Tag already exists, but accepted.</answer>						
+						<answer code="400">Invalid tag data (i.e. ID mismatch).</answer>						
+						<answer code="404">Tag or resource not found.</answer>						
+					</responses>
+					<entities />										
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Retrieve all tags of a resource</name>
+				<description>Returns a single tag entry.</description>
+				<path omitResourcePath="true">/<param description="resource">resource</param>/tags</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404">Resource not found.</answer>						
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/resource/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>			
+		</resource>		
+
+	
+	</resources>
+</api>
+
+ 

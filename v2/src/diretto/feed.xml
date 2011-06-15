@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Feed API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The Feed API provides non-JSON lists of entries in popular feed formats. It can be used for retrieving lists of available documents and attachments. Some of the feeds are PubSubHubbub-enabled, which allows clients to register for notifications upon new items. See also the Streaming API and the listing operations of the Core API as alternatives.</description>
+	<baseuri>http://feed.diretto.org/v2</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	
+	<resources>
+	
+	<resource>
+			<name>Index</name>
+			<description>This entry resource provides information about the instance.</description>
+			<path></path>
+			<operation>
+				<name>Get service instance data</name>
+				<description>Returns a static information about the deployed Feed API service instance.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service instance data in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "api":{
+      "name":"org.diretto.api.main.feed",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Feed API Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Feed Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   }
+}]]></code>
+						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+		</resource>		
+	
+		<resource>
+			<name>Document Feed (Atom)</name>
+			<description>An Atom feed of documents added to the platform, sorted by upload time. This feed is PubSubHubbub-enabled.</description>
+			<path>/feeds/list/documents/all</path>
+		</resource>		
+		
+		<resource>
+			<name>Media-specific Document Feed (Atom)</name>
+			<description>An Atom feed of documents added to the platform, sorted by upload time.</description>
+			<path>/feeds/list/documents/media/<param description="Media type, i.e. 'image' or 'text'">media-type</param></path>
+		</resource>	
+	
+		<resource>
+			<name>Attachment Feed (Atom)</name>
+			<description>An Atom feed of attachments added to the platform, sorted by upload time. This feed is PubSubHubbub-enabled.</description>
+			<path>/feeds/list/attachments/all</path>
+		</resource>	
+	
+		<resource>
+			<name>Spatial Document Feed (KML)</name>
+			<description>An KML export feed of documents added to the platform. Only the position with the highest votes is emitted.</description>
+			<path>/feeds/geo/kml</path>
+		</resource>	
+	
+		<resource>
+			<name>Positions of a Document (KML)</name>
+			<description>This KML export emits a all positions submitted by users for the given document.</description>
+			<path>/feeds/geo/document/<param description="document ID">document-id</param>/kml</path>
+		</resource>	
+	
+	</resources>
+
+
+</api>

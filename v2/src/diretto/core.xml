@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Core API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The following document describe the RESTful API of the
+		core services of the diretto platform. It is the only mandatory service for deployment.</description>
+	<baseuri>http://api.diretto.org/v2</baseuri>
+	<authentication>
+		<type>Basic Authentication</type>
+	</authentication>
+	<resources>
+		<resource>
+			<name>Index</name>
+			<description>This entry resource provides information about the instance.</description>
+			<path></path>
+<operation>
+				<name>Get service instance data</name>
+				<description>Returns a static information about the deployed Core service instance.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service instance data in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "api":{
+      "name":"org.diretto.api.main.core",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Core API Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar diretto Deployment",
+      "contact":"mail@deployer",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   }
+}]]></code>
+						<description>The JSON response contains information about the service identification and version and the actual deployment variables.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+		</resource>		
+		
+		
+		<resource>
+			<name>Service</name>
+			<description>A resource for service informations.</description>
+			<path>/service</path>
+			<operation>
+				<name>Get supported internal media types</name>
+				<description>Returns a list of supported media types that the server accepts for storage.</description>
+				<path >/mediatypes/internal</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">
+<![CDATA[{
+//TODO: complete me
+}]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Get supported external media types</name>
+				<description>Returns a list of external entities the server accepts. </description>
+				<path >/mediatypes/external</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">
+<![CDATA[{
+//TODO: complete me
+}]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+						
+			<operation>
+				<name>Get server data</name>
+				<description>Returns runtime data about the server instance.</description>
+				<path>/info</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">
+<![CDATA[{
+//TODO: complete me
+}]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+						
+			<operation>
+				<name>Get the service registry</name>
+				<description>Returns a list of registered services of the platform. If there is a Registry API service available, this request will be redirected to the Registry API directory.</description>
+				<path>/registry</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response entity</answer>
+						<answer code="303">Redirect to Registry API service</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">
+<![CDATA[{
+   "services":{
+      "list":[
+         {
+            "api":{
+               "name":"org.diretto.api.external.task",
+               "version":"v2"
+            },
+            "service":{
+               "name":"diretto Task Node",
+               "version":"0.1.0"
+            },
+            "deployment":{
+               "title":"fubar Task Service",
+               "contact":"n/a",
+               "website":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://www.diretto.org"
+                  }
+               }
+            },
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2"
+            }
+         }
+      ]
+   }
+}]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+		</resource>	
+		
+<!-- ======================================== WORK IN PROGRESS ========================================= -->
+<resource>
+			<name>Tag</name>
+			<description>This resource represents a tag. Users can append tags on various resources. 
+			The tag URI path is appended to the original URI. The following resources of the Core API can be tagged: <it>Document</it>
+			
+<code language="plain">
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |   (1) POST Tag                |
+     |------------------------------>|
+     |                               |
+     |   (2) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |   (3) POST Tag to Resource    |
+     |------------------------------>|
+     |                               |
+     |   (4) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+</code>				
+		Steps 1+2 create a tag, steps 3+4 append the tag to a resource.</description>
+			<path>/tag/<param description="tag ID">tag-id</param></path>
+			
+			<operation>
+				<name>Create a new tag</name>
+				<description>Create a new tag that can be appended to resource thereafter.</description>
+				<path omitResourcePath="true">/tags</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "value":"mytag"
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Tag has been created. The location header contains its URI and thus also the tag id.</answer>						
+						<answer code="202">Tag already exists, but accepted.</answer>						
+						<answer code="400">Invalid tag data (i.e. length).</answer>						
+					</responses>
+					<entities >
+<entity>
+							<code language="js">
+<![CDATA[{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}]]></code>
+						</entity>					
+					</entities>										
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Retrieve a tag</name>
+				<description>Returns a tag entry.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404">Tag not found.</answer>						
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      }
+   }
+}]]></code>
+							<description>Note that the creation time denotes the initial usage of this time.</description>
+						</entity>
+					</entities>					
+				</response>
+			</operation>				
+						
+			<operation>
+				<name>Retrieve a single tag of a resource</name>
+				<description>Returns a single tag entry that has been appended to a resource.</description>
+				<path>/<param description="resource identifier">resource</param>/tag/<param description="tag ID">tag-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404">Resource not found.</answer>						
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "tag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "baseTag" : {
+	      "link":{
+	         "rel":"self",
+	         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+	      }
+      }, 
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}]]></code>
+							<description>Note that the creation time denotes the time this tag has been appended to the resource for the first time.</description>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Append a tag to a resource</name>
+				<description>Appends a new tag to the resource.</description>
+				<path omitResourcePath="true">/<param description="resource">resource</param>/tags</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Tag has been appended. The location header contains its URI and thus also the tag id.</answer>						
+						<answer code="202">Tag already exists, but accepted.</answer>						
+						<answer code="400">Invalid tag data (i.e. ID mismatch).</answer>						
+						<answer code="404">Tag or resource not found.</answer>						
+					</responses>
+					<entities />										
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Retrieve all tags of a resource</name>
+				<description>Returns a single tag entry.</description>
+				<path omitResourcePath="true">/<param description="resource">resource</param>/tags</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404">Resource not found.</answer>						
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>			
+		</resource>	
+				
+		<resource>
+			<name>Vote</name>
+			<description>This resource represents a vote. Users can vote on various resources. The voting URI path is appended to the original URI. 
+			The following resources of the Core API can be voted on: <it>Attachment</it>, <it>Link</it>, <it>Relation</it>, <it>Position</it>, <it>Time</it> , <it>Comment</it> and <it>Tag</it>.</description>
+			<path>/<param description="resource identifier">resource</param>/vote/user/<param description="user ID">user-id</param></path>
+			
+			<operation>
+				<name>Vote on a resource</name>
+				<description>Casts a vote by the user authenticating the request.</description>
+				<path omitResourcePath="false">/<param description="up or down">vote</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>PUT</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Vote has been casted.</answer>
+						<answer code="403">Mismatch of voting and authenticated user.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>		
+			
+			<operation>
+				<name>Get a vote of the user</name>
+				<description>Returns the current vote of the user authenticating the request.</description>
+				<path omitResourcePath="false"></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Vote in response body.</answer>
+						<answer code="403">Mismatch of voted and authenticated user.</answer>
+						<answer code="404">User has not yet voted</answer>
+					</responses>
+					<entities>	
+						<entity>
+<code language="js"><![CDATA[{
+   "vote": "up"
+}]]></code>
+						<description>A response containing an up-vote. </description>
+						</entity>
+						<entity>
+<code language="js"><![CDATA[{
+   "vote": "down"
+}]]></code>
+						<description>A response containing a down-vote. </description>
+						</entity>						
+					</entities>										
+				</response>
+			</operation>			
+
+			<operation>
+				<name>Get all votes</name>
+				<description>Returns a summary of all votes for this resource.</description>
+				<path omitResourcePath="true">/<param description="resource identifier">resource</param>/votes</path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Votes in response body.</answer>
+						<answer code="404">Resource not found</answer>
+					</responses>
+					<entities>	
+						<entity>
+<code language="js"><![CDATA[{
+   "votes":{
+  	 "link":{
+            "rel":"self",
+            "href":"http://core/v2/resource/votes"
+         },
+      "up":123,
+      "down":42
+   }
+}]]></code>
+						</entity>						
+					</entities>										
+				</response>
+			</operation>			
+								
+			<operation>
+				<name>Undo a vote on a resource</name>
+				<description>Undos a vote that has been casted before.</description>
+				<path omitResourcePath="false" />
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>DELETE</method>
+					<authentication mandatory="true" />
+					<entities>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Vote has been removed.</answer>
+						<answer code="403">Mismatch of voting and authenticated user.</answer>
+						<answer code="404">No vote found.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>				
+		</resource>	
+		
+
+		<resource>
+			<name>Query</name>
+			<description>An interface resource for query execution. A query must be dispatched to the server 
+			which will return a URI for the query. This URI then contains the results. Results are paginated using cursors.
+			A query resource stores the initial query parameters, not the result set. Thus, queries can be re-executed by using the same URI,
+			although the corresponding results may have changed. Be aware of this fact when applying caching to query results.
+<code language="plain">
+   Client                      Core Service
+
+     |                               |
+     |                               |
+     |      (1) POST Query           |
+     |------------------------------>|
+     |                               |
+     |      (2) 202 + Location       |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (3) GET Query Resource   |
+     |------------------------------>|
+     |                               |
+     |      (4) 303 + 1st page URI   |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (5) GET 1st result page  |
+     |------------------------------>|
+     |                               |
+     |      (6) 200 + First page     |
+     |&lt;------------------------------|
+     |                               |
+</code>		
+Note that step 5 and 6 must be repeated for additional result pages. Also, step 1 and 2 can be skipped if an existing query (client already knows query URI) should be re-executed.			
+			</description>
+			<path>/query/stored/<param description="query id">query-id</param></path>
+			
+			
+			<operation>
+				<name>Dispatch a query</name>
+				<description>Sends a query.</description>
+				<path omitResourcePath="true">/query</path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>		
+						<entity>
+<code language="js"><![CDATA[{
+   "query":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox":[
+            100.0,
+            0.0,
+            105.0,
+            1.0
+         ]
+      },
+      "tags":[
+		"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      ]
+   }
+}]]></code>
+						<description>A query is built using three parameters. While time frame and spatial bounding box are mandatory, the tag list may be empty.
+						Please not that all parameters are combined conjunctively (using boolean AND), thus each emitted result entry matches all of the parameters.</description>
+						</entity>				
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Query accepted, result location in header.</answer>
+						<answer code="400">Invalid query parameters.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Forward to query result page</name>
+				<description>A request to a query URI will always be forwarded to the first page of the result set using the first cursor.</description>
+				<path omitResourcePath="true">/query</path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>		
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Query returned no results.</answer>
+						<answer code="303">Query found, result location in header.</answer>
+						<answer code="404">Query not found.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>	
+			
+						
+			<operation>
+				<name>Execute a common location-based query</name>
+				<description>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results.</description>
+				<path omitResourcePath="true">/query/common/<param description="type: one of 'newest', 'unattended', 'expiring' or 'popular'">type</param>?lat=<param description="latitude">latitude</param>&amp;lon=<param description="longitude">longitude</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>		
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="303">Query accepted, result location in header.</answer>
+						<answer code="404">Invalid coordinates.</answer>
+					</responses>
+					<entities>					
+					</entities>										
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>Get query result page</name>
+				<description>Returns a paginated result page, identified by the cursor. A result page always contains links to related pages.</description>
+				<path omitResourcePath="false">/cursor/<param description="cursor id">cursor-id</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true" />
+					<entities>		
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Result page in response.</answer>
+						<answer code="404">Query or cursor not found.</answer>
+					</responses>
+					<entities>	
+						<entity>
+<code language="js"><![CDATA[{
+   "query":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404"
+      }
+   },
+   "results":{
+      "count":101,
+      "page":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
+         },
+         "list":[
+            {
+               "document":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+                  }
+               }
+            }
+         ],
+         "related":[
+            {
+               "link":{
+                  "rel":"first",
+                  "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"previous",
+                  "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"next",
+                  "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
+               }
+            }
+         ]
+      }
+   }
+}]]></code>
+						<description>A query result page containing links to the previous, next and first page. The first page link is always present, the others only when the other pages acutally exist.</description>
+						</entity>	
+					</entities>										
+				</response>
+			</operation>
+			
+		</resource>	
+<!-- ======================================== HERE BE DRAGONS ========================================= -->		
+		
+<!--
+
+-->
+					
+		<resource>
+			<name>User*</name>
+			<description>This resource represents a user. The corresponding collection resource can be found at <tt>/users</tt>.</description>
+			<path>/user/<param description="user ID">user-id</param></path>
+			<operation>
+				<name>List all users</name>
+				<description>Provides a list of all registered users. Responses are paginated using cursors. 
+				 The request can also be executed omitting the cursor ID. In the case, the URI of the first page is returned.</description>
+				<path omitResourcePath="true">/users/list/<param description="the user ID used as cursor">cursor-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities>
+	<entity>
+							<code language="js">
+<![CDATA[{
+TODO
+}]]>
+							</code>
+						</entity>	
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response entity</answer>
+						<answer code="303">Location of first when queried without cursor ID.</answer>
+						<answer code="404">List in response entity</answer>
+					</responses>
+					<entities></entities>
+				</response>
+			</operation>
+			<operation>
+				<name>Create a new user account</name>
+				<description>Creates a new user account, if service instance has enabled this feature.</description>
+				<path omitResourcePath="true">/users</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="false" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+	 "email" : "john@doe.net",
+	 "password" : "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">User account has been created. The location header contains its URI and thus also the user id.</answer>
+						<answer code="400">The provided data are incomplete or invalid.</answer>
+						<answer code="403">The service instance does not allow the creation of new user accounts.</answer>
+						<answer code="409">The user account has not been created, because there already exists an account with matching parameters.</answer>
+					</responses>
+					<entities />										
+				</response>
+			</operation>
+			<operation>
+				<name>Change a user account</name>
+				<description>Changes an existing user account. This operation can only be executed for the user that is authenticating the request. Please note that the user id cannot be changed.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>PUT</method>
+					<authentication  mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+	 "email" : "john@doe.net",
+	 "password" : "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>						
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">User account has been changed.</answer>
+						<answer code="400">The provided data are incomplete or invalid.</answer>
+						<answer code="403">The user making this call is not allowed to change this user account.</answer>
+					</responses>
+					<entities />										
+				</response>
+			</operation>		
+			<operation>
+				<name>Retrieve user data</name>
+				<description>Provides information about a user except the password.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">User data is available in response entity.</answer>
+						<answer code="404">No user found with the given user id.</answer>
+					</responses>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+ "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456"
+      },
+	 "email" : "john@doe.net",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>						
+					</entities>									
+				</response>
+			</operation>	
+		</resource>
+
+		<resource>
+			<name>Comment*</name>
+			<description>This resource represents a comment.</description>
+			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">comment-id</param></path>
+						
+			<operation>
+				<name>Get detailed comment*</name>
+				<description>Returns the full comment.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Comment is available in response entity.</answer>
+						<answer code="404">Comment not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Get a list of comments per document*</name>
+				<description>Returns a list of all comments bound to the document.</description>
+				<path omitResourcePath="true">/document/<param description="document id">doc-id</param>/comments</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of comments is available in response entity.</answer>
+						<answer code="404">Document not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+						
+			<operation>
+				<name>Get a list of comments per user*</name>
+				<description>Returns a list of all comments made by a user</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/comments</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of comments is available in response entity.</answer>
+						<answer code="404">User not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+			
+				
+		</resource>			
+
+		<resource>
+			<name>Link*</name>
+			<description>This resource represents a link.</description>
+			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">doc-id</param></path>
+		</resource>			
+
+		<resource>
+			<name>Time*</name>
+			<description>This resource represents the point in time, when a document has been created.</description>
+			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">doc-id</param></path>
+		</resource>	
+		
+		<resource>
+			<name>Position*</name>
+			<description>This resource represents the location, where a document has been created.</description>
+			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">doc-id</param></path>
+		</resource>			
+
+		
+		
+		<resource>
+			<name>List*</name>
+			<description>This resource represents a collection of documents that a user can create and maintain.</description>
+			<path>/user/<param description="user ID">user-id</param>/list/<param description="list ID">list-id</param></path>
+<!-- 
+	* create list 
+	* change list (name, description)
+	* delete list
+	* append doc
+	* remove doc
+	* list all docs
+-->
+		</resource>			
+		
+		<resource>
+			<name>Relation*</name>
+			<description>This resource represents a label that can be applied to links. Thus, relations are similar to tags in their usage.</description>
+			<path>/user/<param description="user ID">user-id</param>/list/<param description="list ID">list-id</param></path>
+		</resource>			
+		
+		<resource>
+			<name>Attachment*</name>
+			<description>This resource represents an attachment</description>
+			<path>/document/<param description="document ID">doc-id</param>/attachment/<param description="attachment ID">attach-id</param></path>
+			<operation>
+				<name>Retrieve attachment data*</name>
+				<description>Get all data of an attachment.</description>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="100"></answer>
+					</responses>
+					<entities />					
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Retrieve a list of attachments uploaded by user*</name>
+				<description>Provides a list of all attachments, that a distinct user has uploaded so far.</description>
+				<path omitResourcePath="true">/user/<param description="the user id">user-id</param>/attachments</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities></entities>					
+				</request>
+				<response>
+					<responses>
+						<answer code="200">The attachment list is available in the response entity.</answer>
+						<answer code="404">User not found.</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">
+<![CDATA[{
+//TODO: complete me
+}]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+		</resource>
+
+				
+	</resources>
+</api>
