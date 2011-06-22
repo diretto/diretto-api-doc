@@ -170,7 +170,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<response>
 					<responses>
 						<answer code="204">Query returned no results.</answer>
-						<answer code="303">Query found, result location in header.</answer>
+						<answer code="303">Query found, location of query resource in location header.</answer>
 						<answer code="404">Query not found.</answer>
 					</responses>
 					<entities>					
@@ -181,8 +181,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						
 			<operation>
 				<name>Execute a common location-based query</name>
-				<description>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results.</description>
-				<path omitResourcePath="true">/query/common/<param description="type: one of 'newest', 'unattended', 'expiring' or 'popular'">type</param>?lat=<param description="latitude">latitude</param>&amp;lon=<param description="longitude">longitude</param></path>
+				<description>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results. You can either provide a bounding box or a concrete position (using <tt>lat</tt> and <tt>lon</tt> instead of the four box values).</description>
+				<path omitResourcePath="true">/query/common/<param description="type: one of 'newest', 'unattended', 'expiring' or 'popular'">type</param>?lat1=<param description="lower bbox latitude">lat1</param>&amp;lon1=<param description="lower bbox longitude">lon1</param>&amp;lat2=<param description="upper bbox latitude">lat2</param>&amp;lon2=<param description="upper bbox longitude">lon2</param></path>
 				<formats><format>n/a</format></formats>
 				<request>
 					<method>GET</method>
@@ -192,7 +192,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="303">Query accepted, result location in header.</answer>
+						<answer code="202">Query accepted, result location in header.</answer>
 						<answer code="404">Invalid coordinates.</answer>
 					</responses>
 					<entities>					
@@ -202,7 +202,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					
 			<operation>
 				<name>Get query result page</name>
-				<description>Returns a paginated result page, identified by the cursor. A result page always contains links to the previous and next result page, if existing.</description>
+				<description>Returns a paginated result page, identified by the cursor. A result page always contains links to the first page and additionally to the previous and next result page when existing.</description>
 				<path omitResourcePath="false">/cursor/<param description="cursor id">cursor-id</param></path>
 				<formats><format>n/a</format></formats>
 				<request>
