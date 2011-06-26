@@ -601,7 +601,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "submission":{
                "link":{
                   "rel":"self",
-                  "self":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
                },
                "votes":{
                   "link":{
@@ -743,7 +743,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 						
 			<operation>
-				<name>Fetch multiple task snapshots</name>
+				<name>Fetch multiple task snapshots (batch request)</name>
 				<description>Fetches a set of task snapshots.</description>
 				<path omitResourcePath="true">/tasks/snapshots</path>
 				<formats><format>application/json</format></formats>
@@ -960,6 +960,105 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   }
                }
             ]
+         }
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Fetch meta data of multiple tasks (batch request)</name>
+				<description>Fetches a set of task snapshots.</description>
+				<path omitResourcePath="true">/tasks/metadata</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true"/>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "tasks":[
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://taskservice/v2/task/2671f383-a28c-bla"
+   ]
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Results in response body. Note that tasks may still have raised errors (i.e. when not found).</answer>
+						<answer code="400">Invalid query or too many items requested.</answer>
+					</responses>
+					<entities>					
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "results":{
+      "http://taskservice/v2/task/2671f383-a28c-bla":{
+         "error":{
+            "message":"Not found"
+         }
+      },
+      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+         "task":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+            },
+            "constraints":{
+               "time":{
+                  "start":"2010-06-29T19:15:51.765Z",
+                  "end":"2010-06-29T19:15:50.000Z"
+               },
+               "location":{
+                  "bbox":[
+                     100.0,
+                     0.0,
+                     105.0,
+                     1.0
+                  ]
+               }
+            },
+            "title":"foo bar",
+            "description":"foo bar asd lorem",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://taskservice/v2/resource/votes"
+               },
+               "up":123,
+               "down":42
+            }
+         }
+      },
+      "submissions":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+         }
+      },
+      "comments":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         }
+      },
+      "tags":{
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
          }
       }
    }
@@ -1443,7 +1542,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<operation>
 				<name>Retrieve a single tag of a resource</name>
 				<description>Returns a single tag entry that has been appended to a resource.</description>
-				<path>/<param description="resource identifier">resource</param>/tag/<param description="tag ID">tag-id</param></path>
+				<path omitResourcePath="true">/<param description="resource identifier">resource</param>/tag/<param description="tag ID">tag-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
