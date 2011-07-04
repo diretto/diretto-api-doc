@@ -66,7 +66,37 @@
             "href":"http://coreservice/v2"
          }
       }
-   }
+   },
+   "links":[
+      {
+         "title":"diretto Task API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto-ext/task.html"
+         }
+      },
+      {
+         "title":"Task factory resource",
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/tasks"
+         }
+      },
+      {
+         "title":"Tag factory resource",
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/tags"
+         }
+      },
+      {
+         "title":"Query dispatching resource",
+         "link":{
+            "rel":"self",
+            "href":"http://taskservice/v2/query"
+         }
+      }
+   ]
 }]]></code>
 						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.</description>
 						</entity>
@@ -534,6 +564,105 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<name>Task</name>
 			<description>This resource represents a task.</description>
 			<path>/task/<param description="task ID">task-id</param></path>
+			
+			<operation>
+				<name>List all existing tasks</name>
+				<description>Forwards to a paginated list of all tasks available.</description>
+				<path omitResourcePath="true">/tasks/all</path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No task available yet</answer>
+						<answer code="303">Location header contains link to first page of tasks</answer>
+					</responses>
+				</response>
+			</operation>
+			
+			
+			<operation>
+				<name>List tasks created since a specific date</name>
+				<description>Forwards to a paginated list of all tasks created since the date that has been passed as parameter. The result list is inclusive, thus an exact match will also be included. The date parameter must be a RFC 3339 compliant value, using Zulu time. The list forwared to will provide all results ordered by creation time. The list may be paginated into multiple pages.</description>
+				<path omitResourcePath="true">/tasks/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No task available yet</answer>
+						<answer code="303">Location header contains link to first page of tasks</answer>
+						<answer code="400">Invalid date</answer>
+					</responses>
+				</response>
+			</operation>
+			
+									
+			<operation>
+				<name>List page of tasks (cursored)</name>
+				<description>A page of tasks as part of a complete list of all tasks. Each page is identified by a cursor task, which represents the first task to be included into the page. Pages and tasks of a page are sorted chronologically by creation date (not by the date constraints of a task).
+				In other words, the cursor task is the first task on the page and all other tasks below are newer (or at least of the same age) than the cursor. If there is a next link, all tasks of the next page are newer (or at least of the same age) that the last entry of the current page.
+				If there is a previous link, the cursor of the current page is newer (or at least of the same age) than the last entry of the previous page.
+				Metaphorically, pages are slices cut from the timeline. When iterating over a page, the items on top are older than the bottom ones.       
+				</description>
+				<path omitResourcePath="true">/tasks/all/cursor/<param description="Task ID to be used as cursor (first task included in page)">task id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Page as response entity</answer>
+						<answer code="404">Non-existing cursor</answer>
+					</responses>
+					<entities>
+					<entity>
+						<code language="js"><![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://taskservice/v2/tasks/all/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      }
+   },
+   "list":[
+      {
+         "task":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://taskservice/v2/tasks/all/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://taskservice/v2/tasks/all/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+<description>An example page (containing only one item per page). Please note the related links, which may be available in most cases.</description>
+					</entity>
+					
+					</entities>
+				</response>
+			</operation>
 			
 			<operation>
 				<name>Retrieve a single task snapshot</name>
