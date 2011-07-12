@@ -1589,8 +1589,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<path>/tag/<param description="tag ID">tag-id</param></path>
 			
 			<operation>
-				<name>Create a new tag</name>
-				<description>Create a new tag that can be appended to resource thereafter.</description>
+				<name>Create a new tag or resolve an existing tag</name>
+				<description>Create a new tag that can be appended to resource thereafter. This API call can also be used to retrieve the internal ID of an existing tag.</description>
 				<path omitResourcePath="true">/tags</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -1619,6 +1619,52 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "link":{
          "rel":"self",
          "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}]]></code>
+						</entity>					
+					</entities>										
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>Create or resolve multiple tags (batch request)</name>
+				<description>Takes a list of textual tags and either creates or resolves each of them. For every single tag, either the base tag URI or an error message is returned.</description>
+				<path omitResourcePath="true">/tags/multiple</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "values":["t","mytag"]
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of tags in response.</answer>						
+					</responses>
+					<entities >
+<entity>
+							<code language="js">
+<![CDATA[{
+   "results":{
+      "mytag":{
+         "baseTag":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+            }
+         }
+      },
+      "t":{
+         "error":{
+            "message":"Invalid tag length"
+         }
       }
    }
 }]]></code>
