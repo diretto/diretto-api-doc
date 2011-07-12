@@ -243,19 +243,22 @@ a{
 					</a> <a href="#N66949">Tag</a>
 <ol id="XN66949" style="display:none;">
 <li>
-<a href="#N67150">Append a tag to a resource</a>
+<a href="#N67206">Append a tag to a resource</a>
 </li>
 <li>
-<a href="#N66973">Create a new tag</a>
+<a href="#N66973">Create a new tag or resolve an existing tag</a>
 </li>
 <li>
-<a href="#N67214">Retrieve all tags of a resource</a>
+<a href="#N67037">Create or resolve multiple tags (batch request)</a>
 </li>
 <li>
-<a href="#N67089">Retrieve a single tag of a resource</a>
+<a href="#N67270">Retrieve all tags of a resource</a>
 </li>
 <li>
-<a href="#N67037">Retrieve a tag</a>
+<a href="#N67145">Retrieve a single tag of a resource</a>
+</li>
+<li>
+<a href="#N67093">Retrieve a tag</a>
 </li>
 </ol>
 </li>
@@ -400,19 +403,22 @@ a{
 <a href="#N66949">Tag</a>
 <ol>
 <li>
-<a href="#N67150">Append a tag to a resource</a>
+<a href="#N67206">Append a tag to a resource</a>
 </li>
 <li>
-<a href="#N66973">Create a new tag</a>
+<a href="#N66973">Create a new tag or resolve an existing tag</a>
 </li>
 <li>
-<a href="#N67214">Retrieve all tags of a resource</a>
+<a href="#N67037">Create or resolve multiple tags (batch request)</a>
 </li>
 <li>
-<a href="#N67089">Retrieve a single tag of a resource</a>
+<a href="#N67270">Retrieve all tags of a resource</a>
 </li>
 <li>
-<a href="#N67037">Retrieve a tag</a>
+<a href="#N67145">Retrieve a single tag of a resource</a>
+</li>
+<li>
+<a href="#N67093">Retrieve a tag</a>
 </li>
 </ol>
 </li>
@@ -1207,7 +1213,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <dt class="uripart">tag-id</dt>
 <dd>tag ID</dd>
 </dl>
-<a name="N67150"></a>
+<a name="N67206"></a>
 <h3 class="operation">5.1 Append a tag to a resource</h3>
 <h4>Description</h4>Appends a new tag to the resource.<h4>URI</h4>
 <pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
@@ -1248,8 +1254,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <dd>Tag or resource not found.</dd>
 </dl>
 <h4>Response Entities</h4>n/a<a name="N66973"></a>
-<h3 class="operation">5.2 Create a new tag</h3>
-<h4>Description</h4>Create a new tag that can be appended to resource thereafter.<h4>URI</h4>
+<h3 class="operation">5.2 Create a new tag or resolve an existing tag</h3>
+<h4>Description</h4>Create a new tag that can be appended to resource thereafter. This API call can also be used to retrieve the internal ID of an existing tag.<h4>URI</h4>
 <pre>http://task.diretto.org/v2/tags</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
@@ -1289,8 +1295,55 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 }</pre>
 											
 					
-<a name="N67214"></a>
-<h3 class="operation">5.3 Retrieve all tags of a resource</h3>
+<a name="N67037"></a>
+<h3 class="operation">5.3 Create or resolve multiple tags (batch request)</h3>
+<h4>Description</h4>Takes a list of textual tags and either creates or resolves each of them. For every single tag, either the base tag URI or an error message is returned.<h4>URI</h4>
+<pre>http://task.diretto.org/v2/tags</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "values":["t","mytag"]
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List of tags in response.</dd>
+</dl>
+<h4>Response Entities</h4>
+
+							
+<pre class="brush: js">
+{
+   "results":{
+      "mytag":{
+         "baseTag":{
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+            }
+         }
+      },
+      "t":{
+         "error":{
+            "message":"Invalid tag length"
+         }
+      }
+   }
+}</pre>
+											
+					
+<a name="N67270"></a>
+<h3 class="operation">5.4 Retrieve all tags of a resource</h3>
 <h4>Description</h4>Returns a single tag entry.<h4>URI</h4>
 <pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
 <h4>URI Parameters</h4>
@@ -1357,8 +1410,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 }</pre>
 						
 					
-<a name="N67089"></a>
-<h3 class="operation">5.4 Retrieve a single tag of a resource</h3>
+<a name="N67145"></a>
+<h3 class="operation">5.5 Retrieve a single tag of a resource</h3>
 <h4>Description</h4>Returns a single tag entry that has been appended to a resource.<h4>URI</h4>
 <pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tag/<span class="uripart">{tag-id}</span>
 </pre>
@@ -1418,8 +1471,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 }</pre>
 							Note that the creation time denotes the time this tag has been appended to the resource for the first time.
 						
-					<a name="N67037"></a>
-<h3 class="operation">5.5 Retrieve a tag</h3>
+					<a name="N67093"></a>
+<h3 class="operation">5.6 Retrieve a tag</h3>
 <h4>Description</h4>Returns a tag entry.<h4>URI</h4>
 <pre>http://task.diretto.org/v2/tag/{tag-id}</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
