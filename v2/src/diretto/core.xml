@@ -11,12 +11,19 @@
 	<authentication>
 		<type>Basic Authentication</type>
 	</authentication>
+	
+	
 	<resources>
+	
+	<!-- ============================================================================================================= 
+			Index
+	============================================================================================================== -->
 		<resource>
 			<name>Index</name>
 			<description>This entry resource provides information about the instance.</description>
 			<path></path>
-<operation>
+			
+			<operation>
 				<name>Get service instance data</name>
 				<description>Returns a static information about the deployed Core service instance.</description>
 				<path />
@@ -39,7 +46,7 @@
    },
    "service":{
       "name":"diretto Core API Node",
-      "version":"0.1.0"
+      "version":"0.2.0"
    },
    "deployment":{
       "title":"fubar diretto Deployment",
@@ -50,7 +57,16 @@
             "href":"http://www.diretto.org"
          }
       }
-   }
+   },
+   "links":[
+      {
+         "title":"diretto Core API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/core.html"
+         }
+      }
+   ]   
 }]]></code>
 						<description>The JSON response contains information about the service identification and version and the actual deployment variables.</description>
 						</entity>
@@ -59,7 +75,10 @@
 			</operation>	
 		</resource>		
 		
-		
+	
+	<!-- ============================================================================================================= 
+			Service
+	============================================================================================================== -->
 		<resource>
 			<name>Service</name>
 			<description>A resource for service informations.</description>
@@ -197,11 +216,14 @@
 			</operation>	
 		</resource>	
 		
-<!-- ======================================== WORK IN PROGRESS ========================================= -->
-<resource>
+	
+	<!-- ============================================================================================================= 
+			Tag
+	============================================================================================================== -->
+		<resource>
 			<name>Tag</name>
 			<description>This resource represents a tag. Users can append tags on various resources. 
-			The tag URI path is appended to the original URI. The following resources of the Core API can be tagged: <it>Document</it>
+			The tag URI path is appended to the original URI. The following resources of the Core API can be tagged: <it>Document</it> and <it>Link</it>
 			
 <code language="plain">
    Client                      Task Service
@@ -227,8 +249,8 @@
 			<path>/tag/<param description="tag ID">tag-id</param></path>
 			
 			<operation>
-				<name>Create a new tag</name>
-				<description>Create a new tag that can be appended to resource thereafter.</description>
+				<name>Create a new tag or resolve an existing tag</name>
+				<description>Create a new tag that can be appended to resource thereafter. This API call can also be used to retrieve the internal ID of an existing tag.</description>
 				<path omitResourcePath="true">/tags</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -257,6 +279,52 @@
       "link":{
          "rel":"self",
          "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}]]></code>
+						</entity>					
+					</entities>										
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>Create or resolve multiple tags (batch request)</name>
+				<description>Takes a list of textual tags and either creates or resolves each of them. For every single tag, either the base tag URI or an error message is returned.</description>
+				<path omitResourcePath="true">/tags/multiple</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "values":["t","mytag"]
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of tags in response.</answer>						
+					</responses>
+					<entities >
+<entity>
+							<code language="js">
+<![CDATA[{
+   "results":{
+      "mytag":{
+         "baseTag":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+            }
+         }
+      },
+      "t":{
+         "error":{
+            "message":"Invalid tag length"
+         }
       }
    }
 }]]></code>
@@ -308,7 +376,7 @@
 			<operation>
 				<name>Retrieve a single tag of a resource</name>
 				<description>Returns a single tag entry that has been appended to a resource.</description>
-				<path>/<param description="resource identifier">resource</param>/tag/<param description="tag ID">tag-id</param></path>
+				<path omitResourcePath="true">/<param description="resource identifier">resource</param>/tag/<param description="tag ID">tag-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -453,9 +521,90 @@
 						</entity>
 					</entities>					
 				</response>
-			</operation>			
+			</operation>
+			
+			<operation>
+				<name>List of all tags (forwarder)*</name>
+				<description>Forwards to a paginated list of all tags in this service.</description>
+				<path omitResourcePath="true">/tags/all</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No tags available yet.</answer>
+						<answer code="303">Forward to first page.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+						
+			<operation>
+				<name>List of all tags (page)*</name>
+				<description>Returns a page of the paginated list of all tags.</description>
+				<path omitResourcePath="true">/tags/all/cursor/<param description="ID of tag used as cursor">tag-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Page in response.</answer>
+						<answer code="404">Cursor/page not found</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+			
+						
+			<operation>
+				<name>List of documents using a specific tag (forwarder)*</name>
+				<description>Forwards to a paginated list of all documents, where a given tag has been attached to.</description>
+				<path omitResourcePath="false">/documents</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No documents available yet.</answer>
+						<answer code="303">Forward to first page.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>		
+										
+			<operation>
+				<name>List of documents using a specific tag (page)*</name>
+				<description>Returns a page of the paginated list of all tags.</description>
+				<path omitResourcePath="false">/documents/cursor/<param description="ID of document used as cursor">doc-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Page in response.</answer>
+						<answer code="404">Cursor/page not found</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+						
 		</resource>	
-				
+	
+	<!-- ============================================================================================================= 
+			Vote
+	============================================================================================================== -->				
 		<resource>
 			<name>Vote</name>
 			<description>This resource represents a vote. Users can vote on various resources. The voting URI path is appended to the original URI. 
@@ -574,6 +723,10 @@
 		</resource>	
 		
 
+	
+	<!-- ============================================================================================================= 
+			Query
+	============================================================================================================== -->
 		<resource>
 			<name>Query</name>
 			<description>An interface resource for query execution. A query must be dispatched to the server 
@@ -771,12 +924,10 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 			
 		</resource>	
-<!-- ======================================== HERE BE DRAGONS ========================================= -->		
-		
-<!--
-
--->
-					
+	
+	<!-- ============================================================================================================= 
+			User
+	============================================================================================================== -->
 		<resource>
 			<name>User*</name>
 			<description>This resource represents a user. The corresponding collection resource can be found at <tt>/users</tt>.</description>
@@ -785,7 +936,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<name>List all users</name>
 				<description>Provides a list of all registered users. Responses are paginated using cursors. 
 				 The request can also be executed omitting the cursor ID. In the case, the URI of the first page is returned.</description>
-				<path omitResourcePath="true">/users/list/<param description="the user ID used as cursor">cursor-id</param></path>
+				<path omitResourcePath="true">/users/all/cursor/<param description="the user ID used as cursor">cursor-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -899,6 +1050,10 @@ TODO
 			</operation>	
 		</resource>
 
+	
+	<!-- ============================================================================================================= 
+			Comment
+	============================================================================================================== -->
 		<resource>
 			<name>Comment*</name>
 			<description>This resource represents a comment.</description>
@@ -964,18 +1119,174 @@ TODO
 				
 		</resource>			
 
+	
+	<!-- ============================================================================================================= 
+			Link
+	============================================================================================================== -->
 		<resource>
 			<name>Link*</name>
-			<description>This resource represents a link.</description>
-			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">doc-id</param></path>
+			<description>This resource represents a link. A link
+			is unidirectional connection between two documents. The semantics of a link is
+			an unidirectional trace from the source document to the destination document,
+			such as  happens-after or is-the-result-of.
+			</description>
+			<path>/link/<param description="link ID">link-id</param></path>
+
+			<operation>
+				<name>Create a new link*</name>
+				<description>Adds a new link to the platform.</description>
+				<path omitResourcePath="true">/links</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+ "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456"
+      },
+	 "email" : "john@doe.net",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>							
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Link created.</answer>
+						<answer code="400">Invalid data.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+						
+			<operation>
+				<name>Retrieve a link*</name>
+				<description>Returns a link.</description>
+				<path></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Link data in response.</answer>
+						<answer code="404">Link not found.</answer>
+					</responses>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+ "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456"
+      },
+	 "email" : "john@doe.net",
+	 "username" : "John Doe"
+}]]></code>
+						</entity>							
+					</entities>
+				</response>
+			</operation>
+									
+			<operation>
+				<name>Retrieve all links containing a specific document*</name>
+				<description>Returns a list of links that contain a given document as source or destination.</description>
+				<path omitResourcePath="true">/documents/<param description="document ID">doc-id</param>/links</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Link list in response.</answer>
+						<answer code="404">Document not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+			
+			<operation>
+				<name>List link created since a specific date (forward)*</name>
+				<description>Forwards to the list of links that have been created since a given date.</description>
+				<path omitResourcePath="true">/links/all/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No new links available since that date.</answer>
+						<answer code="303">Forward to list.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>List links (forward)*</name>
+				<description>Forwards to the list of links.</description>
+				<path omitResourcePath="true">/links/all</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No links available yet.</answer>
+						<answer code="303">Forward to list.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>List links (page)*</name>
+				<description>List of links, sorted by creation date.</description>
+				<path omitResourcePath="true">/links/all/cursor/<param description="link id">link-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response.</answer>
+						<answer code="404">Cursor not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>				
+
+
 		</resource>			
 
+	
+	<!-- ============================================================================================================= 
+			Time
+	============================================================================================================== -->
 		<resource>
 			<name>Time*</name>
 			<description>This resource represents the point in time, when a document has been created.</description>
 			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">doc-id</param></path>
 		</resource>	
 		
+			
+	<!-- ============================================================================================================= 
+			Position
+	============================================================================================================== -->
 		<resource>
 			<name>Position*</name>
 			<description>This resource represents the location, where a document has been created.</description>
@@ -984,26 +1295,426 @@ TODO
 
 		
 		
+	
+	<!-- ============================================================================================================= 
+			Collection
+	============================================================================================================== -->
 		<resource>
-			<name>List*</name>
+			<name>Collection*</name>
 			<description>This resource represents a collection of documents that a user can create and maintain.</description>
-			<path>/user/<param description="user ID">user-id</param>/list/<param description="list ID">list-id</param></path>
-<!-- 
-	* create list 
-	* change list (name, description)
-	* delete list
-	* append doc
-	* remove doc
-	* list all docs
--->
-		</resource>			
+			<path>/user/<param description="user ID">user-id</param>/collection/<param description="collection ID">collection-id</param></path>
+			
+			<operation>
+				<name>Create a new collection*</name>
+				<description>Creates a new collection for this user.</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/collections</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Collection created.</answer>
+						<answer code="400">Invalid collection data.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+						
+			<operation>
+				<name>Add a document to a collection*</name>
+				<description>Creates a new collection for this user.</description>
+				<path omitResourcePath="false">/documents</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Document added.</answer>
+						<answer code="400">Invalid document data.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+						<answer code="404">Document not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+								
+			<operation>
+				<name>List of collected documents (forwarder)*</name>
+				<description>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.</description>
+				<path omitResourcePath="false">/documents</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Collection is empty.</answer>
+						<answer code="303">Forward to first page</answer>
+						<answer code="403">Not allowed, when collection is private.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+											
+			<operation>
+				<name>List of collected documents (page)*</name>
+				<description>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.</description>
+				<path omitResourcePath="false">/documents</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Page in response.</answer>
+						<answer code="403">Not allowed, when collection is private.</answer>
+						<answer code="404">Not found</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+															
+			<operation>
+				<name>List all collections of a user*</name>
+				<description>List all public collections of a user. If the user running this request is also the owner of the collections, every collection will be listed.</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/collections</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Collection list in response.</answer>
+						<answer code="404">User not found</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>Get a collection</name>
+				<description>Returns a collection, if public, or the requesting user is the owner.</description>
+				<path/>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Collection in response entity.</answer>
+						<answer code="403">Not allowed, collection is private.</answer>
+						<answer code="404">User or collection not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+								
+			<operation>
+				<name>Change collection data</name>
+				<description>Updates the collection meta data</description>
+				<path/>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>PUT</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Collection in response entity.</answer>
+						<answer code="400">Invalid update data.</answer>
+						<answer code="403">Not allowed, collection is private.</answer>
+						<answer code="404">Collection not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+								
+			<operation>
+				<name>Delete a collection</name>
+				<description>Deletes a collection</description>
+				<path/>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>DELETE</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Collection deleted.</answer>
+						<answer code="403">Not allowed, collection is private.</answer>
+						<answer code="404">Collection not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>
+								
+		</resource>		
 		
+			
+	<!-- ============================================================================================================= 
+			Message
+	============================================================================================================== -->
 		<resource>
-			<name>Relation*</name>
-			<description>This resource represents a label that can be applied to links. Thus, relations are similar to tags in their usage.</description>
-			<path>/user/<param description="user ID">user-id</param>/list/<param description="list ID">list-id</param></path>
-		</resource>			
+			<name>Message</name>
+			<description>This resource represents a private message that can be sent from one user to another. No other user  can access this message. When a new message has been posted, two independent copies will be stored: one in the outbox of the sender, and one in the inbox of the receiver. 
+			Please note that there is no API functionality for marking messages as 'read'. If necessary this feature can be implemented by the service clients.
+			The owner of the user resource and the user executing the request must be the same (except for API call posting a new message).</description>
+			<path>/user/<param description="user ID">user-id</param>/inbox/message/<param description="message ID">msg-id</param></path>
+			
+			<operation>
+				<name>Post a new message</name>
+				<description>Creates a new collection for this user.</description>
+				<path omitResourcePath="true">/user/<param description="user id (receiver)">user-id</param>/inbox/messages</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="true" />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+	"title":"Yada yada",
+	"content":"bla bla bla.."
+}]]></code>
+							<description>Only title and message content must be posted. Note that that both title and content length may be constrained and invalid messages may be rejected.</description>
+						</entity>					
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Message created.</answer>
+						<answer code="400">Invalid message data.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+						<answer code="404">User not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+					
+
+								
+			<operation>
+				<name>List inbox messages received since a specific date (forward)</name>
+				<description>Forwards to the list of incoming messages, that have been received since a given date. Useful for incremental requests of new messages.</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/inbox/messages/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No message received since that date.</answer>
+						<answer code="303">Forward to list.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>List messages (forward)</name>
+				<description>Forwards to the list of sent messages</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/<param description="'inbox' or 'outbox'">boxtype</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No message received yet.</answer>
+						<answer code="303">Forward to list.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+						<answer code="404">User not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+					
+			<operation>
+				<name>List messages (page)</name>
+				<description>List of sent messages, ordered by date and paginated.</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/<param description="'inbox' or 'outbox'">boxtype</param>/messages/cursor/<param description="message id">msg-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+						<answer code="404">Cursor not found.</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456/outbox/messages/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      }
+   },
+   "list":[
+      {
+         "message":{
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "links":[
+               {
+                  "link":{
+                     "rel":"alternate",
+                     "href":"http://core/v2/user/123456/outbox/message/128ecf542a35ac5270a87dc740918404"
+                  }
+               },
+               {
+                  "link":{
+                     "rel":"alternate",
+                     "href":"http://core/v2/user/789012/inbox/message/128ecf542a35ac5270a87dc740918404"
+                  }
+               }
+            ],
+            "sender":{
+               "link":{
+                  "rel":"author",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "receiver":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/789012"
+               }
+            },
+            "title":"Yada yada",
+            "content":"bla bla bla.."
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/user/123456/outbox/messages/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/user/123456/outbox/messages/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+							<description>An example page of messages. The number of elements shown has been limited to a single comment per page to keep this easy.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+
+			<operation>
+				<name>Retrieve a message</name>
+				<description>Returns a single message.</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/<param description="'inbox' or 'outbox'">boxtype</param>/message/<param description="message id">msg-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List in response.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+						<answer code="404">Message not found.</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "message":{
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "links":[
+         {
+            "link":{
+               "rel":"alternate",
+               "href":"http://core/v2/user/123456/outbox/message/128ecf542a35ac5270a87dc740918404"
+            }
+         },
+         {
+            "link":{
+               "rel":"alternate",
+               "href":"http://core/v2/user/789012/inbox/message/128ecf542a35ac5270a87dc740918404"
+            }
+         }
+      ],
+      "sender":{
+         "link":{
+            "rel":"author",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "receiver":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/789012"
+         }
+      },
+      "title":"Yada yada",
+      "content":"bla bla bla.."
+   }
+}]]></code>
+						</entity>
+					</entities>
+				</response>
+			</operation>				
+			
+			<operation>
+				<name>Remove a message</name>
+				<description>Removes single message. Please note that this API call will not delete the message copy in the box of the counterpart.</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/<param description="'inbox' or 'outbox'">boxtype</param>/message/<param description="message id">msg-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>DELETE</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Message deleted.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+						<answer code="404">Message not found.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>				
+			
+					
+		</resource>
+	
 		
+	
+	<!-- ============================================================================================================= 
+			Attachment
+	============================================================================================================== -->
 		<resource>
 			<name>Attachment*</name>
 			<description>This resource represents an attachment</description>

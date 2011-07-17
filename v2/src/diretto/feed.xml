@@ -73,12 +73,6 @@
 		</resource>	
 	
 		<resource>
-			<name>Attachment Feed (Atom)</name>
-			<description>An Atom feed of attachments added to the platform, sorted by upload time. This feed is PubSubHubbub-enabled.</description>
-			<path>/feeds/list/attachments/all</path>
-		</resource>	
-	
-		<resource>
 			<name>Spatial Document Feed (KML)</name>
 			<description>An KML export feed of documents added to the platform. Only the position with the highest votes is emitted.</description>
 			<path>/feeds/geo/kml</path>

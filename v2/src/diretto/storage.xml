@@ -201,16 +201,43 @@ while all additional attachments represent derivated or customized versions.
 					</responses>
 					<entities>
 					<entity>
-					<code language="js">{
+<code language="js"><![CDATA[{
    "api":{
-      "name":"org.diretto.api.storage",
+      "name":"org.diretto.api.main.storage",
       "version":"v2"
    },
    "service":{
-      "name":"diretto Media Node",
+      "name":"diretto Storage Node",
       "version":"0.2.0"
-   }
-}</code>
+   },
+   "deployment":{
+      "title":"fubar Storage Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://coreservice/v2"
+         }
+      }
+   },
+   "links":[
+      {
+         "title":"diretto Storage API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/storage.html"
+         }
+      }
+   ]
+}]]></code>
 					</entity></entities>
 				</response>
 			</operation>	

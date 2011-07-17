@@ -10,7 +10,73 @@
 	<authentication>
 		<type>Basic Authentication</type>
 	</authentication>
-	<resources></resources>
+	<resources>
+	
+			<resource>
+			<name>Index</name>
+			<description>This entry resource provides information about the service instance.</description>
+			<path></path>
+			<operation>
+				<name>Get service instance data</name>
+				<description>Returns a static information about the deployed service instance.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service instance data in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "api":{
+      "name":"org.diretto.api.main.streaming",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Streaming Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Streaming Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://coreservice/v2"
+         }
+      }
+   },
+   "links":[
+      {
+         "title":"diretto Streaming API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/streaming.html"
+         }
+      }
+   ]
+}]]></code>
+						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>			
+		</resource>	
+	
+	</resources>
 </api>
 
  
