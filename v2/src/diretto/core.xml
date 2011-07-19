@@ -929,11 +929,31 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			User
 	============================================================================================================== -->
 		<resource>
-			<name>User*</name>
+			<name>User</name>
 			<description>This resource represents a user. The corresponding collection resource can be found at <tt>/users</tt>.</description>
 			<path>/user/<param description="user ID">user-id</param></path>
+
 			<operation>
-				<name>List all users</name>
+				<name>List of users (forward)</name>
+				<description>Forwards to the list of links.</description>
+				<path omitResourcePath="true">/users/all</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No entries available yet.</answer>
+						<answer code="303">Forward to list.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>				
+			
+			<operation>
+				<name>List of users (page)</name>
 				<description>Provides a list of all registered users. Responses are paginated using cursors. 
 				 The request can also be executed omitting the cursor ID. In the case, the URI of the first page is returned.</description>
 				<path omitResourcePath="true">/users/all/cursor/<param description="the user ID used as cursor">cursor-id</param></path>
@@ -945,10 +965,42 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 	<entity>
 							<code language="js">
 <![CDATA[{
-TODO
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/users/all/cursor/123456"
+      }
+   },
+   "list":[
+      {
+         "user":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/user/123456"
+            },
+            "username":"John Doe"
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/users/all/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/users/all/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
 }]]>
 							</code>
 						</entity>	
+							<description>An example page of users. The number of elements shown has been limited to a single comment per page to keep this example simple.</description>
+						
 					</entities>
 				</request>
 				<response>
@@ -960,6 +1012,7 @@ TODO
 					<entities></entities>
 				</response>
 			</operation>
+			
 			<operation>
 				<name>Create a new user account</name>
 				<description>Creates a new user account, if service instance has enabled this feature.</description>
@@ -1037,14 +1090,30 @@ TODO
 						<entity>
 							<code language="js">
 <![CDATA[{
- "link":{
+   "user":{
+      "link":{
          "rel":"self",
          "href":"http://core/v2/user/123456"
       },
-	 "email" : "john@doe.net",
-	 "username" : "John Doe"
+      "username":"John Doe"
+   }
 }]]></code>
-						</entity>						
+						<description>A sample response for a regular user.</description>					
+						</entity>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "user":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456"
+      },
+      "username":"John Doe",
+      "email" : "john@doe.net"
+   }
+}]]></code>
+						<description>When the user retrieves his own profile, the e-mail address is also included in the response.</description>					
+						</entity>
 					</entities>									
 				</response>
 			</operation>	
@@ -1300,12 +1369,15 @@ TODO
 			Collection
 	============================================================================================================== -->
 		<resource>
-			<name>Collection*</name>
-			<description>This resource represents a collection of documents that a user can create and maintain.</description>
+			<name>Collection</name>
+			<description>This resource represents a collection of documents that a user can create and maintain personally. Users can 
+			set a collection to private or non-private. Once a collection is private, only the user who created the collection
+			can see the collection. When the user changes the private setting, this only affects all subsequent views. 
+			Either way the creator of a collection is the only one who can add new documents to a collection.</description>
 			<path>/user/<param description="user ID">user-id</param>/collection/<param description="collection ID">collection-id</param></path>
 			
 			<operation>
-				<name>Create a new collection*</name>
+				<name>Create a new collection</name>
 				<description>Creates a new collection for this user.</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/collections</path>
 				<formats><format>application/json</format></formats>
@@ -1320,23 +1392,44 @@ TODO
 						<answer code="400">Invalid collection data.</answer>
 						<answer code="403">Not allowed for this user.</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "title":"My Favorite Documents of Event X",
+   "description":"This is a list of the coolest documents that show what happend during event X",
+   "private":false
+}]]></code>
+							<description>Note that the <tt>private</tt> flag must be set.</description>
+						</entity>					
+					</entities>
 				</response>
 			</operation>
 						
 			<operation>
-				<name>Add a document to a collection*</name>
-				<description>Creates a new collection for this user.</description>
+				<name>Add a document to a collection</name>
+				<description>Takes an existing document from the platform and attaches it to the collection. This call has no effect when the document has already been added. 
+				Note that only the creator can add documents to a collection.</description>
 				<path omitResourcePath="false">/documents</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>POST</method>
 					<authentication  mandatory="true" />
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "document":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+      }
+   }
+}]]></code>
+						</entity>					
+					</entities>
 				</request>
 				<response>
 					<responses>
-						<answer code="202">Document added.</answer>
+						<answer code="202">Document added (also returned when document already existed in collection).</answer>
 						<answer code="400">Invalid document data.</answer>
 						<answer code="403">Not allowed for this user.</answer>
 						<answer code="404">Document not found.</answer>
@@ -1346,7 +1439,7 @@ TODO
 			</operation>	
 								
 			<operation>
-				<name>List of collected documents (forwarder)*</name>
+				<name>List of collected documents (forwarder)</name>
 				<description>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.</description>
 				<path omitResourcePath="false">/documents</path>
 				<formats><format>application/json</format></formats>
@@ -1366,9 +1459,9 @@ TODO
 			</operation>	
 											
 			<operation>
-				<name>List of collected documents (page)*</name>
+				<name>List of collected documents (page)</name>
 				<description>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.</description>
-				<path omitResourcePath="false">/documents</path>
+				<path omitResourcePath="false">/documents/cursor/<param description="the document ID used as cursor">cursor-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -1381,13 +1474,49 @@ TODO
 						<answer code="403">Not allowed, when collection is private.</answer>
 						<answer code="404">Not found</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor"
+      }
+   },
+   "list":[
+      {
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+							<description>The response contains all meta data of the collection. However, the documents available in the collection must be fetched using the paginated list in additional calls.</description>
+						</entity>					
+					</entities>
 				</response>
 			</operation>
 															
 			<operation>
-				<name>List all collections of a user*</name>
-				<description>List all public collections of a user. If the user running this request is also the owner of the collections, every collection will be listed.</description>
+				<name>List all collections of a user</name>
+				<description>List all public collections of a user. If the user running this request is also the owner of the collections, also private collections will be listed.</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/collections</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -1400,7 +1529,39 @@ TODO
 						<answer code="200">Collection list in response.</answer>
 						<answer code="404">User not found</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "collections":[
+      {
+         "collection":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66"
+            },
+            "title":"My Favorite Documents of Event X",
+            "description":"This is a list of the coolest documents that show what happend during event X",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "private":false,
+            "documents":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents"
+               }
+            }
+         }
+      }
+   ]
+}]]></code>
+							<description>The response contains all meta data of the collection. However, the documents available in the collection must be fetched using the paginated list in additional calls.</description>
+						</entity>					
+					</entities>
 				</response>
 			</operation>	
 					
@@ -1420,7 +1581,35 @@ TODO
 						<answer code="403">Not allowed, collection is private.</answer>
 						<answer code="404">User or collection not found.</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "collection":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66"
+      },
+      "title":"My Favorite Documents of Event X",
+      "description":"This is a list of the coolest documents that show what happend during event X",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "private":false,
+      "documents":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents"
+         }
+      }
+   }
+}]]></code>
+							<description>The response contains all meta data of the collection. However, the documents available in the collection must be fetched using the paginated list in additional calls.</description>
+						</entity>					
+					</entities>
 				</response>
 			</operation>
 								
@@ -1432,7 +1621,16 @@ TODO
 				<request>
 					<method>PUT</method>
 					<authentication  mandatory="true" />
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "title":"My Favorite Documents of Event X",
+   "description":"This is a list of the coolest documents that show what happend during event X",
+   "private":false
+}]]></code>
+							<description>Note that the <tt>private</tt> flag must be set.</description>
+						</entity>					
+					</entities>
 				</request>
 				<response>
 					<responses>
@@ -1447,7 +1645,7 @@ TODO
 								
 			<operation>
 				<name>Delete a collection</name>
-				<description>Deletes a collection</description>
+				<description>Removes a collection. Warning: This operation cannot be undone.</description>
 				<path/>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -1625,7 +1823,7 @@ TODO
       }
    ]
 }]]></code>
-							<description>An example page of messages. The number of elements shown has been limited to a single comment per page to keep this easy.</description>
+							<description>An example page of messages. The number of elements shown has been limited to a single comment per page to keep this example simple.</description>
 						</entity>
 					</entities>
 				</response>
