@@ -80,13 +80,14 @@
 			Service
 	============================================================================================================== -->
 		<resource>
-			<name>Service</name>
+			<name>Service*</name>
 			<description>A resource for service informations.</description>
 			<path>/service</path>
+			
 			<operation>
-				<name>Get supported internal media types</name>
+				<name>Get supported media types</name>
 				<description>Returns a list of supported media types that the server accepts for storage.</description>
-				<path >/mediatypes/internal</path>
+				<path >/mediatypes</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -109,6 +110,7 @@
 				</response>
 			</operation>
 			
+<!-- 			
 			<operation>
 				<name>Get supported external media types</name>
 				<description>Returns a list of external entities the server accepts. </description>
@@ -160,7 +162,7 @@
 					</entities>
 				</response>
 			</operation>	
-						
+-->
 			<operation>
 				<name>Get the service registry</name>
 				<description>Returns a list of registered services of the platform. If there is a Registry API service available, this request will be redirected to the Registry API directory.</description>
@@ -728,7 +730,7 @@
 			Query
 	============================================================================================================== -->
 		<resource>
-			<name>Query</name>
+			<name>Query*</name>
 			<description>An interface resource for query execution. A query must be dispatched to the server 
 			which will return a URI for the query. This URI then contains the results. Results are paginated using cursors.
 			A query resource stores the initial query parameters, not the result set. Thus, queries can be re-executed by using the same URI,
@@ -930,7 +932,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 	============================================================================================================== -->
 		<resource>
 			<name>User</name>
-			<description>This resource represents a user. The corresponding collection resource can be found at <tt>/users</tt>.</description>
+			<description>This resource represents a user. A user account is neccessary for most of the interactions with the diretto platform.</description>
 			<path>/user/<param description="user ID">user-id</param></path>
 
 			<operation>
@@ -1193,7 +1195,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			Link
 	============================================================================================================== -->
 		<resource>
-			<name>Link*</name>
+			<name>Link</name>
 			<description>This resource represents a link. A link
 			is unidirectional connection between two documents. The semantics of a link is
 			an unidirectional trace from the source document to the destination document,
@@ -1202,7 +1204,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<path>/link/<param description="link ID">link-id</param></path>
 
 			<operation>
-				<name>Create a new link*</name>
+				<name>Create a new link</name>
 				<description>Adds a new link to the platform.</description>
 				<path omitResourcePath="true">/links</path>
 				<formats><format>application/json</format></formats>
@@ -1213,12 +1215,24 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						<entity>
 							<code language="js">
 <![CDATA[{
- "link":{
-         "rel":"self",
-         "href":"http://core/v2/user/123456"
-      },
-	 "email" : "john@doe.net",
-	 "username" : "John Doe"
+   "title":"blabla",
+   "description":"asdasd",
+   "source":{
+      "document":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66"
+         }
+      }
+   },
+   "destination":{
+      "document":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128"
+         }
+      }
+   }
 }]]></code>
 						</entity>							
 					</entities>
@@ -1233,7 +1247,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 						
 			<operation>
-				<name>Retrieve a link*</name>
+				<name>Retrieve a link</name>
 				<description>Returns a link.</description>
 				<path></path>
 				<formats><format>application/json</format></formats>
@@ -1251,12 +1265,83 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						<entity>
 							<code language="js">
 <![CDATA[{
- "link":{
+   "documentlink":{
+      "link":{
          "rel":"self",
-         "href":"http://core/v2/user/123456"
+         "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
       },
-	 "email" : "john@doe.net",
-	 "username" : "John Doe"
+      "title":"blabla",
+      "description":"asdasd",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "source":{
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66"
+            }
+         }
+      },
+      "destination":{
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128"
+            }
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/votes"
+         },
+         "up":12,
+         "down":2
+      },
+      "tags":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tags"
+         },
+         "list":[
+            {
+               "tag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  },
+                  "baseTag":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     }
+                  },
+                  "value":"mytag",
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/user/123456"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     },
+                     "up":12,
+                     "down":2
+                  }
+               }
+            }
+         ]
+      }
+   }
 }]]></code>
 						</entity>							
 					</entities>
@@ -1264,7 +1349,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 									
 			<operation>
-				<name>Retrieve all links containing a specific document*</name>
+				<name>Retrieve all links containing a specific document</name>
 				<description>Returns a list of links that contain a given document as source or destination.</description>
 				<path omitResourcePath="true">/documents/<param description="document ID">doc-id</param>/links</path>
 				<formats><format>application/json</format></formats>
@@ -1278,12 +1363,108 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						<answer code="200">Link list in response.</answer>
 						<answer code="404">Document not found.</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "documentlinks":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
+      },
+      "in":[
+         {
+            "documentlink":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+               },
+               "title":"blabla",
+               "description":"asdasd",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "source":{
+                  "document":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66"
+                     }
+                  }
+               },
+               "destination":{
+                  "document":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128"
+                     }
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/votes"
+                  },
+                  "up":12,
+                  "down":2
+               },
+               "tags":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tags"
+                  },
+                  "list":[
+                     {
+                        "tag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           },
+                           "baseTag":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              }
+                           },
+                           "value":"mytag",
+                           "creationTime":"2010-07-17T18:54:11.939Z",
+                           "creator":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/user/123456"
+                              }
+                           },
+                           "votes":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                              },
+                              "up":12,
+                              "down":2
+                           }
+                        }
+                     }
+                  ]
+               }
+            }
+         }
+      ],
+      "out":[
+
+      ]
+   }
+}]]></code>
+							<description>The number of elements shown has been limited to a single item per page only to keep this example simple.</description>
+						</entity>					
+					</entities>
 				</response>
 			</operation>
 			
 			<operation>
-				<name>List link created since a specific date (forward)*</name>
+				<name>List link created since a specific date (forward)</name>
 				<description>Forwards to the list of links that have been created since a given date.</description>
 				<path omitResourcePath="true">/links/all/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
 				<formats><format>application/json</format></formats>
@@ -1302,7 +1483,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>	
 					
 			<operation>
-				<name>List links (forward)*</name>
+				<name>List links (forward)</name>
 				<description>Forwards to the list of links.</description>
 				<path omitResourcePath="true">/links/all</path>
 				<formats><format>application/json</format></formats>
@@ -1321,7 +1502,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>	
 					
 			<operation>
-				<name>List links (page)*</name>
+				<name>List links (page)</name>
 				<description>List of links, sorted by creation date.</description>
 				<path omitResourcePath="true">/links/all/cursor/<param description="link id">link-id</param></path>
 				<formats><format>application/json</format></formats>
@@ -1335,7 +1516,43 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						<answer code="200">List in response.</answer>
 						<answer code="404">Cursor not found.</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/links/all/cursor/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+      }
+   },
+   "list":[
+      {
+         "documentlink":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/links/all/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/links/all/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+							<description>The number of elements shown has been limited to a single item per page only to keep this example simple.</description>
+						</entity>					
+					</entities>
 				</response>
 			</operation>				
 
@@ -1962,6 +2179,16 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 		</resource>
 
+	<!-- ============================================================================================================= 
+			Document
+	============================================================================================================== -->
+		<resource>
+			<name>Document*</name>
+			<description>This resource represents a document.</description>
+			<path>/document/<param description="document ID">doc-id</param></path>
+
+			
+		</resource>
 				
 	</resources>
 </api>
