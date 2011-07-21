@@ -1126,12 +1126,39 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			Comment
 	============================================================================================================== -->
 		<resource>
-			<name>Comment*</name>
+			<name>Comment</name>
 			<description>This resource represents a comment.</description>
 			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">comment-id</param></path>
+			
+			<operation>
+				<name>Create a new comment</name>
+				<description>Adds a new comment to the task.</description>
+				<path omitResourcePath="true">/document/<param description="document ID">doc-id</param>/comments</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true" />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "content":"blablabla"
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Comment has been created.</answer>						
+						<answer code="400">Invalid comment data (i.e. length).</answer>						
+						<answer code="404">Document not found.</answer>						
+					</responses>
+					<entities />										
+				</response>
+			</operation>	
 						
 			<operation>
-				<name>Get detailed comment*</name>
+				<name>Get a single comment</name>
 				<description>Returns the full comment.</description>
 				<path />
 				<formats><format>application/json</format></formats>
@@ -1145,13 +1172,41 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						<answer code="200">Comment is available in response entity.</answer>
 						<answer code="404">Comment not found.</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "comment":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      },
+      "content":"blablabla",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}]]></code>
+						</entity>							
+					</entities>
 				</response>
 			</operation>
 			
 			<operation>
-				<name>Get a list of comments per document*</name>
-				<description>Returns a list of all comments bound to the document.</description>
+				<name>List comments of a document (forward)</name>
+				<description>Forwards to a paginated list of comments that have been added to the document.</description>
 				<path omitResourcePath="true">/document/<param description="document id">doc-id</param>/comments</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -1161,16 +1216,88 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="200">List of comments is available in response entity.</answer>
+						<answer code="204">No comments available yet</answer>
+						<answer code="303">Location header contains link to first page of comments</answer>
 						<answer code="404">Document not found.</answer>
 					</responses>
 					<entities />
 				</response>
 			</operation>
+			
+			<operation>
+				<name>List comments of a document (page)</name>
+				<description>Returns a list of all comments bound to the document.</description>
+				<path omitResourcePath="true">/document/<param description="document id">doc-id</param>/comments/cursor/<param description="comment id">comment-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Page in response</answer>
+						<answer code="404">Cursor not found</answer>
+					</responses>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments/cursor/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      }
+   },
+   "list":[
+      {
+         "comment":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+            },
+            "content":"blablabla",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66/votes"
+               },
+               "up":12,
+               "down":2
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+						</entity>							
+					</entities>
+				</response>
+			</operation>			
 						
 			<operation>
-				<name>Get a list of comments per user*</name>
-				<description>Returns a list of all comments made by a user</description>
+				<name>List comments of a user (forward)</name>
+				<description>Forwards to a paginated list of comments that have been written by the user.</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/comments</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -1180,10 +1307,82 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="200">List of comments is available in response entity.</answer>
-						<answer code="404">User not found.</answer>
+						<answer code="204">No comments available yet</answer>
+						<answer code="303">Location header contains link to first page of comments</answer>
+						<answer code="404">User not found</answer>
 					</responses>
 					<entities />
+				</response>
+			</operation>
+			
+			<operation>
+				<name>List comments of a user (page)</name>
+				<description>Returns a list of all comments made by a user</description>
+				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/comments/cursor/<param description="comment id">comment-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Page in response</answer>
+						<answer code="404">Cursor not found</answer>
+					</responses>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/comments/cursor/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      }
+   },
+   "list":[
+      {
+         "comment":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+            },
+            "content":"blablabla",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66/votes"
+               },
+               "up":12,
+               "down":2
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/user/comments/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/user/comments/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+						</entity>							
+					</entities>
 				</response>
 			</operation>
 			
