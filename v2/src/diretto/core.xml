@@ -80,13 +80,17 @@
 			Service
 	============================================================================================================== -->
 		<resource>
-			<name>Service*</name>
+			<name>Service</name>
 			<description>A resource for service informations.</description>
 			<path>/service</path>
 			
 			<operation>
 				<name>Get supported media types</name>
-				<description>Returns a list of supported media types that the server accepts for storage.</description>
+				<description>Returns a list of supported media types that the deployment accepts as incoming documents. 
+				Internal media types are supported to be stored within the platform using the Storage API. External media types
+				are meta-data only entries that contain the link to the original source. Both types of media types can be 
+				enabled or disabled. For both a wide range of MIME types can be configured during deployment.  				
+				</description>
 				<path >/mediatypes</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -102,67 +106,32 @@
 						<entity>
 						<code language="js">
 <![CDATA[{
-//TODO: complete me
+   "mediatypes":{
+      "internal":{
+         "image/jpeg":{
+            "type":"image",
+            "extension":"jpg",
+            "maxSize":5210880
+         }
+      },
+      "external":{
+         "video/x-diretto-youtube+url":{
+            "type":"video",
+            "name":"YouTube Video"
+         }
+      }
+   }
 }]]>						
 						</code>
+						<description>A sample configuration that allows only JPEG images to be stored on the platform itself.
+						Images will be accepted as long as the file size does not exceed 5210880 byte. 
+						Additionally, hyperlinks to YouTube videos will be accepted as well. Note that the corresponding content plugin
+						will validate incoming external links, thus no further validation details are listed in this overview.</description>
 						</entity>
 					</entities>
 				</response>
 			</operation>
-			
-<!-- 			
-			<operation>
-				<name>Get supported external media types</name>
-				<description>Returns a list of external entities the server accepts. </description>
-				<path >/mediatypes/external</path>
-				<formats><format>application/json</format></formats>
-				<request>
-					<method>GET</method>
-					<authentication mandatory="true"/>
-					<entities></entities>
-				</request>
-				<response>
-					<responses>
-						<answer code="200">List in response entity</answer>
-					</responses>
-					<entities>
-						<entity>
-						<code language="js">
-<![CDATA[{
-//TODO: complete me
-}]]>						
-						</code>
-						</entity>
-					</entities>
-				</response>
-			</operation>
-						
-			<operation>
-				<name>Get server data</name>
-				<description>Returns runtime data about the server instance.</description>
-				<path>/info</path>
-				<formats><format>application/json</format></formats>
-				<request>
-					<method>GET</method>
-					<authentication mandatory="true"/>
-					<entities></entities>
-				</request>
-				<response>
-					<responses>
-						<answer code="200">List in response entity</answer>
-					</responses>
-					<entities>
-						<entity>
-						<code language="js">
-<![CDATA[{
-//TODO: complete me
-}]]>						
-						</code>
-						</entity>
-					</entities>
-				</response>
-			</operation>	
--->
+
 			<operation>
 				<name>Get the service registry</name>
 				<description>Returns a list of registered services of the platform. If there is a Registry API service available, this request will be redirected to the Registry API directory.</description>
@@ -1911,29 +1880,6 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
 
 		</resource>			
-
-	
-	<!-- ============================================================================================================= 
-			Time
-	============================================================================================================== -->
-		<resource>
-			<name>Time*</name>
-			<description>This resource represents the point in time, when a document has been created.</description>
-			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">doc-id</param></path>
-		</resource>	
-		
-			
-	<!-- ============================================================================================================= 
-			Position
-	============================================================================================================== -->
-		<resource>
-			<name>Position*</name>
-			<description>This resource represents the location, where a document has been created.</description>
-			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">doc-id</param></path>
-		</resource>			
-
-		
-		
 	
 	<!-- ============================================================================================================= 
 			Collection
@@ -2487,6 +2433,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<name>Attachment*</name>
 			<description>This resource represents an attachment</description>
 			<path>/document/<param description="document ID">doc-id</param>/attachment/<param description="attachment ID">attach-id</param></path>
+			
 			<operation>
 				<name>Retrieve attachment data*</name>
 				<description>Get all data of an attachment.</description>
@@ -2503,33 +2450,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities />					
 				</response>
 			</operation>
-			
-			<operation>
-				<name>Retrieve a list of attachments uploaded by user*</name>
-				<description>Provides a list of all attachments, that a distinct user has uploaded so far.</description>
-				<path omitResourcePath="true">/user/<param description="the user id">user-id</param>/attachments</path>
-				<formats><format>application/json</format></formats>
-				<request>
-					<method>GET</method>
-					<authentication mandatory="true"/>
-					<entities></entities>					
-				</request>
-				<response>
-					<responses>
-						<answer code="200">The attachment list is available in the response entity.</answer>
-						<answer code="404">User not found.</answer>
-					</responses>
-					<entities>
-						<entity>
-						<code language="js">
-<![CDATA[{
-//TODO: complete me
-}]]>						
-						</code>
-						</entity>
-					</entities>
-				</response>
-			</operation>
+
 		</resource>
 
 	<!-- ============================================================================================================= 
@@ -2542,6 +2463,38 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
 			
 		</resource>
+
+	
+	<!-- ============================================================================================================= 
+			Time
+	============================================================================================================== -->
+		<resource>
+			<name>Time*</name>
+			<description>This resource represents the point in time, when a document has been created.</description>
+			<path>/document/<param description="document ID">doc-id</param>/time/<param description="time ID">time-id</param></path>
+		</resource>	
+		
+			
+	<!-- ============================================================================================================= 
+			Location
+	============================================================================================================== -->
+		<resource>
+			<name>Location*</name>
+			<description>This resource represents the location, where a document has been created.</description>
+			<path>/document/<param description="document ID">doc-id</param>/location/<param description="location ID">location-id</param></path>
+		</resource>			
+
+		
+	<!-- ============================================================================================================= 
+			KeyValue
+	============================================================================================================== -->
+		<resource>
+			<name>Key-Value Pair*</name>
+			<description>This resource represents the location, where a document has been created.</description>
+			<path>/document/<param description="document ID">doc-id</param>/location/<param description="location ID">location-id</param></path>
+		</resource>			
+
+		
 				
 	</resources>
 </api>
