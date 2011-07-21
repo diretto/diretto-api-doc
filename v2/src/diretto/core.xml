@@ -526,9 +526,9 @@
 			</operation>
 			
 			<operation>
-				<name>List of all tags (forwarder)*</name>
+				<name>List of all tags (forward)</name>
 				<description>Forwards to a paginated list of all tags in this service.</description>
-				<path omitResourcePath="true">/tags/all</path>
+				<path omitResourcePath="true">/tags</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -545,9 +545,9 @@
 			</operation>	
 						
 			<operation>
-				<name>List of all tags (page)*</name>
+				<name>List of all tags (page)</name>
 				<description>Returns a page of the paginated list of all tags.</description>
-				<path omitResourcePath="true">/tags/all/cursor/<param description="ID of tag used as cursor">tag-id</param></path>
+				<path omitResourcePath="true">/tags/cursor/<param description="ID of tag used as cursor">tag-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -559,13 +559,57 @@
 						<answer code="200">Page in response.</answer>
 						<answer code="404">Cursor/page not found</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tags/cursor/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   },
+   "list":[
+      {
+         "baseTag":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+            },
+            "value":"mytag",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/tags/cursor/90b419abac69dc67572e335a8c85a1cc"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/tags/cursor/585b716c0efb1b8c040830315e1c94e4"
+         }
+      }
+   ]
+}]]></code>
+						</entity>
+					</entities>
 				</response>
 			</operation>	
 			
 						
 			<operation>
-				<name>List of documents using a specific tag (forwarder)*</name>
+				<name>List of documents using a specific tag (forward)</name>
 				<description>Forwards to a paginated list of all documents, where a given tag has been attached to.</description>
 				<path omitResourcePath="false">/documents</path>
 				<formats><format>application/json</format></formats>
@@ -584,7 +628,7 @@
 			</operation>		
 										
 			<operation>
-				<name>List of documents using a specific tag (page)*</name>
+				<name>List of documents using a specific tag (page)</name>
 				<description>Returns a page of the paginated list of all tags.</description>
 				<path omitResourcePath="false">/documents/cursor/<param description="ID of document used as cursor">doc-id</param></path>
 				<formats><format>application/json</format></formats>
@@ -598,10 +642,120 @@
 						<answer code="200">Page in response.</answer>
 						<answer code="404">Cursor/page not found</answer>
 					</responses>
-					<entities />
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/documents/cursor/550e8400-e29b-11d4-a716-446655440000"
+      }
+   },
+   "list":[
+      {
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/documents/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/documents/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+						</entity>
+					</entities>
 				</response>
 			</operation>	
-						
+		
+			<operation>
+				<name>List of links using a specific tag (forward)</name>
+				<description>Forwards to a paginated list of all links, where a given tag has been attached to.</description>
+				<path omitResourcePath="false">/links</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">No documents available yet.</answer>
+						<answer code="303">Forward to first page.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>		
+										
+			<operation>
+				<name>List of links using a specific tag (page)</name>
+				<description>Returns a page of the paginated list of all tags.</description>
+				<path omitResourcePath="false">/links/cursor/<param description="ID of link used as cursor">link-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Page in response.</answer>
+						<answer code="404">Cursor/page not found</answer>
+					</responses>
+					<entities>
+						<entity>
+							<code language="js">
+<![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/links/cursor/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+      }
+   },
+   "list":[
+      {
+         "documentlink":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/links/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/links/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+		
 		</resource>	
 	
 	<!-- ============================================================================================================= 
@@ -938,7 +1092,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<operation>
 				<name>List of users (forward)</name>
 				<description>Forwards to the list of links.</description>
-				<path omitResourcePath="true">/users/all</path>
+				<path omitResourcePath="true">/users</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -958,7 +1112,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<name>List of users (page)</name>
 				<description>Provides a list of all registered users. Responses are paginated using cursors. 
 				 The request can also be executed omitting the cursor ID. In the case, the URI of the first page is returned.</description>
-				<path omitResourcePath="true">/users/all/cursor/<param description="the user ID used as cursor">cursor-id</param></path>
+				<path omitResourcePath="true">/users/cursor/<param description="the user ID used as cursor">cursor-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -970,7 +1124,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "page":{
       "link":{
          "rel":"self",
-         "href":"http://core/v2/users/all/cursor/123456"
+         "href":"http://core/v2/users/cursor/123456"
       }
    },
    "list":[
@@ -988,13 +1142,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       {
          "link":{
             "rel":"previous",
-            "href":"http://core/v2/users/all/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+            "href":"http://core/v2/users/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
          }
       },
       {
          "link":{
             "rel":"next",
-            "href":"http://core/v2/users/all/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+            "href":"http://core/v2/users/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
          }
       }
    ]
@@ -1205,7 +1359,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 			
 			<operation>
-				<name>List comments of a document (forward)</name>
+				<name>List of comments of a document (forward)</name>
 				<description>Forwards to a paginated list of comments that have been added to the document.</description>
 				<path omitResourcePath="true">/document/<param description="document id">doc-id</param>/comments</path>
 				<formats><format>application/json</format></formats>
@@ -1225,7 +1379,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 			
 			<operation>
-				<name>List comments of a document (page)</name>
+				<name>List of comments of a document (page)</name>
 				<description>Returns a list of all comments bound to the document.</description>
 				<path omitResourcePath="true">/document/<param description="document id">doc-id</param>/comments/cursor/<param description="comment id">comment-id</param></path>
 				<formats><format>application/json</format></formats>
@@ -1296,7 +1450,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>			
 						
 			<operation>
-				<name>List comments of a user (forward)</name>
+				<name>List of comments of a user (forward)</name>
 				<description>Forwards to a paginated list of comments that have been written by the user.</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/comments</path>
 				<formats><format>application/json</format></formats>
@@ -1316,7 +1470,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 			
 			<operation>
-				<name>List comments of a user (page)</name>
+				<name>List of comments of a user (page)</name>
 				<description>Returns a list of all comments made by a user</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/comments/cursor/<param description="comment id">comment-id</param></path>
 				<formats><format>application/json</format></formats>
@@ -1663,9 +1817,9 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 			
 			<operation>
-				<name>List link created since a specific date (forward)</name>
+				<name>List of links created since a specific date (forward)</name>
 				<description>Forwards to the list of links that have been created since a given date.</description>
-				<path omitResourcePath="true">/links/all/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
+				<path omitResourcePath="true">/links/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -1682,9 +1836,9 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>	
 					
 			<operation>
-				<name>List links (forward)</name>
+				<name>List of links (forward)</name>
 				<description>Forwards to the list of links.</description>
-				<path omitResourcePath="true">/links/all</path>
+				<path omitResourcePath="true">/links</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -1701,9 +1855,9 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>	
 					
 			<operation>
-				<name>List links (page)</name>
+				<name>List of links (page)</name>
 				<description>List of links, sorted by creation date.</description>
-				<path omitResourcePath="true">/links/all/cursor/<param description="link id">link-id</param></path>
+				<path omitResourcePath="true">/links/cursor/<param description="link id">link-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -1721,7 +1875,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "page":{
       "link":{
          "rel":"self",
-         "href":"http://core/v2/links/all/cursor/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+         "href":"http://core/v2/links/cursor/1ec99ce0-a28e-11e0-8264-0800200c9a66"
       }
    },
    "list":[
@@ -1738,13 +1892,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       {
          "link":{
             "rel":"previous",
-            "href":"http://core/v2/links/all/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+            "href":"http://core/v2/links/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
          }
       },
       {
          "link":{
             "rel":"next",
-            "href":"http://core/v2/links/all/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+            "href":"http://core/v2/links/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
          }
       }
    ]
@@ -1896,7 +2050,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "page":{
       "link":{
          "rel":"self",
-         "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor"
+         "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor/550e8400-e29b-11d4-a716-446655440000"
       }
    },
    "list":[
@@ -1931,7 +2085,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 															
 			<operation>
-				<name>List all collections of a user</name>
+				<name>List of collections of a user</name>
 				<description>List all public collections of a user. If the user running this request is also the owner of the collections, also private collections will be listed.</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/collections</path>
 				<formats><format>application/json</format></formats>
@@ -2124,7 +2278,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
 								
 			<operation>
-				<name>List inbox messages received since a specific date (forward)</name>
+				<name>List of inbox messages received since a specific date (forward)</name>
 				<description>Forwards to the list of incoming messages, that have been received since a given date. Useful for incremental requests of new messages.</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/inbox/messages/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
 				<formats><format>application/json</format></formats>
@@ -2144,7 +2298,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>	
 					
 			<operation>
-				<name>List messages (forward)</name>
+				<name>List of messages (forward)</name>
 				<description>Forwards to the list of sent messages</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/<param description="'inbox' or 'outbox'">boxtype</param></path>
 				<formats><format>application/json</format></formats>
@@ -2165,7 +2319,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>	
 					
 			<operation>
-				<name>List messages (page)</name>
+				<name>List of messages (page)</name>
 				<description>List of sent messages, ordered by date and paginated.</description>
 				<path omitResourcePath="true">/user/<param description="user id">user-id</param>/<param description="'inbox' or 'outbox'">boxtype</param>/messages/cursor/<param description="message id">msg-id</param></path>
 				<formats><format>application/json</format></formats>
