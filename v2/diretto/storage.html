@@ -275,8 +275,18 @@ while all additional attachments represent derivated or customized versions.
 <h3 class="operation">1.1 Download an attachment</h3>
 <h4>Description</h4>This operation allows to download an existing attachment. Conditional GETs must be supported by the storage server.
 				Clients should support caching and dispatch conditional requests whenever possible.<h4>URI</h4>
-<pre>http://mediaserver/{document-id}/{attachment-id}.{attachment-ext}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">document-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">attachment-id</dt>
+<dd>attachment ID</dd>
+<dt class="uripart">attachment-ext</dt>
+<dd>attachment extension</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -302,8 +312,18 @@ while all additional attachments represent derivated or customized versions.
 				<span style="font-family:monospace;">Content-Length</span> (file size) and <span style="font-family:monospace;">ETag</span> (caching identifier).  
 				This operation should also be used for checking the existence of an attachment.   
 				<h4>URI</h4>
-<pre>http://mediaserver/{document-id}/{attachment-id}.{attachment-ext}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">document-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">attachment-id</dt>
+<dd>attachment ID</dd>
+<dt class="uripart">attachment-ext</dt>
+<dd>attachment extension</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">HEAD</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -339,7 +359,7 @@ while all additional attachments represent derivated or customized versions.
 				
 				
 <pre class="brush: plain">
-   Client           API Server        Media Storage
+   Client         Core API Server      Storage API Server
 
      |                    |                   |
      |                    |                   |
@@ -365,10 +385,16 @@ while all additional attachments represent derivated or customized versions.
 </pre>				
 				
 <h4>URI</h4>
-<pre>http://mediaserver/{document-id}/{attachment-id}.{attachment-ext}?token=<span class="uripart">{token}</span>
+<pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>?token=<span class="uripart">{token}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
+<dt class="uripart">document-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">attachment-id</dt>
+<dd>attachment ID</dd>
+<dt class="uripart">attachment-ext</dt>
+<dd>attachment extension</dd>
 <dt class="uripart">{token}</dt>
 <dd>access token</dd>
 </dl>
@@ -440,16 +466,43 @@ while all additional attachments represent derivated or customized versions.
 </dl>
 <h4>Response Entities</h4>
 					
-					
+
 <pre class="brush: js">{
    "api":{
-      "name":"org.diretto.api.storage",
+      "name":"org.diretto.api.main.storage",
       "version":"v2"
    },
    "service":{
-      "name":"diretto Media Node",
+      "name":"diretto Storage Node",
       "version":"0.2.0"
-   }
+   },
+   "deployment":{
+      "title":"fubar Storage Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://coreservice/v2"
+         }
+      }
+   },
+   "links":[
+      {
+         "title":"diretto Storage API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/storage.html"
+         }
+      }
+   ]
 }</pre>
 					
 </body>

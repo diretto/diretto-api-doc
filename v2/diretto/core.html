@@ -1,0 +1,3281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns:api="http://www.ioexception.de/rest-api-doc" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css">
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPlain.js" type="text/javascript"></script>
+<style type="text/css">
+			
+body {
+	background: #FFF;
+	color: #333;
+	font: normal 100% sans-serif;
+margin-left: auto;
+	margin-right: auto;
+
+	line-height: 1.5;
+	width:66%;
+}
+
+
+.uripart {
+	background:#666;
+	color: #fff;
+	font-style: italic;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+	color: #444;
+	font-weight: normal;
+	line-height: 1;
+	margin-bottom: 0.6em;
+	font-family:  Helvetica, sans-serif;
+
+}
+h4,h5,h6 {font-weight: bold;}
+
+h1 {font-size: 2.6em;}
+h2 {font-size: 2em;margin-top:3em;}
+h3 {font-size: 1.5em;margin-top:1.5em;}
+h4 {font-size: 1.25em;}
+h5 {font-size: 1.1em;}
+h6 {font-size: 1em;}
+
+h1 img, h2 img, h3 img, h4 img, h5 img, h6 img {margin: 0;}
+
+pre {
+	font: normal 100% monospace; 
+}
+
+
+dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-left:0.3em; padding-right:0.3em;  text-align: right; }  dd { margin: 0 0 0 110px; padding: 0 0 0.5em 0; }
+
+.statuscode, .method {
+	font: bold 100% monospace; 
+}
+
+#watermark {
+        position:fixed; 
+        left:0px; 
+        top:0px;
+        width:32px;
+        height:100%;
+        background-color:#EEE;
+        padding:0px;
+        margin:0px;
+} 
+
+
+
+#watermark-text {
+	color:#999;
+	border:0px solid red;
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform: rotate(90deg);
+	white-space:nowrap;
+	display:block;
+	bottom:0px;
+	width:20px;
+	height:20px;
+	font-family: Helvetica, sans-serif;
+	letter-spacing: 5px;
+	font-size:24px;
+	font-weight:normal;
+	text-shadow: 0px 0px 1px #999;
+	padding:0 10px 10px 5px;
+}
+
+#watermark-text span{
+	padding-left: 30px;
+}
+
+#sidemenu {
+z-index:300;  display:none;margin: 0;  text-align:left;
+}
+
+#sidemenu  li{
+	font-size: 0.8em;
+}
+#sidemenu  li a{
+	color: #333;
+	font-weight:bold;
+}
+
+#sidemenuopener{
+z-index:300; color: #333; background-color: #EEEEEE; border:1px solid #DDD; margin: 0;  position: fixed; top: 16px;  left: auto;  width: 56px;  right: 0px; text-align:center;
+min-height:32px;
+}
+
+#sidemenuopener a{
+	color: #333;
+	font-weight:bold;
+}
+
+a{
+	text-decoration: none;
+}
+
+#sidemenuopenerbox{
+	position: fixed; right:12px;
+}
+
+.shadow {
+	-moz-box-shadow: 2px 2px 3px #333;
+	-webkit-box-shadow: 2px 2px 3px #333;
+	box-shadow: 2px 2px 3px #333;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
+	
+}
+
+
+			</style>
+<script type="text/javascript">
+					SyntaxHighlighter.all();
+			</script><script type="text/javascript">
+			function showElement(layer,sx,t1,t2){
+			var l = document.getElementById(layer);
+			var s = document.getElementById(sx);
+			if(l.style.display=="none"){
+			l.style.display="block";
+			l.backgroundPosition="top";
+			s.innerHTML= t2;
+			} else {
+			l.style.display="none";
+			s.innerHTML= t1;
+			}
+			}
+			
+			function boxSize(x,a,b){
+				var el = document.getElementById(x);
+				if(el.style.width === a){
+					el.style.width = b;
+				}
+				else{
+					el.style.width = a;
+				}
+			}
+			
+			</script>
+<title>diretto Core API - RESTful API Documentation</title>
+</head>
+<body>
+<div id="watermark">
+<div id="watermark-text">
+<span>diretto Core API</span><span>v2 - Draft</span>
+</div>
+</div>
+<div id="sidemenuopener" class="shadow">
+<div id="sidemenuopenerbox">
+<a href="#" class="button" id="menuopener" onclick="javascript:showElement('sidemenu','menuopener','TOC','X'); boxSize('sidemenuopener','25%','56px'); return false;">TOC</a>
+</div>
+<ol id="sidemenu" style="display:none;">
+<li>
+<a id="lN68718" href="#" onclick="javascript:showElement('XN68718','lN68718','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N68718">Attachment*</a>
+<ol id="XN68718" style="display:none;">
+<li>
+<a href="#N68771">Retrieve a list of attachments uploaded by user*</a>
+</li>
+<li>
+<a href="#N68736">Retrieve attachment data*</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN67837" href="#" onclick="javascript:showElement('XN67837','lN67837','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N67837">Collection</a>
+<ol id="XN67837" style="display:none;">
+<li>
+<a href="#N67921">Add a document to a collection</a>
+</li>
+<li>
+<a href="#N68207">Change collection data</a>
+</li>
+<li>
+<a href="#N67855">Create a new collection</a>
+</li>
+<li>
+<a href="#N68271">Delete a collection</a>
+</li>
+<li>
+<a href="#N68150">Get a collection</a>
+</li>
+<li>
+<a href="#N67981">List of collected documents (forwarder)</a>
+</li>
+<li>
+<a href="#N68029">List of collected documents (page)</a>
+</li>
+<li>
+<a href="#N68091">List of collections of a user</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN67115" href="#" onclick="javascript:showElement('XN67115','lN67115','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N67115">Comment</a>
+<ol id="XN67115" style="display:none;">
+<li>
+<a href="#N67133">Create a new comment</a>
+</li>
+<li>
+<a href="#N67193">Get a single comment</a>
+</li>
+<li>
+<a href="#N67243">List of comments of a document (forward)</a>
+</li>
+<li>
+<a href="#N67295">List of comments of a document (page)</a>
+</li>
+<li>
+<a href="#N67354">List of comments of a user (forward)</a>
+</li>
+<li>
+<a href="#N67406">List of comments of a user (page)</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN68830" href="#" onclick="javascript:showElement('XN68830','lN68830','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N68830">Document*</a>
+<ol id="XN68830" style="display:none;"></ol>
+</li>
+<li>
+<a id="lN65568" href="#" onclick="javascript:showElement('XN65568','lN65568','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65568">Index</a>
+<ol id="XN65568" style="display:none;">
+<li>
+<a href="#N65578">Get service instance data</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN67468" href="#" onclick="javascript:showElement('XN67468','lN67468','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N67468">Link</a>
+<ol id="XN67468" style="display:none;">
+<li>
+<a href="#N67482">Create a new link</a>
+</li>
+<li>
+<a href="#N67690">List of links (forward)</a>
+</li>
+<li>
+<a href="#N67734">List of links (page)</a>
+</li>
+<li>
+<a href="#N67643">List of links created since a specific date (forward)</a>
+</li>
+<li>
+<a href="#N67534">Retrieve a link</a>
+</li>
+<li>
+<a href="#N67584">Retrieve all links containing a specific document</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN68320" href="#" onclick="javascript:showElement('XN68320','lN68320','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N68320">Message</a>
+<ol id="XN68320" style="display:none;">
+<li>
+<a href="#N68405">List of inbox messages received since a specific date (forward)</a>
+</li>
+<li>
+<a href="#N68460">List of messages (forward)</a>
+</li>
+<li>
+<a href="#N68519">List of messages (page)</a>
+</li>
+<li>
+<a href="#N68338">Post a new message</a>
+</li>
+<li>
+<a href="#N68656">Remove a message</a>
+</li>
+<li>
+<a href="#N68589">Retrieve a message</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN67816" href="#" onclick="javascript:showElement('XN67816','lN67816','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N67816">Position*</a>
+<ol id="XN67816" style="display:none;"></ol>
+</li>
+<li>
+<a id="lN66571" href="#" onclick="javascript:showElement('XN66571','lN66571','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N66571">Query*</a>
+<ol id="XN66571" style="display:none;">
+<li>
+<a href="#N66589">Dispatch a query</a>
+</li>
+<li>
+<a href="#N66695">Execute a common location-based query</a>
+</li>
+<li>
+<a href="#N66645">Forward to query result page</a>
+</li>
+<li>
+<a href="#N66752">Get query result page</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65630" href="#" onclick="javascript:showElement('XN65630','lN65630','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65630">Service*</a>
+<ol id="XN65630" style="display:none;">
+<li>
+<a href="#N65641">Get supported media types</a>
+</li>
+<li>
+<a href="#N65690">Get the service registry</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65744" href="#" onclick="javascript:showElement('XN65744','lN65744','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65744">Tag</a>
+<ol id="XN65744" style="display:none;">
+<li>
+<a href="#N66001">Append a tag to a resource</a>
+</li>
+<li>
+<a href="#N65768">Create a new tag or resolve an existing tag</a>
+</li>
+<li>
+<a href="#N65832">Create or resolve multiple tags (batch request)</a>
+</li>
+<li>
+<a href="#N66120">List of all tags (forward)</a>
+</li>
+<li>
+<a href="#N66164">List of all tags (page)*</a>
+</li>
+<li>
+<a href="#N66211">List of documents using a specific tag (forward)</a>
+</li>
+<li>
+<a href="#N66255">List of documents using a specific tag (page)*</a>
+</li>
+<li>
+<a href="#N66065">Retrieve all tags of a resource</a>
+</li>
+<li>
+<a href="#N65940">Retrieve a single tag of a resource</a>
+</li>
+<li>
+<a href="#N65888">Retrieve a tag</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN67795" href="#" onclick="javascript:showElement('XN67795','lN67795','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N67795">Time*</a>
+<ol id="XN67795" style="display:none;"></ol>
+</li>
+<li>
+<a id="lN66814" href="#" onclick="javascript:showElement('XN66814','lN66814','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N66814">User</a>
+<ol id="XN66814" style="display:none;">
+<li>
+<a href="#N66994">Change a user account</a>
+</li>
+<li>
+<a href="#N66934">Create a new user account</a>
+</li>
+<li>
+<a href="#N66828">List of users (forward)</a>
+</li>
+<li>
+<a href="#N66872">List of users (page)</a>
+</li>
+<li>
+<a href="#N67048">Retrieve user data</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN66305" href="#" onclick="javascript:showElement('XN66305','lN66305','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N66305">Vote</a>
+<ol id="XN66305" style="display:none;">
+<li>
+<a href="#N66462">Get all votes</a>
+</li>
+<li>
+<a href="#N66393">Get a vote of the user</a>
+</li>
+<li>
+<a href="#N66519">Undo a vote on a resource</a>
+</li>
+<li>
+<a href="#N66344">Vote on a resource</a>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<h1>diretto Core API</h1>
+<a name="introduction"></a>
+<h2>Introduction</h2>
+<h4>Version</h4>
+<p>v2 - Draft</p>
+<h4>Author</h4>
+<p>Benjamin Erb</p>
+<h4>Description</h4>
+<p>The following document describe the RESTful API of the
+		core services of the diretto platform. It is the only mandatory service for deployment.</p>
+<h4>Authentication Schemes</h4>
+<p>
+<ul>
+<li>Basic Authentication</li>
+</ul>
+</p>
+<h4>Base URI</h4>
+<p>
+<a xmlns="" href="http://api.diretto.org/v2">http://api.diretto.org/v2</a>
+</p>
+<a name="index"></a>
+<h2>Index of Resources and Operations</h2>
+<ol>
+<li xmlns="http://www.w3.org/1999/xhtml">
+<a href="#N68718">Attachment*</a>
+<ol>
+<li>
+<a href="#N68771">Retrieve a list of attachments uploaded by user*</a>
+</li>
+<li>
+<a href="#N68736">Retrieve attachment data*</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N67837">Collection</a>
+<ol>
+<li>
+<a href="#N67921">Add a document to a collection</a>
+</li>
+<li>
+<a href="#N68207">Change collection data</a>
+</li>
+<li>
+<a href="#N67855">Create a new collection</a>
+</li>
+<li>
+<a href="#N68271">Delete a collection</a>
+</li>
+<li>
+<a href="#N68150">Get a collection</a>
+</li>
+<li>
+<a href="#N67981">List of collected documents (forwarder)</a>
+</li>
+<li>
+<a href="#N68029">List of collected documents (page)</a>
+</li>
+<li>
+<a href="#N68091">List of collections of a user</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N67115">Comment</a>
+<ol>
+<li>
+<a href="#N67133">Create a new comment</a>
+</li>
+<li>
+<a href="#N67193">Get a single comment</a>
+</li>
+<li>
+<a href="#N67243">List of comments of a document (forward)</a>
+</li>
+<li>
+<a href="#N67295">List of comments of a document (page)</a>
+</li>
+<li>
+<a href="#N67354">List of comments of a user (forward)</a>
+</li>
+<li>
+<a href="#N67406">List of comments of a user (page)</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N68830">Document*</a>
+<ol></ol>
+</li>
+<li>
+<a href="#N65568">Index</a>
+<ol>
+<li>
+<a href="#N65578">Get service instance data</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N67468">Link</a>
+<ol>
+<li>
+<a href="#N67482">Create a new link</a>
+</li>
+<li>
+<a href="#N67690">List of links (forward)</a>
+</li>
+<li>
+<a href="#N67734">List of links (page)</a>
+</li>
+<li>
+<a href="#N67643">List of links created since a specific date (forward)</a>
+</li>
+<li>
+<a href="#N67534">Retrieve a link</a>
+</li>
+<li>
+<a href="#N67584">Retrieve all links containing a specific document</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N68320">Message</a>
+<ol>
+<li>
+<a href="#N68405">List of inbox messages received since a specific date (forward)</a>
+</li>
+<li>
+<a href="#N68460">List of messages (forward)</a>
+</li>
+<li>
+<a href="#N68519">List of messages (page)</a>
+</li>
+<li>
+<a href="#N68338">Post a new message</a>
+</li>
+<li>
+<a href="#N68656">Remove a message</a>
+</li>
+<li>
+<a href="#N68589">Retrieve a message</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N67816">Position*</a>
+<ol></ol>
+</li>
+<li>
+<a href="#N66571">Query*</a>
+<ol>
+<li>
+<a href="#N66589">Dispatch a query</a>
+</li>
+<li>
+<a href="#N66695">Execute a common location-based query</a>
+</li>
+<li>
+<a href="#N66645">Forward to query result page</a>
+</li>
+<li>
+<a href="#N66752">Get query result page</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65630">Service*</a>
+<ol>
+<li>
+<a href="#N65641">Get supported media types</a>
+</li>
+<li>
+<a href="#N65690">Get the service registry</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65744">Tag</a>
+<ol>
+<li>
+<a href="#N66001">Append a tag to a resource</a>
+</li>
+<li>
+<a href="#N65768">Create a new tag or resolve an existing tag</a>
+</li>
+<li>
+<a href="#N65832">Create or resolve multiple tags (batch request)</a>
+</li>
+<li>
+<a href="#N66120">List of all tags (forward)</a>
+</li>
+<li>
+<a href="#N66164">List of all tags (page)*</a>
+</li>
+<li>
+<a href="#N66211">List of documents using a specific tag (forward)</a>
+</li>
+<li>
+<a href="#N66255">List of documents using a specific tag (page)*</a>
+</li>
+<li>
+<a href="#N66065">Retrieve all tags of a resource</a>
+</li>
+<li>
+<a href="#N65940">Retrieve a single tag of a resource</a>
+</li>
+<li>
+<a href="#N65888">Retrieve a tag</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N67795">Time*</a>
+<ol></ol>
+</li>
+<li>
+<a href="#N66814">User</a>
+<ol>
+<li>
+<a href="#N66994">Change a user account</a>
+</li>
+<li>
+<a href="#N66934">Create a new user account</a>
+</li>
+<li>
+<a href="#N66828">List of users (forward)</a>
+</li>
+<li>
+<a href="#N66872">List of users (page)</a>
+</li>
+<li>
+<a href="#N67048">Retrieve user data</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N66305">Vote</a>
+<ol>
+<li>
+<a href="#N66462">Get all votes</a>
+</li>
+<li>
+<a href="#N66393">Get a vote of the user</a>
+</li>
+<li>
+<a href="#N66519">Undo a vote on a resource</a>
+</li>
+<li>
+<a href="#N66344">Vote on a resource</a>
+</li>
+</ol>
+</li>
+</ol>
+<a xmlns="" name="N68718"></a>
+<h2 class="resource">1. Attachment*</h2>
+<h4>Description</h4>
+<p>This resource represents an attachment</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/attachment/<span class="uripart">{attach-id}</span>
+</pre>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">attach-id</dt>
+<dd>attachment ID</dd>
+</dl>
+<a name="N68771"></a>
+<h3 class="operation">1.1 Retrieve a list of attachments uploaded by user*</h3>
+<h4>Description</h4>Provides a list of all attachments, that a distinct user has uploaded so far.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/attachments</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>the user id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>The attachment list is available in the response entity.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: js">
+{
+//TODO: complete me
+}						
+						</pre>
+						
+					
+<a name="N68736"></a>
+<h3 class="operation">1.2 Retrieve attachment data*</h3>
+<h4>Description</h4>Get all data of an attachment.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/attachment/<span class="uripart">{attach-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">attach-id</dt>
+<dd>attachment ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">100 Continue</dt>
+<dd></dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67837"></a>
+<h2 class="resource">2. Collection</h2>
+<h4>Description</h4>
+<p>This resource represents a collection of documents that a user can create and maintain personally. Users can 
+			set a collection to private or non-private. Once a collection is private, only the user who created the collection
+			can see the collection. When the user changes the private setting, this only affects all subsequent views. 
+			Either way the creator of a collection is the only one who can add new documents to a collection.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>
+</pre>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
+</dl>
+<a name="N67921"></a>
+<h3 class="operation">2.1 Add a document to a collection</h3>
+<h4>Description</h4>Takes an existing document from the platform and attaches it to the collection. This call has no effect when the document has already been added. 
+				Note that only the creator can add documents to a collection.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>/documents</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+
+<pre class="brush: js">{
+   "document":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+      }
+   }
+}</pre>
+											
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Document added (also returned when document already existed in collection).</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid document data.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68207"></a>
+<h3 class="operation">2.2 Change collection data</h3>
+<h4>Description</h4>Updates the collection meta data<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">PUT</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+
+<pre class="brush: js">{
+   "title":"My Favorite Documents of Event X",
+   "description":"This is a list of the coolest documents that show what happend during event X",
+   "private":false
+}</pre>
+							Note that the <span style="font-family:monospace;">private</span> flag must be set.
+											
+					<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Collection in response entity.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid update data.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed, collection is private.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Collection not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67855"></a>
+<h3 class="operation">2.3 Create a new collection</h3>
+<h4>Description</h4>Creates a new collection for this user.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collections</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Collection created.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid collection data.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "title":"My Favorite Documents of Event X",
+   "description":"This is a list of the coolest documents that show what happend during event X",
+   "private":false
+}</pre>
+							Note that the <span style="font-family:monospace;">private</span> flag must be set.
+											
+					<a name="N68271"></a>
+<h3 class="operation">2.4 Delete a collection</h3>
+<h4>Description</h4>Removes a collection. Warning: This operation cannot be undone.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">DELETE</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Collection deleted.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed, collection is private.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Collection not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68150"></a>
+<h3 class="operation">2.5 Get a collection</h3>
+<h4>Description</h4>Returns a collection, if public, or the requesting user is the owner.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Collection in response entity.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed, collection is private.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User or collection not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "collection":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66"
+      },
+      "title":"My Favorite Documents of Event X",
+      "description":"This is a list of the coolest documents that show what happend during event X",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "private":false,
+      "documents":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents"
+         }
+      }
+   }
+}</pre>
+							The response contains all meta data of the collection. However, the documents available in the collection must be fetched using the paginated list in additional calls.
+											
+					<a name="N67981"></a>
+<h3 class="operation">2.6 List of collected documents (forwarder)</h3>
+<h4>Description</h4>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>/documents</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Collection is empty.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to first page</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed, when collection is private.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68029"></a>
+<h3 class="operation">2.7 List of collected documents (page)</h3>
+<h4>Description</h4>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>/documents/cursor/<span class="uripart">{cursor-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
+<dt class="uripart">{cursor-id}</dt>
+<dd>the document ID used as cursor</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Page in response.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed, when collection is private.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor/550e8400-e29b-11d4-a716-446655440000"
+      }
+   },
+   "list":[
+      {
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/550e8400-e29b-11d4-a716-446655440000"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}</pre>
+							The response contains all meta data of the collection. However, the documents available in the collection must be fetched using the paginated list in additional calls.
+											
+					<a name="N68091"></a>
+<h3 class="operation">2.8 List of collections of a user</h3>
+<h4>Description</h4>List all public collections of a user. If the user running this request is also the owner of the collections, also private collections will be listed.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/collections</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Collection list in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "collections":[
+      {
+         "collection":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66"
+            },
+            "title":"My Favorite Documents of Event X",
+            "description":"This is a list of the coolest documents that show what happend during event X",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "private":false,
+            "documents":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456/collection/5330edf0-a68d-11e0-8264-0800200c9a66/documents"
+               }
+            }
+         }
+      }
+   ]
+}</pre>
+							The response contains all meta data of the collection. However, the documents available in the collection must be fetched using the paginated list in additional calls.
+											
+					<a name="N67115"></a>
+<h2 class="resource">3. Comment</h2>
+<h4>Description</h4>
+<p>This resource represents a comment.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/comment/<span class="uripart">{comment-id}</span>
+</pre>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">comment-id</dt>
+<dd>comment ID</dd>
+</dl>
+<a name="N67133"></a>
+<h3 class="operation">3.1 Create a new comment</h3>
+<h4>Description</h4>Adds a new comment to the task.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/comments</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "content":"blablabla"
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Comment has been created.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid comment data (i.e. length).</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67193"></a>
+<h3 class="operation">3.2 Get a single comment</h3>
+<h4>Description</h4>Returns the full comment.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/comment/<span class="uripart">{comment-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">comment-id</dt>
+<dd>comment ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Comment is available in response entity.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Comment not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "comment":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      },
+      "content":"blablabla",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}</pre>
+													
+					
+<a name="N67243"></a>
+<h3 class="operation">3.3 List of comments of a document (forward)</h3>
+<h4>Description</h4>Forwards to a paginated list of comments that have been added to the document.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/comments</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No comments available yet</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Location header contains link to first page of comments</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67295"></a>
+<h3 class="operation">3.4 List of comments of a document (page)</h3>
+<h4>Description</h4>Returns a list of all comments bound to the document.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/comments/cursor/<span class="uripart">{comment-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document id</dd>
+<dt class="uripart">{comment-id}</dt>
+<dd>comment id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Page in response</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Cursor not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments/cursor/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      }
+   },
+   "list":[
+      {
+         "comment":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+            },
+            "content":"blablabla",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66/votes"
+               },
+               "up":12,
+               "down":2
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}</pre>
+													
+					
+<a name="N67354"></a>
+<h3 class="operation">3.5 List of comments of a user (forward)</h3>
+<h4>Description</h4>Forwards to a paginated list of comments that have been written by the user.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/comments</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No comments available yet</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Location header contains link to first page of comments</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User not found</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67406"></a>
+<h3 class="operation">3.6 List of comments of a user (page)</h3>
+<h4>Description</h4>Returns a list of all comments made by a user<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/comments/cursor/<span class="uripart">{comment-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+<dt class="uripart">{comment-id}</dt>
+<dd>comment id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Page in response</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Cursor not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/comments/cursor/8e252710-77cf-11e0-a1f0-0800200c9a66"
+      }
+   },
+   "list":[
+      {
+         "comment":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+            },
+            "content":"blablabla",
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66/votes"
+               },
+               "up":12,
+               "down":2
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/user/comments/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/user/comments/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}</pre>
+													
+					
+<a name="N68830"></a>
+<h2 class="resource">4. Document*</h2>
+<h4>Description</h4>
+<p>This resource represents a document.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>
+</pre>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+</dl>
+<a name="N65568"></a>
+<h2 class="resource">5. Index</h2>
+<h4>Description</h4>
+<p>This entry resource provides information about the instance.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2</pre>
+<dl></dl>
+<a name="N65578"></a>
+<h3 class="operation">5.1 Get service instance data</h3>
+<h4>Description</h4>Returns a static information about the deployed Core service instance.<h4>URI</h4>
+<pre>http://api.diretto.org/v2</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Service instance data in response entity</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "api":{
+      "name":"org.diretto.api.main.core",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Core API Node",
+      "version":"0.2.0"
+   },
+   "deployment":{
+      "title":"fubar diretto Deployment",
+      "contact":"mail@deployer",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "links":[
+      {
+         "title":"diretto Core API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/core.html"
+         }
+      }
+   ],
+   "configurations" : {
+   	"paginationSize : 
+   }   
+}</pre>
+						The JSON response contains information about the service identification and version and the actual deployment variables.
+						
+					<a name="N67468"></a>
+<h2 class="resource">6. Link</h2>
+<h4>Description</h4>
+<p>This resource represents a link. A link
+			is unidirectional connection between two documents. The semantics of a link is
+			an unidirectional trace from the source document to the destination document,
+			such as  happens-after or is-the-result-of.
+			</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/link/<span class="uripart">{link-id}</span>
+</pre>
+<dl>
+<dt class="uripart">link-id</dt>
+<dd>link ID</dd>
+</dl>
+<a name="N67482"></a>
+<h3 class="operation">6.1 Create a new link</h3>
+<h4>Description</h4>Adds a new link to the platform.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/links</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "title":"blabla",
+   "description":"asdasd",
+   "source":{
+      "document":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66"
+         }
+      }
+   },
+   "destination":{
+      "document":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128"
+         }
+      }
+   }
+}</pre>
+													
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Link created.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid data.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67690"></a>
+<h3 class="operation">6.2 List of links (forward)</h3>
+<h4>Description</h4>Forwards to the list of links.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/links</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No links available yet.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to list.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67734"></a>
+<h3 class="operation">6.3 List of links (page)</h3>
+<h4>Description</h4>List of links, sorted by creation date.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/links/cursor/<span class="uripart">{link-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{link-id}</dt>
+<dd>link id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Cursor not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/links/cursor/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+      }
+   },
+   "list":[
+      {
+         "documentlink":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/links/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/links/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}</pre>
+							The number of elements shown has been limited to a single item per page only to keep this example simple.
+											
+					<a name="N67643"></a>
+<h3 class="operation">6.4 List of links created since a specific date (forward)</h3>
+<h4>Description</h4>Forwards to the list of links that have been created since a given date.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/links/since/<span class="uripart">{split date}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{split date}</dt>
+<dd>A RFC 3339 compliant date (Zulu time) to be used as split point.</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No new links available since that date.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to list.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67534"></a>
+<h3 class="operation">6.5 Retrieve a link</h3>
+<h4>Description</h4>Returns a link.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/link/<span class="uripart">{link-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">link-id</dt>
+<dd>link ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Link data in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Link not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "documentlink":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+      },
+      "title":"blabla",
+      "description":"asdasd",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "source":{
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66"
+            }
+         }
+      },
+      "destination":{
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128"
+            }
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/votes"
+         },
+         "up":12,
+         "down":2
+      },
+      "tags":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tags"
+         },
+         "list":[
+            {
+               "tag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  },
+                  "baseTag":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     }
+                  },
+                  "value":"mytag",
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/user/123456"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     },
+                     "up":12,
+                     "down":2
+                  }
+               }
+            }
+         ]
+      }
+   }
+}</pre>
+													
+					
+<a name="N67584"></a>
+<h3 class="operation">6.6 Retrieve all links containing a specific document</h3>
+<h4>Description</h4>Returns a list of links that contain a given document as source or destination.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/documents/<span class="uripart">{doc-id}</span>/links</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Link list in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "documentlinks":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
+      },
+      "in":[
+         {
+            "documentlink":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
+               },
+               "title":"blabla",
+               "description":"asdasd",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "source":{
+                  "document":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66"
+                     }
+                  }
+               },
+               "destination":{
+                  "document":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128"
+                     }
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/votes"
+                  },
+                  "up":12,
+                  "down":2
+               },
+               "tags":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tags"
+                  },
+                  "list":[
+                     {
+                        "tag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           },
+                           "baseTag":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              }
+                           },
+                           "value":"mytag",
+                           "creationTime":"2010-07-17T18:54:11.939Z",
+                           "creator":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/user/123456"
+                              }
+                           },
+                           "votes":{
+                              "link":{
+                                 "rel":"self",
+                                 "href":"http://core/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                              },
+                              "up":12,
+                              "down":2
+                           }
+                        }
+                     }
+                  ]
+               }
+            }
+         }
+      ],
+      "out":[
+
+      ]
+   }
+}</pre>
+							The number of elements shown has been limited to a single item per page only to keep this example simple.
+											
+					<a name="N68320"></a>
+<h2 class="resource">7. Message</h2>
+<h4>Description</h4>
+<p>This resource represents a private message that can be sent from one user to another. No other user  can access this message. When a new message has been posted, two independent copies will be stored: one in the outbox of the sender, and one in the inbox of the receiver. 
+			Please note that there is no API functionality for marking messages as 'read'. If necessary this feature can be implemented by the service clients.
+			The owner of the user resource and the user executing the request must be the same (except for API call posting a new message).</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/inbox/message/<span class="uripart">{msg-id}</span>
+</pre>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">msg-id</dt>
+<dd>message ID</dd>
+</dl>
+<a name="N68405"></a>
+<h3 class="operation">7.1 List of inbox messages received since a specific date (forward)</h3>
+<h4>Description</h4>Forwards to the list of incoming messages, that have been received since a given date. Useful for incremental requests of new messages.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/inbox/messages/since/<span class="uripart">{split date}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+<dt class="uripart">{split date}</dt>
+<dd>A RFC 3339 compliant date (Zulu time) to be used as split point.</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No message received since that date.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to list.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68460"></a>
+<h3 class="operation">7.2 List of messages (forward)</h3>
+<h4>Description</h4>Forwards to the list of sent messages<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/<span class="uripart">{boxtype}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+<dt class="uripart">{boxtype}</dt>
+<dd>'inbox' or 'outbox'</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No message received yet.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to list.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68519"></a>
+<h3 class="operation">7.3 List of messages (page)</h3>
+<h4>Description</h4>List of sent messages, ordered by date and paginated.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/<span class="uripart">{boxtype}</span>/messages/cursor/<span class="uripart">{msg-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+<dt class="uripart">{boxtype}</dt>
+<dd>'inbox' or 'outbox'</dd>
+<dt class="uripart">{msg-id}</dt>
+<dd>message id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List in response.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Cursor not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456/outbox/messages/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+      }
+   },
+   "list":[
+      {
+         "message":{
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "links":[
+               {
+                  "link":{
+                     "rel":"alternate",
+                     "href":"http://core/v2/user/123456/outbox/message/128ecf542a35ac5270a87dc740918404"
+                  }
+               },
+               {
+                  "link":{
+                     "rel":"alternate",
+                     "href":"http://core/v2/user/789012/inbox/message/128ecf542a35ac5270a87dc740918404"
+                  }
+               }
+            ],
+            "sender":{
+               "link":{
+                  "rel":"author",
+                  "href":"http://core/v2/user/123456"
+               }
+            },
+            "receiver":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/user/789012"
+               }
+            },
+            "title":"Yada yada",
+            "content":"bla bla bla.."
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/user/123456/outbox/messages/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/user/123456/outbox/messages/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}</pre>
+							An example page of messages. The number of elements shown has been limited to a single comment per page to keep this example simple.
+						
+					<a name="N68338"></a>
+<h3 class="operation">7.4 Post a new message</h3>
+<h4>Description</h4>Creates a new collection for this user.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/inbox/messages</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id (receiver)</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+
+<pre class="brush: js">{
+	"title":"Yada yada",
+	"content":"bla bla bla.."
+}</pre>
+							Only title and message content must be posted. Note that that both title and content length may be constrained and invalid messages may be rejected.
+											
+					<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Message created.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid message data.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68656"></a>
+<h3 class="operation">7.5 Remove a message</h3>
+<h4>Description</h4>Removes single message. Please note that this API call will not delete the message copy in the box of the counterpart.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/<span class="uripart">{boxtype}</span>/message/<span class="uripart">{msg-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+<dt class="uripart">{boxtype}</dt>
+<dd>'inbox' or 'outbox'</dd>
+<dt class="uripart">{msg-id}</dt>
+<dd>message id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">DELETE</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Message deleted.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Message not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68589"></a>
+<h3 class="operation">7.6 Retrieve a message</h3>
+<h4>Description</h4>Returns a single message.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>/<span class="uripart">{boxtype}</span>/message/<span class="uripart">{msg-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user id</dd>
+<dt class="uripart">{boxtype}</dt>
+<dd>'inbox' or 'outbox'</dd>
+<dt class="uripart">{msg-id}</dt>
+<dd>message id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List in response.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Not allowed for this user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Message not found.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "message":{
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "links":[
+         {
+            "link":{
+               "rel":"alternate",
+               "href":"http://core/v2/user/123456/outbox/message/128ecf542a35ac5270a87dc740918404"
+            }
+         },
+         {
+            "link":{
+               "rel":"alternate",
+               "href":"http://core/v2/user/789012/inbox/message/128ecf542a35ac5270a87dc740918404"
+            }
+         }
+      ],
+      "sender":{
+         "link":{
+            "rel":"author",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "receiver":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/789012"
+         }
+      },
+      "title":"Yada yada",
+      "content":"bla bla bla.."
+   }
+}</pre>
+						
+					
+<a name="N67816"></a>
+<h2 class="resource">8. Position*</h2>
+<h4>Description</h4>
+<p>This resource represents the location, where a document has been created.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/comment/<span class="uripart">{doc-id}</span>
+</pre>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">doc-id</dt>
+<dd>comment ID</dd>
+</dl>
+<a name="N66571"></a>
+<h2 class="resource">9. Query*</h2>
+<h4>Description</h4>
+<p>An interface resource for query execution. A query must be dispatched to the server 
+			which will return a URI for the query. This URI then contains the results. Results are paginated using cursors.
+			A query resource stores the initial query parameters, not the result set. Thus, queries can be re-executed by using the same URI,
+			although the corresponding results may have changed. Be aware of this fact when applying caching to query results.
+<pre class="brush: plain">
+   Client                      Core Service
+
+     |                               |
+     |                               |
+     |      (1) POST Query           |
+     |------------------------------&gt;|
+     |                               |
+     |      (2) 202 + Location       |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (3) GET Query Resource   |
+     |------------------------------&gt;|
+     |                               |
+     |      (4) 303 + 1st page URI   |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |      (5) GET 1st result page  |
+     |------------------------------&gt;|
+     |                               |
+     |      (6) 200 + First page     |
+     |&lt;------------------------------|
+     |                               |
+</pre>		
+Note that step 5 and 6 must be repeated for additional result pages. Also, step 1 and 2 can be skipped if an existing query (client already knows query URI) should be re-executed.			
+			</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>
+</pre>
+<dl>
+<dt class="uripart">query-id</dt>
+<dd>query id</dd>
+</dl>
+<a name="N66589"></a>
+<h3 class="operation">9.1 Dispatch a query</h3>
+<h4>Description</h4>Sends a query.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/query</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>		
+						
+
+<pre class="brush: js">{
+   "query":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox":[
+            100.0,
+            0.0,
+            105.0,
+            1.0
+         ]
+      },
+      "tags":[
+		"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      ]
+   }
+}</pre>
+						A query is built using three parameters. While time frame and spatial bounding box are mandatory, the tag list may be empty.
+						Please not that all parameters are combined conjunctively (using boolean AND), thus each emitted result entry matches all of the parameters.
+										
+					<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Query accepted, result location in header.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid query parameters.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66695"></a>
+<h3 class="operation">9.2 Execute a common location-based query</h3>
+<h4>Description</h4>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/query/common/<span class="uripart">{type}</span>?lat=<span class="uripart">{latitude}</span>&amp;lon=<span class="uripart">{longitude}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{type}</dt>
+<dd>type: one of 'newest', 'unattended', 'expiring' or 'popular'</dd>
+<dt class="uripart">{latitude}</dt>
+<dd>latitude</dd>
+<dt class="uripart">{longitude}</dt>
+<dd>longitude</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">303 See Other</dt>
+<dd>Query accepted, result location in header.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Invalid coordinates.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66645"></a>
+<h3 class="operation">9.3 Forward to query result page</h3>
+<h4>Description</h4>A request to a query URI will always be forwarded to the first page of the result set using the first cursor.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/query</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Query returned no results.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Query found, result location in header.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Query not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66752"></a>
+<h3 class="operation">9.4 Get query result page</h3>
+<h4>Description</h4>Returns a paginated result page, identified by the cursor. A result page always contains links to related pages.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>/cursor/<span class="uripart">{cursor-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">query-id</dt>
+<dd>query id</dd>
+<dt class="uripart">{cursor-id}</dt>
+<dd>cursor id</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Result page in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Query or cursor not found.</dd>
+</dl>
+<h4>Response Entities</h4>	
+						
+
+<pre class="brush: js">{
+   "query":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404"
+      }
+   },
+   "results":{
+      "count":101,
+      "page":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
+         },
+         "list":[
+            {
+               "document":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+                  }
+               }
+            }
+         ],
+         "related":[
+            {
+               "link":{
+                  "rel":"first",
+                  "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"previous",
+                  "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+               }
+            },
+            {
+               "link":{
+                  "rel":"next",
+                  "href":"http://core/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
+               }
+            }
+         ]
+      }
+   }
+}</pre>
+						A query result page containing links to the previous, next and first page. The first page link is always present, the others only when the other pages acutally exist.
+							
+					<a name="N65630"></a>
+<h2 class="resource">10. Service*</h2>
+<h4>Description</h4>
+<p>A resource for service informations.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/service</pre>
+<dl></dl>
+<a name="N65641"></a>
+<h3 class="operation">10.1 Get supported media types</h3>
+<h4>Description</h4>Returns a list of supported media types that the server accepts for storage.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/service/mediatypes</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List in response entity</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: js">
+{
+//TODO: complete me
+}						
+						</pre>
+						
+					
+<a name="N65690"></a>
+<h3 class="operation">10.2 Get the service registry</h3>
+<h4>Description</h4>Returns a list of registered services of the platform. If there is a Registry API service available, this request will be redirected to the Registry API directory.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/service/registry</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List in response entity</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Redirect to Registry API service</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: js">
+{
+   "services":{
+      "list":[
+         {
+            "api":{
+               "name":"org.diretto.api.external.task",
+               "version":"v2"
+            },
+            "service":{
+               "name":"diretto Task Node",
+               "version":"0.1.0"
+            },
+            "deployment":{
+               "title":"fubar Task Service",
+               "contact":"n/a",
+               "website":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://www.diretto.org"
+                  }
+               }
+            },
+            "link":{
+               "rel":"self",
+               "href":"http://taskservice/v2"
+            }
+         }
+      ]
+   }
+}						
+						</pre>
+						
+					
+<a name="N65744"></a>
+<h2 class="resource">11. Tag</h2>
+<h4>Description</h4>
+<p>This resource represents a tag. Users can append tags on various resources. 
+			The tag URI path is appended to the original URI. The following resources of the Core API can be tagged: <em>Document</em> and <em>Link</em>
+			
+
+<pre class="brush: plain">
+   Client                      Task Service
+
+     |                               |
+     |                               |
+     |   (1) POST Tag                |
+     |------------------------------&gt;|
+     |                               |
+     |   (2) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+     |   (3) POST Tag to Resource    |
+     |------------------------------&gt;|
+     |                               |
+     |   (4) 201/202 + Location      |
+     |&lt;------------------------------|
+     |                               |
+     |                               |
+</pre>				
+		Steps 1+2 create a tag, steps 3+4 append the tag to a resource.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>
+</pre>
+<dl>
+<dt class="uripart">tag-id</dt>
+<dd>tag ID</dd>
+</dl>
+<a name="N66001"></a>
+<h3 class="operation">11.1 Append a tag to a resource</h3>
+<h4>Description</h4>Appends a new tag to the resource.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Tag has been appended. The location header contains its URI and thus also the tag id.</dd>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Tag already exists, but accepted.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid tag data (i.e. ID mismatch).</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Tag or resource not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N65768"></a>
+<h3 class="operation">11.2 Create a new tag or resolve an existing tag</h3>
+<h4>Description</h4>Create a new tag that can be appended to resource thereafter. This API call can also be used to retrieve the internal ID of an existing tag.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/tags</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "value":"mytag"
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>Tag has been created. The location header contains its URI and thus also the tag id.</dd>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Tag already exists, but accepted.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid tag data (i.e. length).</dd>
+</dl>
+<h4>Response Entities</h4>
+
+							
+<pre class="brush: js">
+{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      }
+   }
+}</pre>
+											
+					
+<a name="N65832"></a>
+<h3 class="operation">11.3 Create or resolve multiple tags (batch request)</h3>
+<h4>Description</h4>Takes a list of textual tags and either creates or resolves each of them. For every single tag, either the base tag URI or an error message is returned.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/tags/multiple</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "values":["t","mytag"]
+}</pre>
+						
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List of tags in response.</dd>
+</dl>
+<h4>Response Entities</h4>
+
+							
+<pre class="brush: js">
+{
+   "results":{
+      "mytag":{
+         "baseTag":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+            }
+         }
+      },
+      "t":{
+         "error":{
+            "message":"Invalid tag length"
+         }
+      }
+   }
+}</pre>
+											
+					
+<a name="N66120"></a>
+<h3 class="operation">11.4 List of all tags (forward)</h3>
+<h4>Description</h4>Forwards to a paginated list of all tags in this service.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/tags</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No tags available yet.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to first page.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66164"></a>
+<h3 class="operation">11.5 List of all tags (page)*</h3>
+<h4>Description</h4>Returns a page of the paginated list of all tags.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/tags/cursor/<span class="uripart">{tag-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{tag-id}</dt>
+<dd>ID of tag used as cursor</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Page in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Cursor/page not found</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66211"></a>
+<h3 class="operation">11.6 List of documents using a specific tag (forward)</h3>
+<h4>Description</h4>Forwards to a paginated list of all documents, where a given tag has been attached to.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>/documents</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">tag-id</dt>
+<dd>tag ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No documents available yet.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to first page.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66255"></a>
+<h3 class="operation">11.7 List of documents using a specific tag (page)*</h3>
+<h4>Description</h4>Returns a page of the paginated list of all tags.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>/documents/cursor/<span class="uripart">{doc-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">tag-id</dt>
+<dd>tag ID</dd>
+<dt class="uripart">{doc-id}</dt>
+<dd>ID of document used as cursor</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Page in response.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Cursor/page not found</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66065"></a>
+<h3 class="operation">11.8 Retrieve all tags of a resource</h3>
+<h4>Description</h4>Returns a single tag entry.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Resource not found.</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "tags":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+      },
+      "list":[
+         {
+            "tag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               },
+               "baseTag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  }
+               },
+               "value":"mytag",
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                  },
+                  "up":12,
+                  "down":2
+               }
+            }
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N65940"></a>
+<h3 class="operation">11.9 Retrieve a single tag of a resource</h3>
+<h4>Description</h4>Returns a single tag entry that has been appended to a resource.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/tag/<span class="uripart">{tag-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">{tag-id}</dt>
+<dd>tag ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Resource not found.</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "tag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "baseTag" : {
+	      "link":{
+	         "rel":"self",
+	         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+	      }
+      }, 
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+         },
+         "up":12,
+         "down":2
+      }
+   }
+}</pre>
+							Note that the creation time denotes the time this tag has been appended to the resource for the first time.
+						
+					<a name="N65888"></a>
+<h3 class="operation">11.10 Retrieve a tag</h3>
+<h4>Description</h4>Returns a tag entry.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">tag-id</dt>
+<dd>tag ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Tag not found.</dd>
+</dl>
+<h4>Response Entities</h4>					
+						
+							
+<pre class="brush: js">
+{
+   "baseTag":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "value":"mytag",
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      }
+   }
+}</pre>
+							Note that the creation time denotes the initial usage of this time.
+						
+					<a name="N67795"></a>
+<h2 class="resource">12. Time*</h2>
+<h4>Description</h4>
+<p>This resource represents the point in time, when a document has been created.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/comment/<span class="uripart">{doc-id}</span>
+</pre>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">doc-id</dt>
+<dd>comment ID</dd>
+</dl>
+<a name="N66814"></a>
+<h2 class="resource">13. User</h2>
+<h4>Description</h4>
+<p>This resource represents a user. A user account is neccessary for most of the interactions with the diretto platform.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>
+</pre>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<a name="N66994"></a>
+<h3 class="operation">13.1 Change a user account</h3>
+<h4>Description</h4>Changes an existing user account. This operation can only be executed for the user that is authenticating the request. Please note that the user id cannot be changed.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">PUT</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+	 "email" : "john@doe.net",
+	 "password" : "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+	 "username" : "John Doe"
+}</pre>
+												
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>User account has been changed.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>The provided data are incomplete or invalid.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>The user making this call is not allowed to change this user account.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66934"></a>
+<h3 class="operation">13.2 Create a new user account</h3>
+<h4>Description</h4>Creates a new user account, if service instance has enabled this feature.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/users</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+	 "email" : "john@doe.net",
+	 "password" : "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+	 "username" : "John Doe"
+}</pre>
+												
+					
+<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>User account has been created. The location header contains its URI and thus also the user id.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>The provided data are incomplete or invalid.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>The service instance does not allow the creation of new user accounts.</dd>
+<dt class="statuscode">409 Conflict</dt>
+<dd>The user account has not been created, because there already exists an account with matching parameters.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66828"></a>
+<h3 class="operation">13.3 List of users (forward)</h3>
+<h4>Description</h4>Forwards to the list of links.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/users</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>No entries available yet.</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Forward to list.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66872"></a>
+<h3 class="operation">13.4 List of users (page)</h3>
+<h4>Description</h4>Provides a list of all registered users. Responses are paginated using cursors. 
+				 The request can also be executed omitting the cursor ID. In the case, the URI of the first page is returned.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/users/cursor/<span class="uripart">{cursor-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{cursor-id}</dt>
+<dd>the user ID used as cursor</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>
+	
+							
+<pre class="brush: js">
+{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/users/cursor/123456"
+      }
+   },
+   "list":[
+      {
+         "user":{
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/user/123456"
+            },
+            "username":"John Doe"
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core/v2/users/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core/v2/users/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}
+							</pre>
+							
+							An example page of users. The number of elements shown has been limited to a single comment per page to keep this example simple.
+						
+					<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>List in response entity</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Location of first when queried without cursor ID.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>List in response entity</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N67048"></a>
+<h3 class="operation">13.5 Retrieve user data</h3>
+<h4>Description</h4>Provides information about a user except the password.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/user/<span class="uripart">{user-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>User data is available in response entity.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>No user found with the given user id.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+							
+<pre class="brush: js">
+{
+   "user":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456"
+      },
+      "username":"John Doe"
+   }
+}</pre>
+						A sample response for a regular user.					
+						
+						
+							<pre class="brush: js">
+{
+   "user":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/user/123456"
+      },
+      "username":"John Doe",
+      "email" : "john@doe.net"
+   }
+}</pre>
+						When the user retrieves his own profile, the e-mail address is also included in the response.					
+						
+					<a name="N66305"></a>
+<h2 class="resource">14. Vote</h2>
+<h4>Description</h4>
+<p>This resource represents a vote. Users can vote on various resources. The voting URI path is appended to the original URI. 
+			The following resources of the Core API can be voted on: <em>Attachment</em>, <em>Link</em>, <em>Relation</em>, <em>Position</em>, <em>Time</em> , <em>Comment</em> and <em>Tag</em>.</p>
+<h4>Resource URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+</pre>
+<dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<a name="N66462"></a>
+<h3 class="operation">14.1 Get all votes</h3>
+<h4>Description</h4>Returns a summary of all votes for this resource.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/votes</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{resource}</dt>
+<dd>resource identifier</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Votes in response body.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Resource not found</dd>
+</dl>
+<h4>Response Entities</h4>	
+						
+
+<pre class="brush: js">{
+   "votes":{
+  	 "link":{
+            "rel":"self",
+            "href":"http://core/v2/resource/votes"
+         },
+      "up":123,
+      "down":42
+   }
+}</pre>
+												
+					
+<a name="N66393"></a>
+<h3 class="operation">14.2 Get a vote of the user</h3>
+<h4>Description</h4>Returns the current vote of the user authenticating the request.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Vote in response body.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Mismatch of voted and authenticated user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>User has not yet voted</dd>
+</dl>
+<h4>Response Entities</h4>	
+						
+
+<pre class="brush: js">{
+   "vote": "up"
+}</pre>
+						A response containing an up-vote. 
+						
+						
+<pre class="brush: js">{
+   "vote": "down"
+}</pre>
+						A response containing a down-vote. 
+												
+					<a name="N66519"></a>
+<h3 class="operation">14.3 Undo a vote on a resource</h3>
+<h4>Description</h4>Undos a vote that has been casted before.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">DELETE</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Vote has been removed.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Mismatch of voting and authenticated user.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>No vote found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66344"></a>
+<h3 class="operation">14.4 Vote on a resource</h3>
+<h4>Description</h4>Casts a vote by the user authenticating the request.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>/<span class="uripart">{vote}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">{vote}</dt>
+<dd>up or down</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">PUT</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Vote has been casted.</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Mismatch of voting and authenticated user.</dd>
+</dl>
+<h4>Response Entities</h4>n/a</body>
+</html>

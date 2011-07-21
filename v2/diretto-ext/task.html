@@ -580,8 +580,16 @@ a{
 <a name="N66268"></a>
 <h3 class="operation">1.3 Retrieve a single comment</h3>
 <h4>Description</h4>Returns a single comment.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/{task-id}/comment/{comment-id}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comment/<span class="uripart">{comment-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">task-id</dt>
+<dd>task ID</dd>
+<dt class="uripart">comment-id</dt>
+<dd>comment ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -705,7 +713,11 @@ a{
             "href":"http://taskservice/v2/query"
          }
       }
-   ]
+   ],
+   "parameters":{
+      "paginationSize":20,
+      "batchLimit":50
+   }
 }</pre>
 						The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.
 						
@@ -827,8 +839,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Response Entities</h4>n/a<a name="N65700"></a>
 <h3 class="operation">3.3 Forward to query result page</h3>
 <h4>Description</h4>A request to a query URI will always be forwarded to the first page of the result set using the first cursor.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/query/stored/{query-id}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">query-id</dt>
+<dd>query id</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -846,10 +864,12 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Response Entities</h4>n/a<a name="N65819"></a>
 <h3 class="operation">3.4 Get query result page</h3>
 <h4>Description</h4>Returns a paginated result page, identified by the cursor. A result page always contains links to the first page and additionally to the previous and next result page when existing.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/query/stored/{query-id}/cursor/<span class="uripart">{cursor-id}</span>
+<pre>http://task.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>/cursor/<span class="uripart">{cursor-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
+<dt class="uripart">query-id</dt>
+<dd>query id</dd>
 <dt class="uripart">{cursor-id}</dt>
 <dd>cursor id</dd>
 </dl>
@@ -1090,8 +1110,16 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N66900"></a>
 <h3 class="operation">4.3 Retrieve submission details</h3>
 <h4>Description</h4>Provides detailed information about this submission.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/{task-id}/submission/{submission-id}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submission/<span class="uripart">{submission-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">task-id</dt>
+<dd>task ID</dd>
+<dt class="uripart">submission-id</dt>
+<dd>submission ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -1298,7 +1326,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N67037"></a>
 <h3 class="operation">5.3 Create or resolve multiple tags (batch request)</h3>
 <h4>Description</h4>Takes a list of textual tags and either creates or resolves each of them. For every single tag, either the base tag URI or an error message is returned.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tags</pre>
+<pre>http://task.diretto.org/v2/tags/multiple</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
@@ -1474,8 +1502,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<a name="N67093"></a>
 <h3 class="operation">5.6 Retrieve a tag</h3>
 <h4>Description</h4>Returns a tag entry.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tag/{tag-id}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">tag-id</dt>
+<dd>tag ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -1999,8 +2033,13 @@ An example page (containing only one item per page). Please note the related lin
 <a name="N66480"></a>
 <h3 class="operation">6.7 Retrieve a single task snapshot</h3>
 <h4>Description</h4>Returns a complete set of data of this task, including comments, votes and sumbissions.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/{task-id}/snapshot</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/snapshot</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">task-id</dt>
+<dd>task ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2206,8 +2245,14 @@ An example page (containing only one item per page). Please note the related lin
 <a name="N66649"></a>
 <h3 class="operation">6.8 Retrieve task meta data</h3>
 <h4>Description</h4>Returns all meta data of this task.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/{task-id}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">task-id</dt>
+<dd>task ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2336,8 +2381,16 @@ An example page (containing only one item per page). Please note the related lin
 <a name="N65958"></a>
 <h3 class="operation">7.2 Get a vote of the user</h3>
 <h4>Description</h4>Returns the current vote of the user authenticating the request.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/{resource}/vote/user/{user-id}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2369,8 +2422,16 @@ An example page (containing only one item per page). Please note the related lin
 					<a name="N66084"></a>
 <h3 class="operation">7.3 Undo a vote on a resource</h3>
 <h4>Description</h4>Undos a vote that has been casted before.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/{resource}/vote/user/{user-id}</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">DELETE</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2388,10 +2449,14 @@ An example page (containing only one item per page). Please note the related lin
 <h4>Response Entities</h4>n/a<a name="N65909"></a>
 <h3 class="operation">7.4 Vote on a resource</h3>
 <h4>Description</h4>Casts a vote by the user authenticating the request.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/{resource}/vote/user/{user-id}/<span class="uripart">{vote}</span>
+<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>/<span class="uripart">{vote}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
+<dt class="uripart">resource</dt>
+<dd>resource identifier</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
 <dt class="uripart">{vote}</dt>
 <dd>up or down</dd>
 </dl>
