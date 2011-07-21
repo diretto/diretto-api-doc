@@ -96,7 +96,11 @@
             "href":"http://taskservice/v2/query"
          }
       }
-   ]
+   ],
+   "parameters":{
+      "paginationSize":20,
+      "batchLimit":50
+   }
 }]]></code>
 						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.</description>
 						</entity>
