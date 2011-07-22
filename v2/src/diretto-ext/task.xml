@@ -694,7 +694,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       },
       "constraints":{
          "time":{
-            "start":"2010-06-29T19:15:51.765Z",
+            "start":"2010-06-29T16:00:51.765Z",
             "end":"2010-06-29T19:15:50.000Z"
          },
          "location":{
@@ -918,7 +918,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             },
             "constraints":{
                "time":{
-                  "start":"2010-06-29T19:15:51.765Z",
+                  "start":"2010-06-29T16:00:51.765Z",
                   "end":"2010-06-29T19:15:50.000Z"
                },
                "location":{
@@ -1145,7 +1145,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             },
             "constraints":{
                "time":{
-                  "start":"2010-06-29T19:15:51.765Z",
+                  "start":"2010-06-29T16:00:51.765Z",
                   "end":"2010-06-29T19:15:50.000Z"
                },
                "location":{
@@ -1227,7 +1227,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       },
       "constraints":{
          "time":{
-            "start":"2010-06-29T19:15:51.765Z",
+            "start":"2010-06-29T16:00:51.765Z",
             "end":"2010-06-29T19:15:50.000Z"
          },
          "location":{
@@ -1295,7 +1295,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <![CDATA[{
    "constraints":{
       "time":{
-         "start":"2010-06-29T19:15:51.765Z",
+         "start":"2010-06-29T16:00:51.765Z",
          "end":"2010-06-29T19:15:50.000Z"
       },
       "location":{
@@ -1651,6 +1651,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<response>
 					<responses>
 						<answer code="200">List of tags in response.</answer>						
+						<answer code="400">Invalid request (i.e. empty list)</answer>						
 					</responses>
 					<entities >
 <entity>
