@@ -185,20 +185,23 @@ a{
 <a href="#N65587">Download an attachment</a>
 </li>
 <li>
-<a href="#N65751">Retrieve attachment's meta data</a>
+<a href="#N65849">Retrieve attachment's meta data</a>
 </li>
 <li>
-<a href="#N65641">Upload a new attachment</a>
+<a href="#N65751">Upload a new attachment (using POST)</a>
+</li>
+<li>
+<a href="#N65641">Upload a new attachment (using PUT)</a>
 </li>
 </ol>
 </li>
 <li>
-<a id="lN65815" href="#" onclick="javascript:showElement('XN65815','lN65815','[+]','[-]'); return false;">
+<a id="lN65913" href="#" onclick="javascript:showElement('XN65913','lN65913','[+]','[-]'); return false;">
 						[+]
-					</a> <a href="#N65815">Index</a>
-<ol id="XN65815" style="display:none;">
+					</a> <a href="#N65913">Index</a>
+<ol id="XN65913" style="display:none;">
 <li>
-<a href="#N65825">Get static information</a>
+<a href="#N65923">Get static information</a>
 </li>
 </ol>
 </li>
@@ -237,18 +240,21 @@ The Storage API is designed to support HTTP mechanisms like caching and conditio
 <a href="#N65587">Download an attachment</a>
 </li>
 <li>
-<a href="#N65751">Retrieve attachment's meta data</a>
+<a href="#N65849">Retrieve attachment's meta data</a>
 </li>
 <li>
-<a href="#N65641">Upload a new attachment</a>
+<a href="#N65751">Upload a new attachment (using POST)</a>
+</li>
+<li>
+<a href="#N65641">Upload a new attachment (using PUT)</a>
 </li>
 </ol>
 </li>
 <li>
-<a href="#N65815">Index</a>
+<a href="#N65913">Index</a>
 <ol>
 <li>
-<a href="#N65825">Get static information</a>
+<a href="#N65923">Get static information</a>
 </li>
 </ol>
 </li>
@@ -305,7 +311,7 @@ while all additional attachments represent derivated or customized versions.
 <dt class="statuscode">500 Internal Server Error</dt>
 <dd>Internal error while streaming the attachment</dd>
 </dl>
-<h4>Response Entities</h4>n/a<a name="N65751"></a>
+<h4>Response Entities</h4>n/a<a name="N65849"></a>
 <h3 class="operation">1.2 Retrieve attachment's meta data</h3>
 <h4>Description</h4>A HEAD request against an attachment allows to retrieve several meta data.
 				Servers must provide the following HTTP headers: <span style="font-family:monospace;">Content-Type</span> (mime type), 
@@ -342,8 +348,78 @@ while all additional attachments represent derivated or customized versions.
 <dt class="statuscode">500 Internal Server Error</dt>
 <dd>Internal error while streaming the attachment</dd>
 </dl>
-<h4>Response Entities</h4>n/a<a name="N65641"></a>
-<h3 class="operation">1.3 Upload a new attachment</h3>
+<h4>Response Entities</h4>n/a<a name="N65751"></a>
+<h3 class="operation">1.3 Upload a new attachment (using POST)</h3>
+<h4>Description</h4>New attachments must be uploaded to the storage server as part of a three-part workflow.
+				First, meta data must be sent to the API server. When the API server grants the creation of a new attachment,
+				it also provides an access token that is needed for the actual upload against the storage server.
+				Without a valid access token, no upload can be performed. On succcessful upload, the storage server also
+				creates a token that must be sent to the API server to approve the upload process.
+				Unlike the PUT-based upload call, this method uses a POST multipart call as known from HTML-based upload forms.
+				
+				The following HTML snippet shows an equivalent HTML form for dispatching such a request:				
+								
+<pre class="brush: xml">
+&lt;form action="http://mediaserver/0ecb3c6f-9ed9-41d0-ae40-ea074aeb1786" enctype="multipart/form-data" method="post"&gt;
+  &lt;input type="text" name="token" value="28e1095e0cec3f6e06c85fb14a52f90e3f9a6127" /&gt;
+  &lt;input type="text" name="filename" value="b54adc00-67f9-11d9-9669-0800200c9a66.jpg" /&gt;
+  &lt;input type="file" name="upload" /&gt;
+  &lt;input type="submit" value="Upload" /&gt;
+&lt;/form&gt;
+</pre>			
+				Please note that the URI as well as the values are examples and must be replaced. 	
+				<h4>URI</h4>
+<pre>http://mediaserver/<span class="uripart">{document-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{document-id}</dt>
+<dd>document ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">POST</span>
+<h4>Resource Formats</h4>
+<ul>
+					
+<li>multipart/form-data</li>
+					
+<li>application/json</li>
+				
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">201 Created</dt>
+<dd>The attachment has been created</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>The upload has been rejected (i.e. due to invalid file size)</dd>
+<dt class="statuscode">401 Unauthorized</dt>
+<dd>Wrong or invalid credentials</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>The targeted path or the provided access token is invalid</dd>
+<dt class="statuscode">409 Conflict</dt>
+<dd>The media file already exists</dd>
+<dt class="statuscode">411 Length Required</dt>
+<dd>Upload failed due to missing Content-Length information</dd>
+<dt class="statuscode">500 Internal Server Error</dt>
+<dd>Internal server error while handling the upload</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: js">{
+	"successToken" : "9365929d8479d2ca39826878984ff5f2b70b5d65"
+}</pre>
+						In case of a successful upload (201), a response key is provided that must be send to
+						the API server in order to prove the upload.
+						
+						
+						<pre class="brush: js">{
+	"error" : "The attachment size exceeds the server limits for uploads"
+}</pre>
+						Otherwise, an error message is available as entity.
+												
+					<a name="N65641"></a>
+<h3 class="operation">1.4 Upload a new attachment (using PUT)</h3>
 <h4>Description</h4>New attachments must be uploaded to the storage server as part of a three-part workflow.
 				First, meta data must be sent to the API server. When the API server grants the creation of a new attachment,
 				it also provides an access token that is needed for the actual upload against the storage server.
@@ -440,7 +516,7 @@ while all additional attachments represent derivated or customized versions.
 }</pre>
 						Otherwise, an error message is available as entity.
 												
-					<a name="N65815"></a>
+					<a name="N65913"></a>
 <h2 class="resource">2. Index</h2>
 <h4>Description</h4>
 <p>The index resource provides static information about the deployed service.
@@ -448,7 +524,7 @@ while all additional attachments represent derivated or customized versions.
 <h4>Resource URI</h4>
 <pre>http://mediaserver/</pre>
 <dl></dl>
-<a name="N65825"></a>
+<a name="N65923"></a>
 <h3 class="operation">2.1 Get static information</h3>
 <h4>Description</h4>This operation allows to receive static information about the deployment.
 				<span style="font-family:monospace;">HEAD</span> requests against this resource may be useful to check the service's availability.<h4>URI</h4>
