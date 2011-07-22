@@ -48,7 +48,7 @@ while all additional attachments represent derivated or customized versions.
 			</operation>	
 					
 			<operation>
-				<name>Upload a new attachment</name>
+				<name>Upload a new attachment (using PUT)</name>
 				<description>New attachments must be uploaded to the storage server as part of a three-part workflow.
 				First, meta data must be sent to the API server. When the API server grants the creation of a new attachment,
 				it also provides an access token that is needed for the actual upload against the storage server.
@@ -127,6 +127,66 @@ while all additional attachments represent derivated or customized versions.
 					</entities>
 				</response>
 			</operation>
+			
+			<operation>
+				<name>Upload a new attachment (using POST)</name>
+				<description>New attachments must be uploaded to the storage server as part of a three-part workflow.
+				First, meta data must be sent to the API server. When the API server grants the creation of a new attachment,
+				it also provides an access token that is needed for the actual upload against the storage server.
+				Without a valid access token, no upload can be performed. On succcessful upload, the storage server also
+				creates a token that must be sent to the API server to approve the upload process.
+				Unlike the PUT-based upload call, this method uses a POST multipart call as known from HTML-based upload forms.
+				
+				The following HTML snippet shows an equivalent HTML form for dispatching such a request:				
+								
+<code language="xml">
+&lt;form action="http://mediaserver/0ecb3c6f-9ed9-41d0-ae40-ea074aeb1786" enctype="multipart/form-data" method="post"&gt;
+  &lt;input type="text" name="token" value="28e1095e0cec3f6e06c85fb14a52f90e3f9a6127" /&gt;
+  &lt;input type="text" name="filename" value="b54adc00-67f9-11d9-9669-0800200c9a66.jpg" /&gt;
+  &lt;input type="file" name="upload" /&gt;
+  &lt;input type="submit" value="Upload" /&gt;
+&lt;/form&gt;
+</code>			
+				Please note that the URI as well as the values are examples and must be replaced. 	
+				</description>
+				<path omitResourcePath="true"><param description="document ID">document-id</param></path>
+				<formats>
+					<format>multipart/form-data</format>
+					<format>application/json</format>
+				</formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="true" />
+					<entities />
+					<!--  attachment-specific (must be the same as indicated to the API server) -->
+				</request>
+				<response>
+					<responses>
+						<answer code="201">The attachment has been created</answer>
+						<answer code="400">The upload has been rejected (i.e. due to invalid file size)</answer>
+						<answer code="401">Wrong or invalid credentials</answer>
+						<answer code="403">The targeted path or the provided access token is invalid</answer>
+						<answer code="409">The media file already exists</answer>
+						<answer code="411">Upload failed due to missing Content-Length information</answer>
+						<answer code="500">Internal server error while handling the upload</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">{
+	"successToken" : "9365929d8479d2ca39826878984ff5f2b70b5d65"
+}</code>
+						<description>In case of a successful upload (201), a response key is provided that must be send to
+						the API server in order to prove the upload.</description>
+						</entity>
+						<entity>
+						<code language="js">{
+	"error" : "The attachment size exceeds the server limits for uploads"
+}</code>
+						<description>Otherwise, an error message is available as entity.</description>
+						</entity>						
+					</entities>
+				</response>
+			</operation>			
 			
 			<operation>
 				<name>Retrieve attachment's meta data</name>
