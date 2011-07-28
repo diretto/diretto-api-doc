@@ -2673,7 +2673,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 									
 			<operation>
 				<name>Get a suggested creation time of a document</name>
-				<description>Returns a list of all creation times that have been suggested by the users for the given document.</description>
+				<description>Returns a single creation time suggested for the given document.</description>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -2721,7 +2721,161 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</response>
 			</operation>			
 						
-						
+		</resource>
+		
+<!-- ============================================================================================================= 
+			Location
+	============================================================================================================== -->
+		<resource>
+			<name>Location</name>
+			<description>This resource represents the location, where a document has been created. The location is stored
+			using WGS84 coordinates. In addition to the position, also a variance value can be provided, denoting the approximate
+			variance in meters from the given position. This enables support for inaccurate location values. The position value
+			is stored using the GeoJSON specification.
+			</description>
+			<path>/document/<param description="document ID">doc-id</param>/location/<param description="latitude as float value (degrees)">lat</param>,<param description="longitude as float value (degrees)">lon</param>,<param description="position variance as integer value (meters)">variance</param></path>
+
+		<operation>
+				<name>List all suggested location origins of a document</name>
+				<description>Returns a list of all location origins that have been suggested by the users for the given document.
+				The included number of votes for each suggestion can be used to rank the suggestions.
+				</description>
+				<path omitResourcePath="true">/document/<param description="document ID">doc-id</param>/locations</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Creation location list in response</answer>
+						<answer code="404">Document not found</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "locations":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/locations"
+      },
+      "list":[
+         {
+            "location":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100"
+               },
+               "position":{
+                  "type":"Point",
+                  "coordinates":[
+                     9.991246,
+                     48.39848
+                  ]
+               },
+               "variance":100,
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100/votes"
+                  },
+                  "up":4,
+                  "down":1
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+
+			
+			<operation>
+				<name>Suggest an alternative location origin for a document</name>
+				<description>Adds a new suggestion for the location origin for this document.
+				</description>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>PUT</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Suggestion accepted</answer>
+						<answer code="400">Invalid location</answer>
+						<answer code="404">Document not found</answer>
+					</responses>
+					<entities/>
+				</response>
+			</operation>			
+									
+									
+			<operation>
+				<name>Get a suggested location origin of a document</name>
+				<description>Returns a single location origin that has been suggested for the given document.</description>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200"></answer>
+						<answer code="404">Document or location not found</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "location":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100"
+      },
+      "position":{
+         "type":"Point",
+         "coordinates":[
+            9.991246,
+            48.39848
+         ]
+      },
+      "variance":100,
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100/votes"
+         },
+         "up":4,
+         "down":1
+      }
+   }
+}]]></code>
+						</entity>
+						<description>A location entry suggesting that the given document has been created around latitude 48.39848, longitude 9.991246 with a variance of 100 meters.
+						Please note that the <tt>position</tt> value represents a valid GeoJSON object. GeoJSON is using a different order for positions (longitude, latitude)
+						than the order used for building location resource URIs.</description>
+					</entities>					
+				</response>
+			</operation>			
 		</resource>	
 		
 	
@@ -2775,16 +2929,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
 		
 			
-	<!-- ============================================================================================================= 
-			Location
-	============================================================================================================== -->
-		<resource>
-			<name>Location*</name>
-			<description>This resource represents the location, where a document has been created.</description>
-			<path>/document/<param description="document ID">doc-id</param>/location/<param description="location ID">location-id</param></path>
-		</resource>			
-
-
+		
 		
 				
 	</resources>
