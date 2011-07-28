@@ -1926,7 +1926,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N66331"></a>
 <h3 class="operation">6.4 List all existing tasks</h3>
 <h4>Description</h4>Forwards to a paginated list of all tasks available.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks/all</pre>
+<pre>http://task.diretto.org/v2/tasks</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
@@ -1948,7 +1948,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				If there is a previous link, the cursor of the current page is newer (or at least of the same age) than the last entry of the previous page.
 				Metaphorically, pages are slices cut from the timeline. When iterating over a page, the items on top are older than the bottom ones.       
 				<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks/all/cursor/<span class="uripart">{task id}</span>
+<pre>http://task.diretto.org/v2/tasks/cursor/<span class="uripart">{task id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -1975,7 +1975,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "page":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tasks/all/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://taskservice/v2/tasks/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       }
    },
    "list":[
@@ -1992,13 +1992,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       {
          "link":{
             "rel":"previous",
-            "href":"http://taskservice/v2/tasks/all/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+            "href":"http://taskservice/v2/tasks/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
          }
       },
       {
          "link":{
             "rel":"next",
-            "href":"http://taskservice/v2/tasks/all/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+            "href":"http://taskservice/v2/tasks/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
          }
       }
    ]
