@@ -6,7 +6,9 @@
 	<version>v2 - Draft</version>
 	<author>Benjamin Erb</author>
 	<description>The following document describe the RESTful API of the
-		core services of the diretto platform. It is the only mandatory service for deployment.</description>
+		core services of the diretto platform. It is the only service mandatory for a deployment. 
+		In most cases however (unless only using external documents), at least the Storage API will be need as well.
+		 </description>
 	<baseuri>http://api.diretto.org/v2</baseuri>
 	<authentication>
 		<type>Basic Authentication</type>
@@ -2447,9 +2449,17 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<responses>
 						<answer code="100"></answer>
 					</responses>
-					<entities />					
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "todo": ""
+}]]></code>
+						</entity>
+					</entities>					
 				</response>
 			</operation>
+			
+		
 
 		</resource>
 
@@ -2489,9 +2499,136 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			KeyValue
 	============================================================================================================== -->
 		<resource>
-			<name>Key-Value Pair*</name>
-			<description>This resource represents the location, where a document has been created.</description>
-			<path>/document/<param description="document ID">doc-id</param>/location/<param description="location ID">location-id</param></path>
+			<name>Key-Value Pair</name>
+			<description>This resource represents a key-value pair. Key-value pairs can be seen as structured tags for machines, as opposed to regular tags for human users.
+			Key value pairs can be added to a document, and are accessable (readable) for all platform users. The key part consists of a namespace and a key name.
+			The user id will be used as namespace and will be added automatically. The key name can be any string, with the minimal length of 3 characters and a maximum of 64 characters.
+			Only alphanumerical chars plus the following symbols are allowed inside the key name: "<tt>-</tt>" "<tt>:</tt>" "<tt>_</tt>" and "<tt>.</tt>"
+			
+			The actual value must be string of limited length (actual length depends on the service implementation). Any non-textual content must be encoded using Base64 or similar encodings.
+			Due to the user-based namespacing, multiple users can put values into this storage using the same string as key, ending up in different entries, separated by the user id.
+			Please note that all key value pairs are public for all users, so they don't represent a mechanism for saving classified data.  
+			
+			</description>
+			<path>/document/<param description="document ID">doc-id</param>/value/<param description="user ID for namespacing">user-id</param>/<param description="key name (valid chars: alphanumercial or one of '-' ':' '.' '_')">key</param></path>
+			
+			
+			<operation>
+				<name>Retrieve all key/value pairs for a document</name>
+				<description>Returns a list of all key/value pairs available for the given document.</description>
+				<path omitResourcePath="true">/document/<param description="document ID">doc-id</param>/values</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Key/value pairs in response</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "values":[
+      {
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/value/7815696ecbf1c96e6894b779456d330e/test"
+         },
+         "key":{
+            "namespace":"7815696ecbf1c96e6894b779456d330e",
+            "field":"test"
+         },
+         "value":"VGhpcyBpcyBhbiBleGFtcGxl"
+      }
+   ]
+}]]></code>
+						</entity>
+					</entities>						
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Get a key/value pair</name>
+				<description>Returns a specific key/value pair. Note that any user of the platform can execute this call.</description>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Key/value pair in response</answer>
+						<answer code="404">Key not found</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "link":{
+      "rel":"self",
+      "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/value/7815696ecbf1c96e6894b779456d330e/test"
+   },
+   "key":{
+      "namespace":"7815696ecbf1c96e6894b779456d330e",
+      "field":"test"
+   },
+   "value":"VGhpcyBpcyBhbiBleGFtcGxl"
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+							
+			<operation>
+				<name>Set a key/value pair</name>
+				<description>Puts the given value into the storage using the given key name. The request will be executed
+				if the user part of the key matches the user dispatching the request.</description>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>PUT</method>
+					<authentication mandatory="false"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Key/value pair has been set.</answer>
+						<answer code="400">Invalid key or value</answer>
+						<answer code="403">Wrong user, key namespace not allowed.</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "key":{
+      "field":"test"
+   },
+   "value":"VGhpcyBpcyBhbiBleGFtcGxl"
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Remove a key/value pair</name>
+				<description>Removes the given key/value pair. This is an irreversible call.</description>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>DELETE</method>
+					<authentication mandatory="false"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Key/value pair has been deleted.</answer>
+						<answer code="400">Invalid key or value</answer>
+						<answer code="403">Wrong user, key namespace not allowed.</answer>
+					</responses>
+					<entities/>
+				</response>
+			</operation>
+						
 		</resource>			
 
 		
