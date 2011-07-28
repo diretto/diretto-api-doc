@@ -572,7 +572,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<operation>
 				<name>List all existing tasks</name>
 				<description>Forwards to a paginated list of all tasks available.</description>
-				<path omitResourcePath="true">/tasks/all</path>
+				<path omitResourcePath="true">/tasks</path>
 				<formats><format>n/a</format></formats>
 				<request>
 					<method>GET</method>
@@ -615,7 +615,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				If there is a previous link, the cursor of the current page is newer (or at least of the same age) than the last entry of the previous page.
 				Metaphorically, pages are slices cut from the timeline. When iterating over a page, the items on top are older than the bottom ones.       
 				</description>
-				<path omitResourcePath="true">/tasks/all/cursor/<param description="Task ID to be used as cursor (first task included in page)">task id</param></path>
+				<path omitResourcePath="true">/tasks/cursor/<param description="Task ID to be used as cursor (first task included in page)">task id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -633,7 +633,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "page":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tasks/all/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://taskservice/v2/tasks/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       }
    },
    "list":[
@@ -650,13 +650,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       {
          "link":{
             "rel":"previous",
-            "href":"http://taskservice/v2/tasks/all/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+            "href":"http://taskservice/v2/tasks/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
          }
       },
       {
          "link":{
             "rel":"next",
-            "href":"http://taskservice/v2/tasks/all/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+            "href":"http://taskservice/v2/tasks/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
          }
       }
    ]
