@@ -7,7 +7,7 @@
 	<author>Benjamin Erb</author>
 	<description>The following document describe the RESTful API of the
 		core services of the diretto platform. It is the only service mandatory for a deployment. 
-		In most cases however (unless only using external documents), at least the Storage API will be need as well.
+		In most cases however (unless only using external documents), at least the Storage API will be needed as well.
 		 </description>
 	<baseuri>http://api.diretto.org/v2</baseuri>
 	<authentication>
@@ -893,7 +893,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			
 			<operation>
 				<name>Dispatch a query</name>
-				<description>Sends a query.</description>
+				<description>Sends a custom query using the passed parameters.</description>
 				<path omitResourcePath="true">/query</path>
 				<formats><format>n/a</format></formats>
 				<request>
@@ -915,14 +915,50 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             1.0
          ]
       },
-      "tags":[
-		"http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
-      ]
+      "tags":null,
+      "publishedBetween":null
    }
 }]]></code>
-						<description>A query is built using three parameters. While time frame and spatial bounding box are mandatory, the tag list may be empty.
-						Please not that all parameters are combined conjunctively (using boolean AND), thus each emitted result entry matches all of the parameters.</description>
-						</entity>				
+						<description>A minimal query is built using two mandatory parameters (<tt>time</tt> and <tt>location</tt>). The other
+						two parameters, <tt>tags</tt> and <tt>publishedBetween</tt> are optional and must be set to <tt>null</tt>, if not used.
+						The result pages contain all documents matching all of the constraints (using a boolean AND). If there are more 
+						than one items for location and time origin, the item with the best votes will be used.
+						</description>
+						</entity>
+						
+						<entity>
+<code language="js"><![CDATA[{
+   "query":{
+      "time":{
+         "start":"2010-06-29T19:15:51.765Z",
+         "end":"2010-06-29T19:15:50.000Z"
+      },
+      "location":{
+         "bbox":[
+            100.0,
+            0.0,
+            105.0,
+            1.0
+         ]
+      },
+      "tags":[
+         "http://core/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      ],
+      "publishedBetween":{
+         "start":"2010-06-01T00:00:00.000Z",
+         "end":"2010-07-01T00:00:00.000Z"
+      }
+   }
+}]]></code>
+						<description>A more complex query featuring tags and publishing time. Using a list of <tt>tags</tt>, the result set 
+						can be narrowed down to documents being tagged with the given tags. 
+						The <tt>publisedBetween</tt> constraint can be used to restrict the result set depending on the time
+						documents have been uploaded to the system. This is very useful do run incremental queries, or to update 
+						query result sets without refetching already known items.
+						Both <tt>start</tt> and <tt>end</tt> are necessary for the publishing time filter, but deliberately strong values
+						can be used to emulate wildcard behaviour.  
+						</description>
+						</entity>
 					</entities>
 				</request>
 				<response>
@@ -958,6 +994,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>	
 			
 						
+<!-- 						
 			<operation>
 				<name>Execute a common location-based query</name>
 				<description>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results.</description>
@@ -978,6 +1015,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					</entities>										
 				</response>
 			</operation>	
+ -->			
 					
 			<operation>
 				<name>Get query result page</name>
