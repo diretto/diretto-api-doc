@@ -182,26 +182,26 @@ a{
 					</a> <a href="#N65566">Attachment</a>
 <ol id="XN65566" style="display:none;">
 <li>
-<a href="#N65587">Download an attachment</a>
+<a href="#N65591">Download an attachment</a>
 </li>
 <li>
-<a href="#N65849">Retrieve attachment's meta data</a>
+<a href="#N65851">Retrieve attachment's meta data</a>
 </li>
 <li>
 <a href="#N65751">Upload a new attachment (using POST)</a>
 </li>
 <li>
-<a href="#N65641">Upload a new attachment (using PUT)</a>
+<a href="#N65645">Upload a new attachment (using PUT)</a>
 </li>
 </ol>
 </li>
 <li>
-<a id="lN65913" href="#" onclick="javascript:showElement('XN65913','lN65913','[+]','[-]'); return false;">
+<a id="lN65915" href="#" onclick="javascript:showElement('XN65915','lN65915','[+]','[-]'); return false;">
 						[+]
-					</a> <a href="#N65913">Index</a>
-<ol id="XN65913" style="display:none;">
+					</a> <a href="#N65915">Index</a>
+<ol id="XN65915" style="display:none;">
 <li>
-<a href="#N65923">Get static information</a>
+<a href="#N65925">Get static information</a>
 </li>
 </ol>
 </li>
@@ -218,6 +218,7 @@ a{
 <p>The Storage API is responsible for the reception, storage and delivery of submitted attachments of documents. 
 The Storage API is designed to support HTTP mechanisms like caching and conditional GETs for improved performance.   
 			
+		
 	
 	</p>
 <h4>Authentication Schemes</h4>
@@ -237,24 +238,24 @@ The Storage API is designed to support HTTP mechanisms like caching and conditio
 <a href="#N65566">Attachment</a>
 <ol>
 <li>
-<a href="#N65587">Download an attachment</a>
+<a href="#N65591">Download an attachment</a>
 </li>
 <li>
-<a href="#N65849">Retrieve attachment's meta data</a>
+<a href="#N65851">Retrieve attachment's meta data</a>
 </li>
 <li>
 <a href="#N65751">Upload a new attachment (using POST)</a>
 </li>
 <li>
-<a href="#N65641">Upload a new attachment (using PUT)</a>
+<a href="#N65645">Upload a new attachment (using PUT)</a>
 </li>
 </ol>
 </li>
 <li>
-<a href="#N65913">Index</a>
+<a href="#N65915">Index</a>
 <ol>
 <li>
-<a href="#N65923">Get static information</a>
+<a href="#N65925">Get static information</a>
 </li>
 </ol>
 </li>
@@ -265,7 +266,35 @@ The Storage API is designed to support HTTP mechanisms like caching and conditio
 <p>An attachment is a media file that belongs to an abstract document. 
 Each document owns one or more attachments. The first attachment should be considered as the "original" item, 
 while all additional attachments represent derivated or customized versions.
-			</p>
+
+	General Upload Flow:
+	<pre class="brush: plain">
+   Client         Core API Server      Storage API Server
+
+     |                    |                   |
+     |                    |                   |
+     | (1) POST Metadata  |                   |
+     |-------------------&gt;|                   |
+     |                    |                   |
+     | (2) 202 + Location |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     | (3) PUT/POST Entity (signed URI)       |
+     |--------------------+------------------&gt;|
+     |                    |                   |
+     | (4) 201 Created + Accept Key in Body   |
+     |&lt;-------------------+-------------------|
+     |                    |                   |
+     | (5) DELETE Lock (via Accept Key)       |
+     |-------------------&gt;|                   |
+     |                    |                   |
+     | (6) 204            |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     |                    |                   |
+</pre>		
+			
+</p>
 <h4>Resource URI</h4>
 <pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
 </pre>
@@ -277,7 +306,7 @@ while all additional attachments represent derivated or customized versions.
 <dt class="uripart">attachment-ext</dt>
 <dd>attachment extension</dd>
 </dl>
-<a name="N65587"></a>
+<a name="N65591"></a>
 <h3 class="operation">1.1 Download an attachment</h3>
 <h4>Description</h4>This operation allows to download an existing attachment. Conditional GETs must be supported by the storage server.
 				Clients should support caching and dispatch conditional requests whenever possible.<h4>URI</h4>
@@ -311,7 +340,7 @@ while all additional attachments represent derivated or customized versions.
 <dt class="statuscode">500 Internal Server Error</dt>
 <dd>Internal error while streaming the attachment</dd>
 </dl>
-<h4>Response Entities</h4>n/a<a name="N65849"></a>
+<h4>Response Entities</h4>n/a<a name="N65851"></a>
 <h3 class="operation">1.2 Retrieve attachment's meta data</h3>
 <h4>Description</h4>A HEAD request against an attachment allows to retrieve several meta data.
 				Servers must provide the following HTTP headers: <span style="font-family:monospace;">Content-Type</span> (mime type), 
@@ -418,7 +447,7 @@ while all additional attachments represent derivated or customized versions.
 }</pre>
 						Otherwise, an error message is available as entity.
 												
-					<a name="N65641"></a>
+					<a name="N65645"></a>
 <h3 class="operation">1.4 Upload a new attachment (using PUT)</h3>
 <h4>Description</h4>New attachments must be uploaded to the storage server as part of a three-part workflow.
 				First, meta data must be sent to the API server. When the API server grants the creation of a new attachment,
@@ -434,33 +463,8 @@ while all additional attachments represent derivated or customized versions.
 				The complete flow is listed here:  
 				
 				
-<pre class="brush: plain">
-   Client         Core API Server      Storage API Server
-
-     |                    |                   |
-     |                    |                   |
-     | (1) POST Metadata  |                   |
-     |-------------------&gt;|                   |
-     |                    |                   |
-     | (2) 202 + Location |                   |
-     |&lt;-------------------|                   |
-     |                    |                   |
-     | (3) PUT Entity (Signed URI)            |
-     |--------------------+------------------&gt;|
-     |                    |                   |
-     | (4) 201 Created + Accept Key in Body   |
-     |&lt;-------------------+-------------------|
-     |                    |                   |
-     | (5) DELETE Lock (via Accept Key)       |
-     |-------------------&gt;|                   |
-     |                    |                   |
-     | (6) 204            |                   |
-     |&lt;-------------------|                   |
-     |                    |                   |
-     |                    |                   |
-</pre>				
-				
-<h4>URI</h4>
+		
+				<h4>URI</h4>
 <pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>?token=<span class="uripart">{token}</span>
 </pre>
 <h4>URI Parameters</h4>
@@ -516,7 +520,7 @@ while all additional attachments represent derivated or customized versions.
 }</pre>
 						Otherwise, an error message is available as entity.
 												
-					<a name="N65913"></a>
+					<a name="N65915"></a>
 <h2 class="resource">2. Index</h2>
 <h4>Description</h4>
 <p>The index resource provides static information about the deployed service.
@@ -524,7 +528,7 @@ while all additional attachments represent derivated or customized versions.
 <h4>Resource URI</h4>
 <pre>http://mediaserver/</pre>
 <dl></dl>
-<a name="N65923"></a>
+<a name="N65925"></a>
 <h3 class="operation">2.1 Get static information</h3>
 <h4>Description</h4>This operation allows to receive static information about the deployment.
 				<span style="font-family:monospace;">HEAD</span> requests against this resource may be useful to check the service's availability.<h4>URI</h4>

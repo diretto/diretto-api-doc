@@ -177,12 +177,12 @@ a{
 </div>
 <ol id="sidemenu" style="display:none;">
 <li>
-<a id="lN68792" href="#" onclick="javascript:showElement('XN68792','lN68792','[+]','[-]'); return false;">
+<a id="lN69385" href="#" onclick="javascript:showElement('XN69385','lN69385','[+]','[-]'); return false;">
 						[+]
-					</a> <a href="#N68792">Attachment*</a>
-<ol id="XN68792" style="display:none;">
+					</a> <a href="#N69385">Attachment*</a>
+<ol id="XN69385" style="display:none;">
 <li>
-<a href="#N68810">Retrieve attachment data*</a>
+<a href="#N69403">Retrieve attachment data*</a>
 </li>
 </ol>
 </li>
@@ -243,10 +243,10 @@ a{
 </ol>
 </li>
 <li>
-<a id="lN68848" href="#" onclick="javascript:showElement('XN68848','lN68848','[+]','[-]'); return false;">
+<a id="lN69449" href="#" onclick="javascript:showElement('XN69449','lN69449','[+]','[-]'); return false;">
 						[+]
-					</a> <a href="#N68848">Document*</a>
-<ol id="XN68848" style="display:none;"></ol>
+					</a> <a href="#N69449">Document*</a>
+<ol id="XN69449" style="display:none;"></ol>
 </li>
 <li>
 <a id="lN65568" href="#" onclick="javascript:showElement('XN65568','lN65568','[+]','[-]'); return false;">
@@ -259,10 +259,23 @@ a{
 </ol>
 </li>
 <li>
-<a id="lN68907" href="#" onclick="javascript:showElement('XN68907','lN68907','[+]','[-]'); return false;">
+<a id="lN68792" href="#" onclick="javascript:showElement('XN68792','lN68792','[+]','[-]'); return false;">
 						[+]
-					</a> <a href="#N68907">Key-Value Pair*</a>
-<ol id="XN68907" style="display:none;"></ol>
+					</a> <a href="#N68792">Key-Value Pair</a>
+<ol id="XN68792" style="display:none;">
+<li>
+<a href="#N68878">Get a key/value pair</a>
+</li>
+<li>
+<a href="#N68978">Remove a key/value pair</a>
+</li>
+<li>
+<a href="#N68826">Retrieve all key/value pairs for a document</a>
+</li>
+<li>
+<a href="#N68926">Set a key/value pair</a>
+</li>
+</ol>
 </li>
 <li>
 <a id="lN67584" href="#" onclick="javascript:showElement('XN67584','lN67584','[+]','[-]'); return false;">
@@ -290,10 +303,20 @@ a{
 </ol>
 </li>
 <li>
-<a id="lN68886" href="#" onclick="javascript:showElement('XN68886','lN68886','[+]','[-]'); return false;">
+<a id="lN69203" href="#" onclick="javascript:showElement('XN69203','lN69203','[+]','[-]'); return false;">
 						[+]
-					</a> <a href="#N68886">Location*</a>
-<ol id="XN68886" style="display:none;"></ol>
+					</a> <a href="#N69203">Location</a>
+<ol id="XN69203" style="display:none;">
+<li>
+<a href="#N69329">Get a suggested location origin of a document</a>
+</li>
+<li>
+<a href="#N69229">List all suggested location origins of a document</a>
+</li>
+<li>
+<a href="#N69285">Suggest an alternative location origin for a document</a>
+</li>
+</ol>
 </li>
 <li>
 <a id="lN68394" href="#" onclick="javascript:showElement('XN68394','lN68394','[+]','[-]'); return false;">
@@ -396,10 +419,20 @@ a{
 </ol>
 </li>
 <li>
-<a id="lN68865" href="#" onclick="javascript:showElement('XN68865','lN68865','[+]','[-]'); return false;">
+<a id="lN69025" href="#" onclick="javascript:showElement('XN69025','lN69025','[+]','[-]'); return false;">
 						[+]
-					</a> <a href="#N68865">Time*</a>
-<ol id="XN68865" style="display:none;"></ol>
+					</a> <a href="#N69025">Time</a>
+<ol id="XN69025" style="display:none;">
+<li>
+<a href="#N69147">Get a suggested creation time of a document</a>
+</li>
+<li>
+<a href="#N69047">List all suggested creation times of a document</a>
+</li>
+<li>
+<a href="#N69103">Suggest an alternative creation time for a document</a>
+</li>
+</ol>
 </li>
 <li>
 <a id="lN66930" href="#" onclick="javascript:showElement('XN66930','lN66930','[+]','[-]'); return false;">
@@ -453,7 +486,9 @@ a{
 <p>Benjamin Erb</p>
 <h4>Description</h4>
 <p>The following document describe the RESTful API of the
-		core services of the diretto platform. It is the only mandatory service for deployment.</p>
+		core services of the diretto platform. It is the only service mandatory for a deployment. 
+		In most cases however (unless only using external documents), at least the Storage API will be need as well.
+		 </p>
 <h4>Authentication Schemes</h4>
 <p>
 <ul>
@@ -468,10 +503,10 @@ a{
 <h2>Index of Resources and Operations</h2>
 <ol>
 <li xmlns="http://www.w3.org/1999/xhtml">
-<a href="#N68792">Attachment*</a>
+<a href="#N69385">Attachment*</a>
 <ol>
 <li>
-<a href="#N68810">Retrieve attachment data*</a>
+<a href="#N69403">Retrieve attachment data*</a>
 </li>
 </ol>
 </li>
@@ -528,7 +563,7 @@ a{
 </ol>
 </li>
 <li>
-<a href="#N68848">Document*</a>
+<a href="#N69449">Document*</a>
 <ol></ol>
 </li>
 <li>
@@ -540,8 +575,21 @@ a{
 </ol>
 </li>
 <li>
-<a href="#N68907">Key-Value Pair*</a>
-<ol></ol>
+<a href="#N68792">Key-Value Pair</a>
+<ol>
+<li>
+<a href="#N68878">Get a key/value pair</a>
+</li>
+<li>
+<a href="#N68978">Remove a key/value pair</a>
+</li>
+<li>
+<a href="#N68826">Retrieve all key/value pairs for a document</a>
+</li>
+<li>
+<a href="#N68926">Set a key/value pair</a>
+</li>
+</ol>
 </li>
 <li>
 <a href="#N67584">Link</a>
@@ -567,8 +615,18 @@ a{
 </ol>
 </li>
 <li>
-<a href="#N68886">Location*</a>
-<ol></ol>
+<a href="#N69203">Location</a>
+<ol>
+<li>
+<a href="#N69329">Get a suggested location origin of a document</a>
+</li>
+<li>
+<a href="#N69229">List all suggested location origins of a document</a>
+</li>
+<li>
+<a href="#N69285">Suggest an alternative location origin for a document</a>
+</li>
+</ol>
 </li>
 <li>
 <a href="#N68394">Message</a>
@@ -663,8 +721,18 @@ a{
 </ol>
 </li>
 <li>
-<a href="#N68865">Time*</a>
-<ol></ol>
+<a href="#N69025">Time</a>
+<ol>
+<li>
+<a href="#N69147">Get a suggested creation time of a document</a>
+</li>
+<li>
+<a href="#N69047">List all suggested creation times of a document</a>
+</li>
+<li>
+<a href="#N69103">Suggest an alternative creation time for a document</a>
+</li>
+</ol>
 </li>
 <li>
 <a href="#N66930">User</a>
@@ -704,7 +772,7 @@ a{
 </ol>
 </li>
 </ol>
-<a xmlns="" name="N68792"></a>
+<a xmlns="" name="N69385"></a>
 <h2 class="resource">1. Attachment*</h2>
 <h4>Description</h4>
 <p>This resource represents an attachment</p>
@@ -717,7 +785,7 @@ a{
 <dt class="uripart">attach-id</dt>
 <dd>attachment ID</dd>
 </dl>
-<a name="N68810"></a>
+<a name="N69403"></a>
 <h3 class="operation">1.1 Retrieve attachment data*</h3>
 <h4>Description</h4>Get all data of an attachment.<h4>URI</h4>
 <pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/attachment/<span class="uripart">{attach-id}</span>
@@ -735,12 +803,20 @@ a{
 <ul>
 <li>application/json</li>
 </ul>
-<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
 <dl>
 <dt class="statuscode">100 Continue</dt>
 <dd></dd>
 </dl>
-<h4>Response Entities</h4>n/a<a name="N67911"></a>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "todo": ""
+}</pre>
+						
+					
+<a name="N67911"></a>
 <h2 class="resource">2. Collection</h2>
 <h4>Description</h4>
 <p>This resource represents a collection of documents that a user can create and maintain personally. Users can 
@@ -1408,7 +1484,7 @@ a{
 }</pre>
 													
 					
-<a name="N68848"></a>
+<a name="N69449"></a>
 <h2 class="resource">4. Document*</h2>
 <h4>Description</h4>
 <p>This resource represents a document.</p>
@@ -1475,19 +1551,189 @@ a{
 }</pre>
 						The JSON response contains information about the service identification and version and the actual deployment variables.
 						
-					<a name="N68907"></a>
-<h2 class="resource">6. Key-Value Pair*</h2>
+					<a name="N68792"></a>
+<h2 class="resource">6. Key-Value Pair</h2>
 <h4>Description</h4>
-<p>This resource represents the location, where a document has been created.</p>
+<p>This resource represents a key-value pair. Key-value pairs can be seen as structured tags for machines, as opposed to regular tags for human users.
+			Key value pairs can be added to a document, and are accessable (readable) for all platform users. The key part consists of a namespace and a key name.
+			The user id will be used as namespace and will be added automatically. The key name can be any string, with the minimal length of 3 characters and a maximum of 64 characters.
+			Only alphanumerical chars plus the following symbols are allowed inside the key name: "<span style="font-family:monospace;">-</span>" "<span style="font-family:monospace;">:</span>" "<span style="font-family:monospace;">_</span>" and "<span style="font-family:monospace;">.</span>"
+			
+			The actual value must be string of limited length (actual length depends on the service implementation). Any non-textual content must be encoded using Base64 or similar encodings.
+			Due to the user-based namespacing, multiple users can put values into this storage using the same string as key, ending up in different entries, separated by the user id.
+			Please note that all key value pairs are public for all users, so they don't represent a mechanism for saving classified data.  
+			
+			</p>
 <h4>Resource URI</h4>
-<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/location/<span class="uripart">{location-id}</span>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/value/<span class="uripart">{user-id}</span>/<span class="uripart">{key}</span>
 </pre>
 <dl>
 <dt class="uripart">doc-id</dt>
 <dd>document ID</dd>
-<dt class="uripart">location-id</dt>
-<dd>location ID</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID for namespacing</dd>
+<dt class="uripart">key</dt>
+<dd>key name (valid chars: alphanumercial or one of '-' ':' '.' '_')</dd>
 </dl>
+<a name="N68878"></a>
+<h3 class="operation">6.1 Get a key/value pair</h3>
+<h4>Description</h4>Returns a specific key/value pair. Note that any user of the platform can execute this call.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/value/<span class="uripart">{user-id}</span>/<span class="uripart">{key}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID for namespacing</dd>
+<dt class="uripart">key</dt>
+<dd>key name (valid chars: alphanumercial or one of '-' ':' '.' '_')</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Key/value pair in response</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Key not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "link":{
+      "rel":"self",
+      "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/value/7815696ecbf1c96e6894b779456d330e/test"
+   },
+   "key":{
+      "namespace":"7815696ecbf1c96e6894b779456d330e",
+      "field":"test"
+   },
+   "value":"VGhpcyBpcyBhbiBleGFtcGxl"
+}</pre>
+						
+					
+<a name="N68978"></a>
+<h3 class="operation">6.2 Remove a key/value pair</h3>
+<h4>Description</h4>Removes the given key/value pair. This is an irreversible call.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/value/<span class="uripart">{user-id}</span>/<span class="uripart">{key}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID for namespacing</dd>
+<dt class="uripart">key</dt>
+<dd>key name (valid chars: alphanumercial or one of '-' ':' '.' '_')</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">DELETE</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">204 No Content</dt>
+<dd>Key/value pair has been deleted.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid key or value</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Wrong user, key namespace not allowed.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68826"></a>
+<h3 class="operation">6.3 Retrieve all key/value pairs for a document</h3>
+<h4>Description</h4>Returns a list of all key/value pairs available for the given document.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/values</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Key/value pairs in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "values":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/values"
+      },
+      "list":[
+         {
+            "link":{
+               "rel":"self",
+               "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/value/7815696ecbf1c96e6894b779456d330e/test"
+            },
+            "key":{
+               "namespace":"7815696ecbf1c96e6894b779456d330e",
+               "field":"test"
+            },
+            "value":"VGhpcyBpcyBhbiBleGFtcGxl"
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N68926"></a>
+<h3 class="operation">6.4 Set a key/value pair</h3>
+<h4>Description</h4>Puts the given value into the storage using the given key name. The request will be executed
+				if the user part of the key matches the user dispatching the request.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/value/<span class="uripart">{user-id}</span>/<span class="uripart">{key}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">user-id</dt>
+<dd>user ID for namespacing</dd>
+<dt class="uripart">key</dt>
+<dd>key name (valid chars: alphanumercial or one of '-' ':' '.' '_')</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">PUT</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Key/value pair has been set.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid key or value</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Wrong user, key namespace not allowed.</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "key":{
+      "field":"test"
+   },
+   "value":"VGhpcyBpcyBhbiBleGFtcGxl"
+}</pre>
+						
+					
 <a name="N67584"></a>
 <h2 class="resource">7. Link</h2>
 <h4>Description</h4>
@@ -1873,20 +2119,197 @@ a{
 }</pre>
 							The number of elements shown has been limited to a single item per page only to keep this example simple.
 											
-					<a name="N68886"></a>
-<h2 class="resource">8. Location*</h2>
+					<a name="N69203"></a>
+<h2 class="resource">8. Location</h2>
 <h4>Description</h4>
-<p>This resource represents the location, where a document has been created.</p>
+<p>This resource represents the location, where a document has been created. The location is stored
+			using WGS84 coordinates. In addition to the position, also a variance value can be provided, denoting the approximate
+			variance in meters from the given position. This enables support for inaccurate location values. The position value
+			is stored using the GeoJSON specification.
+			</p>
 <h4>Resource URI</h4>
-<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/location/<span class="uripart">{location-id}</span>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/location/<span class="uripart">{lat}</span>,<span class="uripart">{lon}</span>,<span class="uripart">{variance}</span>
 </pre>
 <dl>
 <dt class="uripart">doc-id</dt>
 <dd>document ID</dd>
-<dt class="uripart">location-id</dt>
-<dd>location ID</dd>
+<dt class="uripart">lat</dt>
+<dd>latitude as float value (degrees)</dd>
+<dt class="uripart">lon</dt>
+<dd>longitude as float value (degrees)</dd>
+<dt class="uripart">variance</dt>
+<dd>position variance as integer value (meters)</dd>
 </dl>
-<a name="N68394"></a>
+<a name="N69329"></a>
+<h3 class="operation">8.1 Get a suggested location origin of a document</h3>
+<h4>Description</h4>Returns a single location origin that has been suggested for the given document.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/location/<span class="uripart">{lat}</span>,<span class="uripart">{lon}</span>,<span class="uripart">{variance}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">lat</dt>
+<dd>latitude as float value (degrees)</dd>
+<dt class="uripart">lon</dt>
+<dd>longitude as float value (degrees)</dd>
+<dt class="uripart">variance</dt>
+<dd>position variance as integer value (meters)</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document or location not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "location":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100"
+      },
+      "position":{
+         "type":"Point",
+         "coordinates":[
+            9.991246,
+            48.39848
+         ]
+      },
+      "variance":100,
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100/votes"
+         },
+         "up":4,
+         "down":1
+      }
+   }
+}</pre>
+						
+						A location entry suggesting that the given document has been created around latitude 48.39848, longitude 9.991246 with a variance of 100 meters.
+						Please note that the <span style="font-family:monospace;">position</span> value represents a valid GeoJSON object. GeoJSON is using a different order for positions (longitude, latitude)
+						than the order used for building location resource URIs.
+					<a name="N69229"></a>
+<h3 class="operation">8.2 List all suggested location origins of a document</h3>
+<h4>Description</h4>Returns a list of all location origins that have been suggested by the users for the given document.
+				The included number of votes for each suggestion can be used to rank the suggestions.
+				<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/locations</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Creation location list in response</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "locations":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/locations"
+      },
+      "list":[
+         {
+            "location":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100"
+               },
+               "position":{
+                  "type":"Point",
+                  "coordinates":[
+                     9.991246,
+                     48.39848
+                  ]
+               },
+               "variance":100,
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100/votes"
+                  },
+                  "up":4,
+                  "down":1
+               }
+            }
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N69285"></a>
+<h3 class="operation">8.3 Suggest an alternative location origin for a document</h3>
+<h4>Description</h4>Adds a new suggestion for the location origin for this document.
+				<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/location/<span class="uripart">{lat}</span>,<span class="uripart">{lon}</span>,<span class="uripart">{variance}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">lat</dt>
+<dd>latitude as float value (degrees)</dd>
+<dt class="uripart">lon</dt>
+<dd>longitude as float value (degrees)</dd>
+<dt class="uripart">variance</dt>
+<dd>position variance as integer value (meters)</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">PUT</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Suggestion accepted</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid location</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N68394"></a>
 <h2 class="resource">9. Message</h2>
 <h4>Description</h4>
 <p>This resource represents a private message that can be sent from one user to another. No other user  can access this message. When a new message has been posted, two independent copies will be stored: one in the outbox of the sender, and one in the inbox of the receiver. 
@@ -3087,20 +3510,189 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 }</pre>
 							Note that the creation time denotes the initial usage of this time.
 						
-					<a name="N68865"></a>
-<h2 class="resource">13. Time*</h2>
+					<a name="N69025"></a>
+<h2 class="resource">13. Time</h2>
 <h4>Description</h4>
-<p>This resource represents the point in time, when a document has been created.</p>
+<p>This resource represents the point in time, when a document has been created.
+			Users can provide alternative values for the temporal origin of this document, but any
+			new contribution should either represent an improvement of the value or a correction. 
+			In order to allow inaccurate data as well, also ranges can be suggested. In the context of 
+			the diretto platform, a time range has the following meaning: The time the range starts
+			represents the first possible moment the creation of the document may have started. The time the range
+			ends represents the latest possible moment the creation of the document may have started. 
+			When the document itself has a duration (such as audio or video documents), the duration must 
+			not be added to the range, so the time value always depicts the moment in which the creation
+			of the document may have been started.
+			If the exact time of creation is known, the same value should be used for start and end.
+			</p>
 <h4>Resource URI</h4>
-<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/time/<span class="uripart">{time-id}</span>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/time/<span class="uripart">{range-start}</span>--<span class="uripart">{range-end}</span>
 </pre>
 <dl>
 <dt class="uripart">doc-id</dt>
 <dd>document ID</dd>
-<dt class="uripart">time-id</dt>
-<dd>time ID</dd>
+<dt class="uripart">range-start</dt>
+<dd>An RFC 3339 compliant date (Zulu time) depicting the first possible moment of document creation</dd>
+<dt class="uripart">range-end</dt>
+<dd>An RFC 3339 compliant date (Zulu time) depicting the latest possible moment of document creation</dd>
 </dl>
-<a name="N66930"></a>
+<a name="N69147"></a>
+<h3 class="operation">13.1 Get a suggested creation time of a document</h3>
+<h4>Description</h4>Returns a single creation time suggested for the given document.<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/time/<span class="uripart">{range-start}</span>--<span class="uripart">{range-end}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">range-start</dt>
+<dd>An RFC 3339 compliant date (Zulu time) depicting the first possible moment of document creation</dd>
+<dt class="uripart">range-end</dt>
+<dd>An RFC 3339 compliant date (Zulu time) depicting the latest possible moment of document creation</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd></dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document or creation time not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "time":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/time/2010-06-29T19:00:00.000Z--2010-06-29T20:00:00.000Z"
+      },
+      "between":{
+         "after":"2010-06-29T19:00:00.000Z",
+         "before":"2010-06-29T20:00:00.000Z"
+      },
+      "creationTime":"2010-07-17T18:54:11.939Z",
+      "creator":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/user/123456"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/time/2010-06-29T19:15:50.000Z--2010-06-29T19:15:50.000Z/votes"
+         },
+         "up":4,
+         "down":1
+      }
+   }
+}</pre>
+						
+						A time entry suggesting that document the given document has been created (or the creation has been started) between 19:00 and 20:00 on 2010-06-29, Zulu time.
+						Please note that the <span style="font-family:monospace;">creationTime</span> denotes the creation time of the suggestion and not of the document.
+					<a name="N69047"></a>
+<h3 class="operation">13.2 List all suggested creation times of a document</h3>
+<h4>Description</h4>Returns a list of all creation times that have been suggested by the users for the given document.
+				The included number of votes for each suggestion can be used to rank the suggestions.
+				<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/times</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document ID</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Creation time list in response</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "times":{
+      "link":{
+         "rel":"self",
+         "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/times"
+      },
+      "list":[
+         {
+            "time":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/time/2010-06-29T19:00:00.000Z--2010-06-29T20:00:00.000Z"
+               },
+               "between":{
+                  "after":"2010-06-29T19:00:00.000Z",
+                  "before":"2010-06-29T20:00:00.000Z"
+               },
+               "creationTime":"2010-07-17T18:54:11.939Z",
+               "creator":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/user/123456"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/time/2010-06-29T19:15:50.000Z--2010-06-29T19:15:50.000Z/votes"
+                  },
+                  "up":4,
+                  "down":1
+               }
+            }
+         }
+      ]
+   }
+}</pre>
+						
+					
+<a name="N69103"></a>
+<h3 class="operation">13.3 Suggest an alternative creation time for a document</h3>
+<h4>Description</h4>Adds a new suggestion for the creation time of this document.
+				<h4>URI</h4>
+<pre>http://api.diretto.org/v2/document/<span class="uripart">{doc-id}</span>/time/<span class="uripart">{range-start}</span>--<span class="uripart">{range-end}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+<dt class="uripart">range-start</dt>
+<dd>An RFC 3339 compliant date (Zulu time) depicting the first possible moment of document creation</dd>
+<dt class="uripart">range-end</dt>
+<dd>An RFC 3339 compliant date (Zulu time) depicting the latest possible moment of document creation</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">PUT</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>n/a</li>
+</ul>
+<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Suggestion accepted</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid time range</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N66930"></a>
 <h2 class="resource">14. User</h2>
 <h4>Description</h4>
 <p>This resource represents a user. A user account is neccessary for most of the interactions with the diretto platform.</p>
