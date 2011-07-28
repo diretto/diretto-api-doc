@@ -8,6 +8,7 @@
 	<description>The Storage API is responsible for the reception, storage and delivery of submitted attachments of documents. 
 The Storage API is designed to support HTTP mechanisms like caching and conditional GETs for improved performance.   
 			
+		
 	
 	</description>
 	<baseuri>http://mediaserver/</baseuri>
@@ -21,6 +22,33 @@ The Storage API is designed to support HTTP mechanisms like caching and conditio
 			<description>An attachment is a media file that belongs to an abstract document. 
 Each document owns one or more attachments. The first attachment should be considered as the "original" item, 
 while all additional attachments represent derivated or customized versions.
+
+	General Upload Flow:
+	<code language="plain">
+   Client         Core API Server      Storage API Server
+
+     |                    |                   |
+     |                    |                   |
+     | (1) POST Metadata  |                   |
+     |------------------->|                   |
+     |                    |                   |
+     | (2) 202 + Location |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     | (3) PUT/POST Entity (signed URI)       |
+     |--------------------+------------------>|
+     |                    |                   |
+     | (4) 201 Created + Accept Key in Body   |
+     |&lt;-------------------+-------------------|
+     |                    |                   |
+     | (5) DELETE Lock (via Accept Key)       |
+     |------------------->|                   |
+     |                    |                   |
+     | (6) 204            |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     |                    |                   |
+</code>		
 			</description>
 			<path><param description="document ID">document-id</param>/<param description="attachment ID">attachment-id</param>.<param description="attachment extension">attachment-ext</param></path>
 			
@@ -63,31 +91,7 @@ while all additional attachments represent derivated or customized versions.
 				The complete flow is listed here:  
 				
 				
-<code language="plain">
-   Client         Core API Server      Storage API Server
-
-     |                    |                   |
-     |                    |                   |
-     | (1) POST Metadata  |                   |
-     |------------------->|                   |
-     |                    |                   |
-     | (2) 202 + Location |                   |
-     |&lt;-------------------|                   |
-     |                    |                   |
-     | (3) PUT Entity (Signed URI)            |
-     |--------------------+------------------>|
-     |                    |                   |
-     | (4) 201 Created + Accept Key in Body   |
-     |&lt;-------------------+-------------------|
-     |                    |                   |
-     | (5) DELETE Lock (via Accept Key)       |
-     |------------------->|                   |
-     |                    |                   |
-     | (6) 204            |                   |
-     |&lt;-------------------|                   |
-     |                    |                   |
-     |                    |                   |
-</code>				
+		
 				</description>
 				<path>?token=<param description="access token">token</param></path>
 				<formats>
@@ -186,7 +190,58 @@ while all additional attachments represent derivated or customized versions.
 						</entity>						
 					</entities>
 				</response>
-			</operation>			
+			</operation>	
+			
+<!-- 			
+			<operation>
+				<name>Upload a new attachment (using POST and Base64 Encoding)</name>
+				<description>This is a special upload operation that allows to submit a media file using Base64 encoding.
+				Thus, the media file must be converted to a Base64 encoded string by the client when starting the upload.
+				The server will decode the string and recreate the original media file. This file is then validated using
+				the provided token. Note that file size sent to the Core API in order to get a token must be the original
+				file size, and not the length of the Base64 encoded string. Thus, the original file size must be known 
+				a-priori. 
+				This operation should be avoided in favor of the regular upload operations. However, it may be the only
+				way of uploading files in restricted environments that don't support binary content natively.
+				</description>
+				<path omitResourcePath="true"><param description="document ID">document-id</param>?encoding=base64&amp;token=<param description="access token">token</param>&amp;mime=<param description="mime type">mime-type</param>&amp;target=<param description="attachment ID+ file extension">attachment-id.ext</param></path>
+				<formats>
+					<format>text/plain</format>
+					<format>application/json</format>
+				</formats>
+				<request>
+					<method>POST</method>
+					<authentication  mandatory="true" />
+					<entities />					
+				</request>
+				<response>
+					<responses>
+						<answer code="201">The attachment has been created</answer>
+						<answer code="400">The upload has been rejected (i.e. due to invalid encoding)</answer>
+						<answer code="401">Wrong or invalid credentials</answer>
+						<answer code="403">The targeted path or the provided access token is invalid</answer>
+						<answer code="409">The media file already exists</answer>
+						<answer code="500">Internal server error while handling the upload</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="js">{
+	"successToken" : "9365929d8479d2ca39826878984ff5f2b70b5d65"
+}</code>
+						<description>In case of a successful upload (201), a response key is provided that must be send to
+						the API server in order to prove the upload.</description>
+						</entity>
+						<entity>
+						<code language="js">{
+	"error" : "The attachment size exceeds the server limits for uploads"
+}</code>
+						<description>Otherwise, an error message is available as entity.</description>
+						</entity>						
+					</entities>
+				</response>
+			</operation>	
+			
+			 -->					
 			
 			<operation>
 				<name>Retrieve attachment's meta data</name>
