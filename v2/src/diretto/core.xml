@@ -883,7 +883,7 @@
 			Query
 	============================================================================================================== -->
 		<resource>
-			<name>Query*</name>
+			<name>Query</name>
 			<description>An interface resource for query execution. A query must be dispatched to the server 
 			which will return a URI for the query. This URI then contains the results. Results are paginated using cursors.
 			A query resource stores the initial query parameters, not the result set. Thus, queries can be re-executed by using the same URI,
@@ -2950,12 +2950,24 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 	============================================================================================================== -->
 		<resource>
 			<name>Attachment*</name>
-			<description>This resource represents an attachment.</description>
+			<description>An attachment represents an actual resource or media, while a document is only a conceptual item in the terms of diretto.
+			Thus, each document has at least one attachment - the file/resource submitted when the document has been created.
+			However, the platform allows users to add other attachments to any documents. While the first attachment is normally unaltered, raw footage,
+			additional attachments are often resized, processed or enhanced variants of the original file, providing additional use.   
+			There are up to three groups of individuals involved in attachments. Any attachment has a publisher. This is always a registered platform user
+			and the one who acutally adds the attachment to the platform. Furthermore, there are creators and contributors. Each attachment can have
+			multiple (and also no) entires for creators and contributors. Each entry is either a referencing a  registered platform user or an external person.
+			An external person has always a name, and may have an additional hyperlink to provide background information.
+			Generally, two different kinds of attachments can be created (depending on the service configuration). When there is a Storage API service
+			available, media files can be uploaded and stored on the platform itself. Alternatively, existing resource in the web can be used
+			by using the type <tt>external</tt>. Then, only a hyperlink reference to the resource is stored. The actual types allowed are depending on
+			the platform configuration and can be retrieved at the service resource.
+			</description>
 			<path>/document/<param description="document ID">doc-id</param>/attachment/<param description="attachment ID">attach-id</param></path>
 			
 			<operation>
-				<name>Get details of a single attachment*</name>
-				<description>Returns a list of all attachments.</description>
+				<name>Get details of a single attachment</name>
+				<description>Returns a detailed attachment overview.</description>
 				<path omitResourcePath="false"></path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -2965,22 +2977,128 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="200"></answer>
-						<answer code="404"></answer>
+						<answer code="200">Attachment details in response</answer>
+						<answer code="404">Document/Attachment not found</answer>
 					</responses>
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   "todo": ""
+   "attachment":{
+      "link":{
+         "rel":"self",
+         "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
+      },
+      "title":"A cool image of fubar",
+      "publishedTime":"2010-07-17T18:54:11.939Z",
+      "publisher":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/user/123456"
+         }
+      },
+      "mimeType":"image/jpeg",
+      "file":{
+         "size":132456,
+         "link":{
+            "rel":"self",
+            "href":"http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66/votes"
+         },
+         "up":12,
+         "down":2
+      },
+      "license":"Creative Commons Attribution-ShareAlike 3.0 Unported - Deed",
+      "contributors":[
+
+      ],
+      "creators":[
+         {
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/user/123456"
+            }
+         }
+      ]
+   }
 }]]></code>
 						</entity>
+						<description>An attachment stored on the platform (<tt>file</tt> attribute is present). The document has been created and uploaded (published) by user with id 123456. Not contributors are listed and the license is identified by a using a text.</description>
+						<entity>
+<code language="js"><![CDATA[{
+   "attachment":{
+      "link":{
+         "rel":"self",
+         "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
+      },
+      "title":"A cool image of fubar",
+      "publishedTime":"2010-07-17T18:54:11.939Z",
+      "publisher":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/user/123456"
+         }
+      },
+      "mimeType":"image/x-diretto-twitpix+url",
+      "external":{
+         "link":{
+            "rel":"self",
+            "href":"http://twitpix.foo/135xa"
+         }
+      },
+      "votes":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c/votes"
+         },
+         "up":12,
+         "down":2
+      },
+      "license":"http://creativecommons.org/licenses/by-sa/3.0/de/",
+      "contributors":[
+         {
+            "external":{
+               "name":"Alice",
+               "link":null
+            }
+         },
+         {
+            "user":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/user/789012"
+               }
+            }
+         }
+      ],
+      "creators":[
+         {
+            "user":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/user/007007"
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						</entity>
+						<description>Another attachment with an external resource (<tt>external</tt> attribute is present and contains the hyperlink, no <tt>file</tt> attribute present). The entry has been uploaded (published) by user with id 123456, created by one external person and lists two contributors. One of them is an external person (Alice, with unknown hyperlink), the other one a registered platform user. The license is identified using a link.</description>
 					</entities>					
 				</response>
 			</operation>
 
 			<operation>
-				<name>List all attachments*</name>
-				<description>Returns a list of all attachments.</description>
+				<name>List all attachments of a document</name>
+				<description>Returns a list of all attachments of the given document. 
+				The list will only show attachments successfully uploaded. Pending uploads will not be shown until 
+				the lock has been removed by the uploader upon successful submission. 
+				Please note that is a non-paginated list, thus all attachments are listed in the response.</description>
 				<path omitResourcePath="true">/document/<param description="document ID">doc-id</param>/attachments</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -2990,13 +3108,122 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="200"></answer>
-						<answer code="404"></answer>
+						<answer code="200">List of attachments in response</answer>
+						<answer code="404">Document not found</answer>
 					</responses>
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   "todo": ""
+   "attachments":{
+      "link":{
+         "rel":"self",
+         "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachments"
+      },
+      "list":[
+         {
+            "attachment":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
+               },
+               "title":"A cool image of fubar",
+               "publishedTime":"2010-07-17T18:54:11.939Z",
+               "publisher":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/user/123456"
+                  }
+               },
+               "mimeType":"image/jpeg",
+               "file":{
+                  "size":132456,
+                  "link":{
+                     "rel":"self",
+                     "href":"http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66/votes"
+                  },
+                  "up":12,
+                  "down":2
+               },
+               "license":"Creative Commons Attribution-ShareAlike 3.0 Unported - Deed",
+               "contributors":[
+
+               ],
+               "creators":[
+                  {
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/user/123456"
+                     }
+                  }
+               ]
+            }
+         },
+         {
+            "attachment":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
+               },
+               "title":"A cool image of fubar",
+               "publishedTime":"2010-07-17T18:54:11.939Z",
+               "publisher":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/user/123456"
+                  }
+               },
+               "mimeType":"image/x-diretto-twitpix+url",
+               "external":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://twitpix.foo/135xa"
+                  }
+               },
+               "votes":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c/votes"
+                  },
+                  "up":12,
+                  "down":2
+               },
+               "license":"http://creativecommons.org/licenses/by-sa/3.0/de/",
+               "contributors":[
+                  {
+                     "external":{
+                        "name":"Alice",
+                        "link":null
+                     }
+                  },
+                  {
+                     "user":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core.example.foo/v2/user/789012"
+                        }
+                     }
+                  }
+               ],
+               "creators":[
+                  {
+                     "user":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core.example.foo/v2/user/007007"
+                        }
+                     }
+                  }
+               ]
+            }
+         }
+      ]
+   }
 }]]></code>
 						</entity>
 					</entities>					
@@ -3004,32 +3231,58 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 
 			<operation>
-				<name>Create a new attachment*</name>
-				<description>Adds a new attachment to a document.</description>
+				<name>Create a new attachment</name>
+				<description>Adds a new attachment to a document. Please note that this API call is not used
+				for the creation of an initial attachment of a document. It can only be used for adding alternative
+				submissions to a given document.</description>
 				<path omitResourcePath="true">/document/<param description="document ID">doc-id</param>/attachments</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>POST</method>
 					<authentication mandatory="true"/>
-					<entities />
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "todo": ""
+}]]></code>
+						<description>This request will create a new attachment with a media file. It must be stored by 
+						Storage API in a later step.</description>
+						</entity>
+						<entity>
+<code language="js"><![CDATA[{
+   "todo": ""
+}]]></code>
+						<description>However, this request adds a new external resource as an attachment. If the external resource
+						is validated, the attachment creation directly succeeds in this call.</description>
+						</entity>											
+					</entities>
 				</request>
 				<response>
 					<responses>
-						<answer code="200"></answer>
-						<answer code="404"></answer>
+						<answer code="201">(External) attachment accepted, attachment created.</answer>
+						<answer code="202">Attachment accepted, uploading credentials in response</answer>
+						<answer code="400">Invalid meta data</answer>
+						<answer code="404">Document not found</answer>
 					</responses>
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
    "todo": ""
 }]]></code>
+						<description></description>
 						</entity>
+<entity>
+<code language="js"><![CDATA[{
+   "todo": ""
+}]]></code>
+						<description></description>
+						</entity>						
 					</entities>					
 				</response>
 			</operation>
 			
 			<operation>
-				<name>Redirect to the actual attachment file*</name>
+				<name>Redirect to the actual attachment file</name>
 				<description>Redirects the request to the raw file of the attachment. If the attachment is stored
 				on the platform, the request will be redirected to the correct URI of the Storage API.
 				If the attachment is of type external, the request will be redirected to the external URI. 
@@ -3043,13 +3296,39 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="301"></answer>
-						<answer code="404"></answer>
+						<answer code="301">Location header contains the URI of the attachment file</answer>
+						<answer code="404">Document/attachment not found</answer>
 					</responses>
 					<entities />
 				</response>
 			</operation>			
 
+			<operation>
+				<name>Confirm successful attachment upload</name>
+				<description>When a client has uploaded a new attachment to the Storage API, the service will emit
+				a token in the response to the upload. It is necessary to confirm the successful upload towards the Core API. 
+				In order to approve the attachment upload, the client must use this token and delete a lock
+				pending on the attachment resource.  
+				Please note: This step is only necessary for attachments uploaded to the Storage API, it is not needed
+				for external attachments.
+				</description>
+				<path omitResourcePath="false">/lock?token=<param description="confirmation token" >token</param></path>
+				<formats><format>n/a</format></formats>
+				<request>
+					<method>DELETE</method>
+					<authentication mandatory="true"/>
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Lock removed</answer>
+						<answer code="400">Superfluous confirmation</answer>
+						<answer code="403">Invalid token</answer>
+						<answer code="404">Document/attachment not found</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>			
 
 		</resource>
 
@@ -3058,12 +3337,41 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 	============================================================================================================== -->
 		<resource>
 			<name>Document*</name>
-			<description>This resource represents a document.</description>
+			<description>This resource represents a document.
+			
+	The following flow shows the steps involved when creating a new document including the initial attachment (not external).
+	<code language="plain">
+   Client         Core API Server      Storage API Server
+
+     |                    |                   |
+     |                    |                   |
+     | (1) POST Metadata  |                   |
+     |------------------->|                   |
+     |                    |                   |
+     | (2) 202 + Location |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     | (3) PUT/POST Entity (signed URI)       |
+     |--------------------+------------------>|
+     |                    |                   |
+     | (4) 201 Created + Accept Key in Body   |
+     |&lt;-------------------+-------------------|
+     |                    |                   |
+     | (5) DELETE Lock (via Accept Key)       |
+     |------------------->|                   |
+     |                    |                   |
+     | (6) 204            |                   |
+     |&lt;-------------------|                   |
+     |                    |                   |
+     |                    |                   |
+</code>					
+			
+			</description>
 			<path>/document/<param description="document ID">doc-id</param></path>
 
 			<operation>
-				<name>List of all documents (forward)*</name>
-				<description>Forwards to a list of all documents.</description>
+				<name>List of all documents (forward)</name>
+				<description>Forwards to a list of all documents, ordered by publishing date.</description>
 				<path omitResourcePath="true">/documents</path>
 				<formats><format>n/a</format></formats>
 				<request>
@@ -3074,15 +3382,15 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<response>
 					<responses>
 						<answer code="204">No results available yet.</answer>					
-						<answer code="303"></answer>
+						<answer code="303">Redirect to first page</answer>
 					</responses>
 					<entities/>					
 				</response>
 			</operation>
 			
 			<operation>
-				<name>List of all documents (page)*</name>
-				<description>Forwards to a list of all documents.</description>
+				<name>List of all documents (page)</name>
+				<description>Returns a page from the list of all documents, ordered by publishing date.</description>
 				<path omitResourcePath="true">/documents/cursor/<param description="the document ID used as cursor">cursor-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -3092,15 +3400,51 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="200"></answer>
+						<answer code="200">List page in response</answer>
+						<answer code="404">Cursor not found</answer>
 					</responses>
-					<entities/>					
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core.example.foo/v2/documents/cursor/550e8400-e29b-11d4-a716-446655440000"
+      }
+   },
+   "list":[
+      {
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/document/550e8400-e29b-11d4-a716-446655440000"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core.example.foo/v2/documents/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core.example.foo/v2/documents/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
+}]]></code>
+						</entity>
+					</entities>					
 				</response>
 			</operation>			
 			
 			<operation>
-				<name>List of documents created since a specific date (forward)*</name>
-				<description>Forwards to a list of all documents.</description>
+				<name>List of documents published since a specific date (forward)</name>
+				<description>Forwards to a list of all documents published since a specific date, ordered by publishing date.</description>
 				<path omitResourcePath="true">/documents/since/<param description="A RFC 3339 compliant date (Zulu time) to be used as split point.">split date</param></path>
 				<formats><format>n/a</format></formats>
 				<request>
@@ -3111,7 +3455,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<response>
 					<responses>
 						<answer code="204">No results available yet.</answer>
-						<answer code="303"></answer>
+						<answer code="303">Redirect to new page</answer>
 					</responses>
 					<entities/>					
 				</response>
@@ -3196,8 +3540,9 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 			
 			<operation>
-				<name>Get a single document (snapshot)*</name>
-				<description>.</description>
+				<name>Get a single document (snapshot)</name>
+				<description>Returns a condensed snapshot of a document. It contains the full meta data of the document, and additionally inlined
+				the complete list of tags, the initial attachment data and one entry for time and one for location origin (best votes).</description>
 				<path omitResourcePath="false">/snapshot</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -3211,7 +3556,194 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						<answer code="204">Document exists, but is not available (i.e. creation pending)</answer>
 						<answer code="404">Document not found</answer>
 					</responses>
-					<entities/>					
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "document":{
+      "link":{
+         "rel":"self",
+         "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66"
+      },
+      "mediaType":"image",
+      "publishedTime":"2010-07-17T18:54:11.939Z",
+      "publisher":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/user/123456"
+         }
+      },
+      "title":"A cool image of fubar",
+      "desc":"…",
+      "snapshot":{
+         "attachment":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
+            },
+            "title":"A cool image of fubar",
+            "publishedTime":"2010-07-17T18:54:11.939Z",
+            "publisher":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/user/123456"
+               }
+            },
+            "mimeType":"image/jpeg",
+            "file":{
+               "size":132456,
+               "link":{
+                  "rel":"self",
+                  "href":"http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66/votes"
+               },
+               "up":12,
+               "down":2
+            },
+            "license":"Creative Commons Attribution-ShareAlike 3.0 Unported - Deed",
+            "contributors":[
+
+            ],
+            "creators":[
+               {
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/user/123456"
+                  }
+               }
+            ]
+         },
+         "location":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/location/48.39848,9.991246,100"
+            },
+            "position":{
+               "type":"Point",
+               "coordinates":[
+                  9.991246,
+                  48.39848
+               ]
+            },
+            "variance":100,
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/user/123456"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/location/48.39848,9.991246,100/votes"
+               },
+               "up":4,
+               "down":1
+            }
+         },
+         "time":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/time/2010-06-29T19:00:00.000Z--2010-06-29T20:00:00.000Z"
+            },
+            "between":{
+               "after":"2010-06-29T19:00:00.000Z",
+               "before":"2010-06-29T20:00:00.000Z"
+            },
+            "creationTime":"2010-07-17T18:54:11.939Z",
+            "creator":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/user/123456"
+               }
+            },
+            "votes":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/time/2010-06-29T19:15:50.000Z--2010-06-29T19:15:50.000Z/votes"
+               },
+               "up":4,
+               "down":1
+            }
+         }
+      },
+      "comments":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         }
+      },
+      "tags":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tags"
+         },
+         "list":[
+            {
+               "tag":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  },
+                  "baseTag":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     }
+                  },
+                  "value":"mytag",
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/user/123456"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     },
+                     "up":12,
+                     "down":2
+                  }
+               }
+            }
+         ]
+      },
+      "attachments":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachments"
+         }
+      },
+      "locations":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/locations"
+         }
+      },
+      "times":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/times"
+         }
+      },
+      "documentlinks":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
+         }
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>				
 				</response>
 			</operation>			
 			
@@ -3236,8 +3768,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>			
 			
 			<operation>
-				<name>Fetch the meta-data of multiple documents (batch request)*</name>
-				<description>.</description>
+				<name>Fetch the meta-data of multiple documents (batch request)</name>
+				<description>Given a list of document URIs, it returns a list containing details for each document (meta data type).</description>
 				<path omitResourcePath="false">/full</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -3330,8 +3862,9 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>							
 
 			<operation>
-				<name>Fetch snapshots of multiple documents (batch request)*</name>
-				<description>.</description>
+				<name>Fetch snapshots of multiple documents (batch request)</name>
+				<description>Given a list of document URIs, it returns a list containing details for each document (meta data type).
+				</description>
 				<path omitResourcePath="false">/full</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -3356,7 +3889,197 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   x
+   "results":{
+      "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-00000invalid":{
+         "error":{
+            "message":"Not found"
+         }
+      },
+      "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66":{
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66"
+            },
+            "mediaType":"image",
+            "publishedTime":"2010-07-17T18:54:11.939Z",
+            "publisher":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/user/123456"
+               }
+            },
+            "title":"A cool image of fubar",
+            "desc":"…",
+            "snapshot":{
+               "attachment":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
+                  },
+                  "title":"A cool image of fubar",
+                  "publishedTime":"2010-07-17T18:54:11.939Z",
+                  "publisher":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/user/123456"
+                     }
+                  },
+                  "mimeType":"image/jpeg",
+                  "file":{
+                     "size":132456,
+                     "link":{
+                        "rel":"self",
+                        "href":"http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66/votes"
+                     },
+                     "up":12,
+                     "down":2
+                  },
+                  "license":"Creative Commons Attribution-ShareAlike 3.0 Unported - Deed",
+                  "contributors":[
+
+                  ],
+                  "creators":[
+                     {
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core.example.foo/v2/user/123456"
+                        }
+                     }
+                  ]
+               },
+               "location":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/location/48.39848,9.991246,100"
+                  },
+                  "position":{
+                     "type":"Point",
+                     "coordinates":[
+                        9.991246,
+                        48.39848
+                     ]
+                  },
+                  "variance":100,
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/user/123456"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/location/48.39848,9.991246,100/votes"
+                     },
+                     "up":4,
+                     "down":1
+                  }
+               },
+               "time":{
+                  "link":{
+                     "rel":"self",
+                     "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/time/2010-06-29T19:00:00.000Z--2010-06-29T20:00:00.000Z"
+                  },
+                  "between":{
+                     "after":"2010-06-29T19:00:00.000Z",
+                     "before":"2010-06-29T20:00:00.000Z"
+                  },
+                  "creationTime":"2010-07-17T18:54:11.939Z",
+                  "creator":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/user/123456"
+                     }
+                  },
+                  "votes":{
+                     "link":{
+                        "rel":"self",
+                        "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/time/2010-06-29T19:15:50.000Z--2010-06-29T19:15:50.000Z/votes"
+                     },
+                     "up":4,
+                     "down":1
+                  }
+               }
+            },
+            "comments":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+               }
+            },
+            "tags":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tags"
+               },
+               "list":[
+                  {
+                     "tag":{
+                        "link":{
+                           "rel":"self",
+                           "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        },
+                        "baseTag":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           }
+                        },
+                        "value":"mytag",
+                        "creationTime":"2010-07-17T18:54:11.939Z",
+                        "creator":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core.example.foo/v2/user/123456"
+                           }
+                        },
+                        "votes":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                           },
+                           "up":12,
+                           "down":2
+                        }
+                     }
+                  }
+               ]
+            },
+            "attachments":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachments"
+               }
+            },
+            "locations":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/locations"
+               }
+            },
+            "times":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/times"
+               }
+            },
+            "documentlinks":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
+               }
+            }
+         }
+      }
+   }
 }]]></code>
 						</entity>
 					</entities>					
@@ -3365,7 +4088,11 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
 			<operation>
 				<name>Fetch multiple full documents (batch request)*</name>
-				<description>.</description>
+				<description>Given a list of document URIs, it returns a list containing details for each document (full type).
+				Please note that this is an expensive operation in terms of data to be collected for the response and also data
+				to be sent over the network. Thus, please use this API call responsibly and prefer the other document request types,
+				if appropriate.				
+				</description>
 				<path omitResourcePath="false">/full</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -3422,8 +4149,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>							
 
 			<operation>
-				<name>List of documents created by an user (forward)*</name>
-				<description>.</description>
+				<name>List of documents created by an user (forward)</name>
+				<description>Forwards to a list of documents that this user has published, ordered by publishing date.</description>
 				<path omitResourcePath="true"></path>
 				<formats><format>n/a</format></formats>
 				<request>
@@ -3434,15 +4161,16 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<response>
 					<responses>
 						<answer code="204">No results available yet.</answer>
-						<answer code="303"></answer>
+						<answer code="303">Forward to the first page.</answer>
+						<answer code="404">User not found</answer>
 					</responses>
 					<entities/>					
 				</response>
 			</operation>							
 
 			<operation>
-				<name>List of documents created by an user (page)*</name>
-				<description>.</description>
+				<name>List of documents created by an user (page)</name>
+				<description>Returns a page from the list of documents that this user has published, ordered by publishing date.</description>
 				<path omitResourcePath="true"></path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -3452,15 +4180,45 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="200"></answer>
+						<answer code="200">List page in response</answer>
+						<answer code="404">User/Cursor not found</answer>
 					</responses>
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   "todo":null
+   "page":{
+      "link":{
+         "rel":"self",
+         "href":"http://core.example.foo/v2/user/asdasd/documents/cursor/550e8400-e29b-11d4-a716-446655440000"
+      }
+   },
+   "list":[
+      {
+         "document":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/document/550e8400-e29b-11d4-a716-446655440000"
+            }
+         }
+      }
+   ],
+   "related":[
+      {
+         "link":{
+            "rel":"previous",
+            "href":"http://core.example.foo/v2/user/asdasd/documents/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+         }
+      },
+      {
+         "link":{
+            "rel":"next",
+            "href":"http://core.example.foo/v2/user/asdasd/documents/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+         }
+      }
+   ]
 }]]></code>
 						</entity>
-					</entities>
+					</entities>					
 				</response>
 			</operation>							
 
