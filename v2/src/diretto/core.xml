@@ -2743,7 +2743,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
-					<authentication mandatory="false"/>
+					<authentication mandatory="true"/>
 					<entities />
 				</request>
 				<response>
@@ -2894,7 +2894,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
-					<authentication mandatory="false"/>
+					<authentication mandatory="true"/>
 					<entities />
 				</request>
 				<response>
@@ -4498,7 +4498,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>							
 
 			<operation>
-				<name>Fetch multiple full documents (batch request)*</name>
+				<name>Fetch multiple full documents (batch request)</name>
 				<description>Given a list of document URIs, it returns a list containing details for each document (full type).
 				Please note that this is an expensive operation in terms of data to be collected for the response and also data
 				to be sent over the network. Thus, please use this API call responsibly and prefer the other document request types,
