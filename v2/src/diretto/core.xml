@@ -1318,7 +1318,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 	============================================================================================================== -->
 		<resource>
 			<name>Comment</name>
-			<description>This resource represents a comment.</description>
+			<description>Comments allow users to debate about the content, value and impact of a document.</description>
 			<path>/document/<param description="document ID">doc-id</param>/comment/<param description="comment ID">comment-id</param></path>
 			
 			<operation>
@@ -3375,7 +3375,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 	============================================================================================================== -->
 		<resource>
 			<name>Document</name>
-			<description>This resource represents a document.
+			<description>Documents are the primary resource of the diretto platform. For diretto, the conceptual entity of a document
+			has been separated from actual media files. The latter are known as attachments. Obviously, a document must always have at
+			least on attachment, which is the media file associated with the document creation. Additional attachments can the be added, too.
+			The conceptual entity of a document has additional attributes that can be added by the community. This includes comments,
+			tags, links between documents and alternative suggestions for time and location of the original document creation.
+			The system also distinguishes between the person who is publishing the document on the platform, persons who originally
+			created or authored the document and persons that might have contributed to its creation.  
+			
 			
 	The following flow shows the steps involved when creating a new document including the initial attachment (not external).
 	<code language="plain">
