@@ -11,7 +11,7 @@ The Storage API is designed to support HTTP mechanisms like caching and conditio
 		
 	
 	</description>
-	<baseuri>http://mediaserver/</baseuri>
+	<baseuri>http://storage.example.foo/</baseuri>
 	<authentication>
 		<type>Basic Authentication</type>
 	</authentication>
@@ -339,7 +339,7 @@ while all additional attachments represent derivated or customized versions.
       "core":{
          "link":{
             "rel":"self",
-            "href":"http://coreservice/v2"
+            "href":"http://core.example.foo/v2"
          }
       }
    },

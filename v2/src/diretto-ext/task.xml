@@ -14,7 +14,7 @@
 	In this case, a task represents a search query and all potential results are submissions. This user-driven
 	search is helpful for queries when only users can reason about appropriate hits by analyzing the documents. 
 	</description>
-	<baseuri>http://task.diretto.org/v2</baseuri>
+	<baseuri>http://task.example.foo/v2</baseuri>
 	<authentication>
 		<type>Basic Authentication</type>
 	</authentication>
@@ -63,7 +63,7 @@
       "core":{
          "link":{
             "rel":"self",
-            "href":"http://coreservice/v2"
+            "href":"http://core.example.foo/v2"
          }
       }
    },
@@ -79,21 +79,21 @@
          "title":"Task factory resource",
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/tasks"
+            "href":"http://task.example.foo/v2/tasks"
          }
       },
       {
          "title":"Tag factory resource",
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/tags"
+            "href":"http://task.example.foo/v2/tags"
          }
       },
       {
          "title":"Query dispatching resource",
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/query"
+            "href":"http://task.example.foo/v2/query"
          }
       }
    ],
@@ -171,7 +171,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          ]
       },
       "tags":[
-		"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+		"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       ]
    }
 }]]></code>
@@ -256,7 +256,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "query":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404"
+         "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404"
       }
    },
    "results":{
@@ -264,14 +264,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "page":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
+            "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
          },
          "list":[
             {
                "task":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
                   }
                }
             }
@@ -280,19 +280,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             {
                "link":{
                   "rel":"first",
-                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+                  "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
                }
             },
             {
                "link":{
                   "rel":"previous",
-                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+                  "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
                }
             },
             {
                "link":{
                   "rel":"next",
-                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
+                  "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
                }
             }
          ]
@@ -391,7 +391,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "votes":{
   	 "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/resource/votes"
+            "href":"http://task.example.foo/v2/resource/votes"
          },
       "up":123,
       "down":42
@@ -479,14 +479,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "comments":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
       },
       "list":[
          {
             "comment":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                  "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
                },
                "content":"blablabla",
                "creationTime":"2010-07-17T18:54:11.939Z",
@@ -499,7 +499,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
@@ -536,7 +536,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "comment":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
       },
       "content":"blablabla",
       "creationTime":"2010-07-17T18:54:11.939Z",
@@ -549,7 +549,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
          },
          "up":12,
          "down":2
@@ -633,7 +633,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "page":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tasks/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://task.example.foo/v2/tasks/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       }
    },
    "list":[
@@ -641,7 +641,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "task":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
             }
          }
       }
@@ -650,13 +650,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       {
          "link":{
             "rel":"previous",
-            "href":"http://taskservice/v2/tasks/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+            "href":"http://task.example.foo/v2/tasks/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
          }
       },
       {
          "link":{
             "rel":"next",
-            "href":"http://taskservice/v2/tasks/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+            "href":"http://task.example.foo/v2/tasks/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
          }
       }
    ]
@@ -690,7 +690,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "task":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       },
       "constraints":{
          "time":{
@@ -718,7 +718,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/resource/votes"
+            "href":"http://task.example.foo/v2/resource/votes"
          },
          "up":123,
          "down":42
@@ -727,19 +727,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "submissions":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
       },
       "list":[
          {
             "submission":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
                },
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
                   },
                   "up":123,
                   "down":42
@@ -760,19 +760,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "tags":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
                   },
                   "list":[
                      {
                         "tag":{
                            "link":{
                               "rel":"self",
-                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                            },
                            "baseTag":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                 "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                               }
                            },
                            "value":"mytag",
@@ -786,7 +786,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                            "votes":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                 "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                               },
                               "up":12,
                               "down":2
@@ -802,14 +802,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "comments":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
       },
       "list":[
          {
             "comment":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                  "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
                },
                "content":"blablabla",
                "creationTime":"2010-07-17T18:54:11.939Z",
@@ -822,7 +822,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
@@ -834,19 +834,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "tags":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/resource/tags"
+         "href":"http://task.example.foo/v2/resource/tags"
       },
       "list":[
          {
             "tag":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                },
                "baseTag":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                   }
                },
                "value":"mytag",
@@ -860,7 +860,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
@@ -888,8 +888,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 							<code language="js">
 <![CDATA[{
    "tasks":[
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
-      "http://taskservice/v2/task/2671f383-a28c-bla"
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://task.example.foo/v2/task/2671f383-a28c-bla"
    ]
 }]]></code>
 						</entity>
@@ -905,16 +905,16 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 							<code language="js">
 <![CDATA[{
    "results":{
-      "http://taskservice/v2/task/2671f383-a28c-bla":{
+      "http://task.example.foo/v2/task/2671f383-a28c-bla":{
          "error":{
             "message":"Not found"
          }
       },
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
          "task":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
             },
             "constraints":{
                "time":{
@@ -942,7 +942,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			"votes":{
 			     "link":{
 			            "rel":"self",
-			            "href":"http://taskservice/v2/resource/votes"
+			            "href":"http://task.example.foo/v2/resource/votes"
 			         },
 			      "up":123,
 			      "down":42
@@ -952,19 +952,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "submissions":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
             },
             "list":[
                {
                   "submission":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                        "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
                      },
                      "votes":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
                         },
                         "up":123,
                         "down":42
@@ -985,19 +985,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "tags":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
                         },
                         "list":[
                            {
                               "tag":{
                                  "link":{
                                     "rel":"self",
-                                    "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                    "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                                  },
                                  "baseTag":{
                                     "link":{
                                        "rel":"self",
-                                       "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                       "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                                     }
                                  },
                                  "value":"mytag",
@@ -1011,7 +1011,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                                  "votes":{
                                     "link":{
                                        "rel":"self",
-                                       "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                       "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                                     },
                                     "up":12,
                                     "down":2
@@ -1027,14 +1027,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "comments":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
             },
             "list":[
                {
                   "comment":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                        "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
                      },
                      "content":"blablabla",
                      "creationTime":"2010-07-17T18:54:11.939Z",
@@ -1047,7 +1047,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "votes":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                         },
                         "up":12,
                         "down":2
@@ -1059,19 +1059,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "tags":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/resource/tags"
+               "href":"http://task.example.foo/v2/resource/tags"
             },
             "list":[
                {
                   "tag":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                      },
                      "baseTag":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                         }
                      },
                      "value":"mytag",
@@ -1085,7 +1085,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "votes":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                         },
                         "up":12,
                         "down":2
@@ -1115,8 +1115,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 							<code language="js">
 <![CDATA[{
    "tasks":[
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
-      "http://taskservice/v2/task/2671f383-a28c-bla"
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://task.example.foo/v2/task/2671f383-a28c-bla"
    ]
 }]]></code>
 						</entity>
@@ -1132,16 +1132,16 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 							<code language="js">
 <![CDATA[{
    "results":{
-      "http://taskservice/v2/task/2671f383-a28c-bla":{
+      "http://task.example.foo/v2/task/2671f383-a28c-bla":{
          "error":{
             "message":"Not found"
          }
       },
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
          "task":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
             },
             "constraints":{
                "time":{
@@ -1169,7 +1169,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "votes":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/resource/votes"
+                  "href":"http://task.example.foo/v2/resource/votes"
                },
                "up":123,
                "down":42
@@ -1178,19 +1178,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "submissions":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
             }
          },
          "comments":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
             }
          },
          "tags":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
             }
          }
       }
@@ -1223,7 +1223,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "task":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       },
       "constraints":{
          "time":{
@@ -1251,7 +1251,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/resource/votes"
+            "href":"http://task.example.foo/v2/resource/votes"
          },
          "up":123,
          "down":42
@@ -1260,19 +1260,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "submissions":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
       }
    },
    "comments":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
       }
    },
    "tags":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
       }
    }
 }]]></code>
@@ -1347,19 +1347,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "submissions":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
       },
       "list":[
          {
             "submission":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
                },
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
                   },
                   "up":123,
                   "down":42
@@ -1380,19 +1380,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "tags":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
                   },
                   "list":[
                      {
                         "tag":{
                            "link":{
                               "rel":"self",
-                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                            },
                            "baseTag":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                 "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                               }
                            },
                            "value":"mytag",
@@ -1406,7 +1406,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                            "votes":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                 "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                               },
                               "up":12,
                               "down":2
@@ -1492,12 +1492,12 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "submission":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
       },
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
          },
          "up":123,
          "down":42
@@ -1518,19 +1518,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "tags":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
          },
          "list":[
             {
                "tag":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                   },
                   "baseTag":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                      }
                   },
                   "value":"mytag",
@@ -1544,7 +1544,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   "votes":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                      },
                      "up":12,
                      "down":2
@@ -1622,7 +1622,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "baseTag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       }
    }
 }]]></code>
@@ -1662,13 +1662,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "baseTag":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
             }
          }
       },
       "t":{
          "error":{
-            "message":"Invalid tag length"
+            "reason":"Invalid tag length"
          }
       }
    }
@@ -1700,7 +1700,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "baseTag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       },
       "value":"mytag",
       "creationTime":"2010-07-17T18:54:11.939Z",
@@ -1740,12 +1740,12 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "tag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       },
       "baseTag" : {
 	      "link":{
 	         "rel":"self",
-	         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+	         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
 	      }
       }, 
       "value":"mytag",
@@ -1759,7 +1759,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
          },
          "up":12,
          "down":2
@@ -1787,7 +1787,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "baseTag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       }
    }
 }]]></code>
@@ -1827,19 +1827,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "tags":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/resource/tags"
+         "href":"http://task.example.foo/v2/resource/tags"
       },
       "list":[
          {
             "tag":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                },
                "baseTag":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                   }
                },
                "value":"mytag",
@@ -1853,7 +1853,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
