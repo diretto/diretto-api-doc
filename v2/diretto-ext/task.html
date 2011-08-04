@@ -341,7 +341,7 @@ a{
 </p>
 <h4>Base URI</h4>
 <p>
-<a xmlns="" href="http://task.diretto.org/v2">http://task.diretto.org/v2</a>
+<a xmlns="" href="http://task.example.foo/v2">http://task.example.foo/v2</a>
 </p>
 <a name="index"></a>
 <h2>Index of Resources and Operations</h2>
@@ -474,7 +474,7 @@ a{
 <h4>Description</h4>
 <p>This resource represents a comment. Comments can be added by users to a task in order to discuss the task.</p>
 <h4>Resource URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comment/<span class="uripart">{comment-id}</span>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/comment/<span class="uripart">{comment-id}</span>
 </pre>
 <dl>
 <dt class="uripart">task-id</dt>
@@ -485,7 +485,7 @@ a{
 <a name="N66152"></a>
 <h3 class="operation">1.1 Create a new comment</h3>
 <h4>Description</h4>Adds a new comment to the task.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comments</pre>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/comments</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">{task-id}</dt>
@@ -518,7 +518,7 @@ a{
 <h4>Response Entities</h4>n/a<a name="N66212"></a>
 <h3 class="operation">1.2 Get all comments of task</h3>
 <h4>Description</h4>Returns all comments of task.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comments</pre>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/comments</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">{task-id}</dt>
@@ -545,14 +545,14 @@ a{
    "comments":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
       },
       "list":[
          {
             "comment":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                  "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
                },
                "content":"blablabla",
                "creationTime":"2010-07-17T18:54:11.939Z",
@@ -565,7 +565,7 @@ a{
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
@@ -580,7 +580,7 @@ a{
 <a name="N66268"></a>
 <h3 class="operation">1.3 Retrieve a single comment</h3>
 <h4>Description</h4>Returns a single comment.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/comment/<span class="uripart">{comment-id}</span>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/comment/<span class="uripart">{comment-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -610,7 +610,7 @@ a{
    "comment":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
       },
       "content":"blablabla",
       "creationTime":"2010-07-17T18:54:11.939Z",
@@ -623,7 +623,7 @@ a{
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
          },
          "up":12,
          "down":2
@@ -637,12 +637,12 @@ a{
 <h4>Description</h4>
 <p>This entry resource provides information about the service instance.</p>
 <h4>Resource URI</h4>
-<pre>http://task.diretto.org/v2</pre>
+<pre>http://task.example.foo/v2</pre>
 <dl></dl>
 <a name="N65576"></a>
 <h3 class="operation">2.1 Get service instance data</h3>
 <h4>Description</h4>Returns a static information about the deployed Task service instance.<h4>URI</h4>
-<pre>http://task.diretto.org/v2</pre>
+<pre>http://task.example.foo/v2</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
@@ -680,7 +680,7 @@ a{
       "core":{
          "link":{
             "rel":"self",
-            "href":"http://coreservice/v2"
+            "href":"http://core.example.foo/v2"
          }
       }
    },
@@ -696,21 +696,21 @@ a{
          "title":"Task factory resource",
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/tasks"
+            "href":"http://task.example.foo/v2/tasks"
          }
       },
       {
          "title":"Tag factory resource",
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/tags"
+            "href":"http://task.example.foo/v2/tags"
          }
       },
       {
          "title":"Query dispatching resource",
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/query"
+            "href":"http://task.example.foo/v2/query"
          }
       }
    ],
@@ -757,7 +757,7 @@ a{
 Note that step 5 and 6 must be repeated for additional result pages. Also, step 1 and 2 can be skipped if an existing query (client already knows query URI) should be re-executed.			
 			</p>
 <h4>Resource URI</h4>
-<pre>http://task.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>
+<pre>http://task.example.foo/v2/query/stored/<span class="uripart">{query-id}</span>
 </pre>
 <dl>
 <dt class="uripart">query-id</dt>
@@ -766,7 +766,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N65644"></a>
 <h3 class="operation">3.1 Dispatch a query</h3>
 <h4>Description</h4>Sends a query.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/query</pre>
+<pre>http://task.example.foo/v2/query</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
@@ -791,7 +791,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          ]
       },
       "tags":[
-		"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+		"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       ]
    }
 }</pre>
@@ -808,7 +808,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Response Entities</h4>n/a<a name="N65748"></a>
 <h3 class="operation">3.2 Execute a common location-based query</h3>
 <h4>Description</h4>A set of predefined queries for tasks currently valid by time and the user's position. The type affects the order of the tasks emitted as results. You can either provide a bounding box or a concrete position (using <span style="font-family:monospace;">lat</span> and <span style="font-family:monospace;">lon</span> instead of the four box values).<h4>URI</h4>
-<pre>http://task.diretto.org/v2/query/common/<span class="uripart">{type}</span>?lat1=<span class="uripart">{lat1}</span>&amp;lon1=<span class="uripart">{lon1}</span>&amp;lat2=<span class="uripart">{lat2}</span>&amp;lon2=<span class="uripart">{lon2}</span>
+<pre>http://task.example.foo/v2/query/common/<span class="uripart">{type}</span>?lat1=<span class="uripart">{lat1}</span>&amp;lon1=<span class="uripart">{lon1}</span>&amp;lat2=<span class="uripart">{lat2}</span>&amp;lon2=<span class="uripart">{lon2}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -839,7 +839,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Response Entities</h4>n/a<a name="N65700"></a>
 <h3 class="operation">3.3 Forward to query result page</h3>
 <h4>Description</h4>A request to a query URI will always be forwarded to the first page of the result set using the first cursor.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>
+<pre>http://task.example.foo/v2/query/stored/<span class="uripart">{query-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -864,7 +864,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Response Entities</h4>n/a<a name="N65819"></a>
 <h3 class="operation">3.4 Get query result page</h3>
 <h4>Description</h4>Returns a paginated result page, identified by the cursor. A result page always contains links to the first page and additionally to the previous and next result page when existing.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/query/stored/<span class="uripart">{query-id}</span>/cursor/<span class="uripart">{cursor-id}</span>
+<pre>http://task.example.foo/v2/query/stored/<span class="uripart">{query-id}</span>/cursor/<span class="uripart">{cursor-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -893,7 +893,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "query":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404"
+         "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404"
       }
    },
    "results":{
@@ -901,14 +901,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "page":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
+            "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/def"
          },
          "list":[
             {
                "task":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
                   }
                }
             }
@@ -917,19 +917,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             {
                "link":{
                   "rel":"first",
-                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+                  "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
                }
             },
             {
                "link":{
                   "rel":"previous",
-                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
+                  "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/abc"
                }
             },
             {
                "link":{
                   "rel":"next",
-                  "href":"http://taskservice/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
+                  "href":"http://task.example.foo/v2/query/stored/128ecf542a35ac5270a87dc740918404/cursor/ghi"
                }
             }
          ]
@@ -943,7 +943,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Description</h4>
 <p>This resource represents a submission. A submission basically suggests that a document represents a possible solution to the task.</p>
 <h4>Resource URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submission/<span class="uripart">{submission-id}</span>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/submission/<span class="uripart">{submission-id}</span>
 </pre>
 <dl>
 <dt class="uripart">task-id</dt>
@@ -954,7 +954,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N66822"></a>
 <h3 class="operation">4.1 Create a new submission</h3>
 <h4>Description</h4>Creates a new  submission. A submission is represented by a document, identified by it's URI.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submissions</pre>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/submissions</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">{task-id}</dt>
@@ -1005,7 +1005,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<a name="N66766"></a>
 <h3 class="operation">4.2 Get all submissions of task</h3>
 <h4>Description</h4>Returns all submissions of task.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submissions</pre>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/submissions</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">{task-id}</dt>
@@ -1032,19 +1032,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "submissions":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
       },
       "list":[
          {
             "submission":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
                },
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
                   },
                   "up":123,
                   "down":42
@@ -1065,19 +1065,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "tags":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
                   },
                   "list":[
                      {
                         "tag":{
                            "link":{
                               "rel":"self",
-                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                            },
                            "baseTag":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                 "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                               }
                            },
                            "value":"mytag",
@@ -1091,7 +1091,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                            "votes":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                 "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                               },
                               "up":12,
                               "down":2
@@ -1110,7 +1110,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N66900"></a>
 <h3 class="operation">4.3 Retrieve submission details</h3>
 <h4>Description</h4>Provides detailed information about this submission.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/submission/<span class="uripart">{submission-id}</span>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/submission/<span class="uripart">{submission-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -1140,12 +1140,12 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "submission":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
       },
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
          },
          "up":123,
          "down":42
@@ -1166,19 +1166,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "tags":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
          },
          "list":[
             {
                "tag":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                   },
                   "baseTag":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                      }
                   },
                   "value":"mytag",
@@ -1192,7 +1192,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   "votes":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                        "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                      },
                      "up":12,
                      "down":2
@@ -1235,7 +1235,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 </pre>				
 		Steps 1+2 create a tag, steps 3+4 append the tag to a resource.</p>
 <h4>Resource URI</h4>
-<pre>http://task.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>
+<pre>http://task.example.foo/v2/tag/<span class="uripart">{tag-id}</span>
 </pre>
 <dl>
 <dt class="uripart">tag-id</dt>
@@ -1244,7 +1244,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N67210"></a>
 <h3 class="operation">5.1 Append a tag to a resource</h3>
 <h4>Description</h4>Appends a new tag to the resource.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/tags</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">{resource}</dt>
@@ -1264,7 +1264,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "baseTag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       }
    }
 }</pre>
@@ -1284,7 +1284,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Response Entities</h4>n/a<a name="N66973"></a>
 <h3 class="operation">5.2 Create a new tag or resolve an existing tag</h3>
 <h4>Description</h4>Create a new tag that can be appended to resource thereafter. This API call can also be used to retrieve the internal ID of an existing tag.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tags</pre>
+<pre>http://task.example.foo/v2/tags</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
@@ -1317,7 +1317,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "baseTag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       }
    }
 }</pre>
@@ -1326,7 +1326,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N67037"></a>
 <h3 class="operation">5.3 Create or resolve multiple tags (batch request)</h3>
 <h4>Description</h4>Takes a list of textual tags and either creates or resolves each of them. For every single tag, either the base tag URI or an error message is returned.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tags/multiple</pre>
+<pre>http://task.example.foo/v2/tags/multiple</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
@@ -1359,13 +1359,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "baseTag":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+               "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
             }
          }
       },
       "t":{
          "error":{
-            "message":"Invalid tag length"
+            "reason":"Invalid tag length"
          }
       }
    }
@@ -1375,7 +1375,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N67274"></a>
 <h3 class="operation">5.4 Retrieve all tags of a resource</h3>
 <h4>Description</h4>Returns a single tag entry.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tags</pre>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/tags</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">{resource}</dt>
@@ -1402,19 +1402,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "tags":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/resource/tags"
+         "href":"http://task.example.foo/v2/resource/tags"
       },
       "list":[
          {
             "tag":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                },
                "baseTag":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                   }
                },
                "value":"mytag",
@@ -1428,7 +1428,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
@@ -1443,7 +1443,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N67149"></a>
 <h3 class="operation">5.5 Retrieve a single tag of a resource</h3>
 <h4>Description</h4>Returns a single tag entry that has been appended to a resource.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/tag/<span class="uripart">{tag-id}</span>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/tag/<span class="uripart">{tag-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -1473,12 +1473,12 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "tag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       },
       "baseTag" : {
 	      "link":{
 	         "rel":"self",
-	         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+	         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
 	      }
       }, 
       "value":"mytag",
@@ -1492,7 +1492,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+            "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
          },
          "up":12,
          "down":2
@@ -1504,7 +1504,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<a name="N67097"></a>
 <h3 class="operation">5.6 Retrieve a tag</h3>
 <h4>Description</h4>Returns a tag entry.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tag/<span class="uripart">{tag-id}</span>
+<pre>http://task.example.foo/v2/tag/<span class="uripart">{tag-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -1532,7 +1532,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "baseTag":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+         "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
       },
       "value":"mytag",
       "creationTime":"2010-07-17T18:54:11.939Z",
@@ -1551,7 +1551,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Description</h4>
 <p>This resource represents a task.</p>
 <h4>Resource URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>
 </pre>
 <dl>
 <dt class="uripart">task-id</dt>
@@ -1560,7 +1560,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N66695"></a>
 <h3 class="operation">6.1 Create a new task</h3>
 <h4>Description</h4>Creates a new task.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks</pre>
+<pre>http://task.example.foo/v2/tasks</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
@@ -1596,7 +1596,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <h4>Response Entities</h4>n/a<a name="N66589"></a>
 <h3 class="operation">6.2 Fetch meta data of multiple tasks (batch request)</h3>
 <h4>Description</h4>Fetches a set of task snapshots.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks/metadata</pre>
+<pre>http://task.example.foo/v2/tasks/metadata</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
@@ -1609,8 +1609,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <pre class="brush: js">
 {
    "tasks":[
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
-      "http://taskservice/v2/task/2671f383-a28c-bla"
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://task.example.foo/v2/task/2671f383-a28c-bla"
    ]
 }</pre>
 						
@@ -1628,16 +1628,16 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <pre class="brush: js">
 {
    "results":{
-      "http://taskservice/v2/task/2671f383-a28c-bla":{
+      "http://task.example.foo/v2/task/2671f383-a28c-bla":{
          "error":{
             "message":"Not found"
          }
       },
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
          "task":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
             },
             "constraints":{
                "time":{
@@ -1665,7 +1665,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "votes":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/resource/votes"
+                  "href":"http://task.example.foo/v2/resource/votes"
                },
                "up":123,
                "down":42
@@ -1674,19 +1674,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "submissions":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
             }
          },
          "comments":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
             }
          },
          "tags":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
             }
          }
       }
@@ -1697,7 +1697,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N66529"></a>
 <h3 class="operation">6.3 Fetch multiple task snapshots (batch request)</h3>
 <h4>Description</h4>Fetches a set of task snapshots.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks/snapshots</pre>
+<pre>http://task.example.foo/v2/tasks/snapshots</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
@@ -1710,8 +1710,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <pre class="brush: js">
 {
    "tasks":[
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
-      "http://taskservice/v2/task/2671f383-a28c-bla"
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015",
+      "http://task.example.foo/v2/task/2671f383-a28c-bla"
    ]
 }</pre>
 						
@@ -1729,16 +1729,16 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <pre class="brush: js">
 {
    "results":{
-      "http://taskservice/v2/task/2671f383-a28c-bla":{
+      "http://task.example.foo/v2/task/2671f383-a28c-bla":{
          "error":{
             "message":"Not found"
          }
       },
-      "http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
+      "http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015":{
          "task":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
             },
             "constraints":{
                "time":{
@@ -1766,7 +1766,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			"votes":{
 			     "link":{
 			            "rel":"self",
-			            "href":"http://taskservice/v2/resource/votes"
+			            "href":"http://task.example.foo/v2/resource/votes"
 			         },
 			      "up":123,
 			      "down":42
@@ -1776,19 +1776,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "submissions":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
             },
             "list":[
                {
                   "submission":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                        "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
                      },
                      "votes":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
                         },
                         "up":123,
                         "down":42
@@ -1809,19 +1809,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "tags":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
                         },
                         "list":[
                            {
                               "tag":{
                                  "link":{
                                     "rel":"self",
-                                    "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                    "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                                  },
                                  "baseTag":{
                                     "link":{
                                        "rel":"self",
-                                       "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                       "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                                     }
                                  },
                                  "value":"mytag",
@@ -1835,7 +1835,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                                  "votes":{
                                     "link":{
                                        "rel":"self",
-                                       "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                       "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                                     },
                                     "up":12,
                                     "down":2
@@ -1851,14 +1851,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "comments":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+               "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
             },
             "list":[
                {
                   "comment":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                        "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
                      },
                      "content":"blablabla",
                      "creationTime":"2010-07-17T18:54:11.939Z",
@@ -1871,7 +1871,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "votes":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                         },
                         "up":12,
                         "down":2
@@ -1883,19 +1883,19 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "tags":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/resource/tags"
+               "href":"http://task.example.foo/v2/resource/tags"
             },
             "list":[
                {
                   "tag":{
                      "link":{
                         "rel":"self",
-                        "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                        "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                      },
                      "baseTag":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                           "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                         }
                      },
                      "value":"mytag",
@@ -1909,7 +1909,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "votes":{
                         "link":{
                            "rel":"self",
-                           "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                           "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                         },
                         "up":12,
                         "down":2
@@ -1926,7 +1926,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <a name="N66331"></a>
 <h3 class="operation">6.4 List all existing tasks</h3>
 <h4>Description</h4>Forwards to a paginated list of all tasks available.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks</pre>
+<pre>http://task.example.foo/v2/tasks</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
@@ -1948,7 +1948,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				If there is a previous link, the cursor of the current page is newer (or at least of the same age) than the last entry of the previous page.
 				Metaphorically, pages are slices cut from the timeline. When iterating over a page, the items on top are older than the bottom ones.       
 				<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks/cursor/<span class="uripart">{task id}</span>
+<pre>http://task.example.foo/v2/tasks/cursor/<span class="uripart">{task id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -1975,7 +1975,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "page":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/tasks/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://task.example.foo/v2/tasks/cursor/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       }
    },
    "list":[
@@ -1983,7 +1983,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "task":{
             "link":{
                "rel":"self",
-               "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+               "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
             }
          }
       }
@@ -1992,13 +1992,13 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       {
          "link":{
             "rel":"previous",
-            "href":"http://taskservice/v2/tasks/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
+            "href":"http://task.example.foo/v2/tasks/cursor/5330edf0-a68d-11e0-8264-0800200c9a66"
          }
       },
       {
          "link":{
             "rel":"next",
-            "href":"http://taskservice/v2/tasks/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
+            "href":"http://task.example.foo/v2/tasks/cursor/8d45b5ff-c6b8-4ec3-9fd1-96704233be3e"
          }
       }
    ]
@@ -2009,7 +2009,7 @@ An example page (containing only one item per page). Please note the related lin
 					<a name="N66373"></a>
 <h3 class="operation">6.6 List tasks created since a specific date</h3>
 <h4>Description</h4>Forwards to a paginated list of all tasks created since the date that has been passed as parameter. The result list is inclusive, thus an exact match will also be included. The date parameter must be a RFC 3339 compliant value, using Zulu time. The list forwared to will provide all results ordered by creation time. The list may be paginated into multiple pages.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/tasks/since/<span class="uripart">{split date}</span>
+<pre>http://task.example.foo/v2/tasks/since/<span class="uripart">{split date}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -2035,7 +2035,7 @@ An example page (containing only one item per page). Please note the related lin
 <a name="N66480"></a>
 <h3 class="operation">6.7 Retrieve a single task snapshot</h3>
 <h4>Description</h4>Returns a complete set of data of this task, including comments, votes and sumbissions.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>/snapshot</pre>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>/snapshot</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">task-id</dt>
@@ -2062,7 +2062,7 @@ An example page (containing only one item per page). Please note the related lin
    "task":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       },
       "constraints":{
          "time":{
@@ -2090,7 +2090,7 @@ An example page (containing only one item per page). Please note the related lin
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/resource/votes"
+            "href":"http://task.example.foo/v2/resource/votes"
          },
          "up":123,
          "down":42
@@ -2099,19 +2099,19 @@ An example page (containing only one item per page). Please note the related lin
    "submissions":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
       },
       "list":[
          {
             "submission":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000"
                },
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/votes"
                   },
                   "up":123,
                   "down":42
@@ -2132,19 +2132,19 @@ An example page (containing only one item per page). Please note the related lin
                "tags":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tags"
                   },
                   "list":[
                      {
                         "tag":{
                            "link":{
                               "rel":"self",
-                              "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                              "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                            },
                            "baseTag":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                                 "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                               }
                            },
                            "value":"mytag",
@@ -2158,7 +2158,7 @@ An example page (containing only one item per page). Please note the related lin
                            "votes":{
                               "link":{
                                  "rel":"self",
-                                 "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                                 "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/submission/550e8400-e29b-11d4-a716-446655440000/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                               },
                               "up":12,
                               "down":2
@@ -2174,14 +2174,14 @@ An example page (containing only one item per page). Please note the related lin
    "comments":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
       },
       "list":[
          {
             "comment":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
+                  "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66"
                },
                "content":"blablabla",
                "creationTime":"2010-07-17T18:54:11.939Z",
@@ -2194,7 +2194,7 @@ An example page (containing only one item per page). Please note the related lin
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
@@ -2206,19 +2206,19 @@ An example page (containing only one item per page). Please note the related lin
    "tags":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/resource/tags"
+         "href":"http://task.example.foo/v2/resource/tags"
       },
       "list":[
          {
             "tag":{
                "link":{
                   "rel":"self",
-                  "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                  "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                },
                "baseTag":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
+                     "href":"http://task.example.foo/v2/tag/ef7987f2bd22f4a8cf236c83a57c1f6b"
                   }
                },
                "value":"mytag",
@@ -2232,7 +2232,7 @@ An example page (containing only one item per page). Please note the related lin
                "votes":{
                   "link":{
                      "rel":"self",
-                     "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
+                     "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tag/ef7987f2bd22f4a8cf236c83a57c1f6b/votes"
                   },
                   "up":12,
                   "down":2
@@ -2247,7 +2247,7 @@ An example page (containing only one item per page). Please note the related lin
 <a name="N66649"></a>
 <h3 class="operation">6.8 Retrieve task meta data</h3>
 <h4>Description</h4>Returns all meta data of this task.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/task/<span class="uripart">{task-id}</span>
+<pre>http://task.example.foo/v2/task/<span class="uripart">{task-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -2275,7 +2275,7 @@ An example page (containing only one item per page). Please note the related lin
    "task":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015"
       },
       "constraints":{
          "time":{
@@ -2303,7 +2303,7 @@ An example page (containing only one item per page). Please note the related lin
       "votes":{
          "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/resource/votes"
+            "href":"http://task.example.foo/v2/resource/votes"
          },
          "up":123,
          "down":42
@@ -2312,19 +2312,19 @@ An example page (containing only one item per page). Please note the related lin
    "submissions":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/submissions"
       }
    },
    "comments":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+         "href":"http://task.example.foo/v2/task/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
       }
    },
    "tags":{
       "link":{
          "rel":"self",
-         "href":"http://taskservice/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
+         "href":"http://task.example.foo/v2/task/2671f383-a28c-44d5-b86b-f7f04bb0a015/tags"
       }
    }
 }</pre>
@@ -2335,7 +2335,7 @@ An example page (containing only one item per page). Please note the related lin
 <h4>Description</h4>
 <p>This resource represents a vote. Users can vote on various resources. The voting URI path is appended to the original URI. The following resources of the Task API can be voted on: <em>Task</em>, <em>Submission</em>, <em>Comment</em> and <em>Tag</em> (for tasks and submissions) </p>
 <h4>Resource URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
 </pre>
 <dl>
 <dt class="uripart">resource</dt>
@@ -2346,7 +2346,7 @@ An example page (containing only one item per page). Please note the related lin
 <a name="N66027"></a>
 <h3 class="operation">7.1 Get all votes</h3>
 <h4>Description</h4>Returns a summary of all votes for this resource.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/votes</pre>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/votes</pre>
 <h4>URI Parameters</h4>
 <dl>
 <dt class="uripart">{resource}</dt>
@@ -2372,7 +2372,7 @@ An example page (containing only one item per page). Please note the related lin
    "votes":{
   	 "link":{
             "rel":"self",
-            "href":"http://taskservice/v2/resource/votes"
+            "href":"http://task.example.foo/v2/resource/votes"
          },
       "up":123,
       "down":42
@@ -2383,7 +2383,7 @@ An example page (containing only one item per page). Please note the related lin
 <a name="N65958"></a>
 <h3 class="operation">7.2 Get a vote of the user</h3>
 <h4>Description</h4>Returns the current vote of the user authenticating the request.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -2424,7 +2424,7 @@ An example page (containing only one item per page). Please note the related lin
 					<a name="N66084"></a>
 <h3 class="operation">7.3 Undo a vote on a resource</h3>
 <h4>Description</h4>Undos a vote that has been casted before.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -2451,7 +2451,7 @@ An example page (containing only one item per page). Please note the related lin
 <h4>Response Entities</h4>n/a<a name="N65909"></a>
 <h3 class="operation">7.4 Vote on a resource</h3>
 <h4>Description</h4>Casts a vote by the user authenticating the request.<h4>URI</h4>
-<pre>http://task.diretto.org/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>/<span class="uripart">{vote}</span>
+<pre>http://task.example.foo/v2/<span class="uripart">{resource}</span>/vote/user/<span class="uripart">{user-id}</span>/<span class="uripart">{vote}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>

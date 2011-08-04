@@ -229,7 +229,7 @@ The Storage API is designed to support HTTP mechanisms like caching and conditio
 </p>
 <h4>Base URI</h4>
 <p>
-<a xmlns="" href="http://mediaserver/">http://mediaserver/</a>
+<a xmlns="" href="http://storage.example.foo/">http://storage.example.foo/</a>
 </p>
 <a name="index"></a>
 <h2>Index of Resources and Operations</h2>
@@ -296,7 +296,7 @@ while all additional attachments represent derivated or customized versions.
 			
 </p>
 <h4>Resource URI</h4>
-<pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
+<pre>http://storage.example.foo/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
 </pre>
 <dl>
 <dt class="uripart">document-id</dt>
@@ -310,7 +310,7 @@ while all additional attachments represent derivated or customized versions.
 <h3 class="operation">1.1 Download an attachment</h3>
 <h4>Description</h4>This operation allows to download an existing attachment. Conditional GETs must be supported by the storage server.
 				Clients should support caching and dispatch conditional requests whenever possible.<h4>URI</h4>
-<pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
+<pre>http://storage.example.foo/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -347,7 +347,7 @@ while all additional attachments represent derivated or customized versions.
 				<span style="font-family:monospace;">Content-Length</span> (file size) and <span style="font-family:monospace;">ETag</span> (caching identifier).  
 				This operation should also be used for checking the existence of an attachment.   
 				<h4>URI</h4>
-<pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
+<pre>http://storage.example.foo/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -398,7 +398,7 @@ while all additional attachments represent derivated or customized versions.
 </pre>			
 				Please note that the URI as well as the values are examples and must be replaced. 	
 				<h4>URI</h4>
-<pre>http://mediaserver/<span class="uripart">{document-id}</span>
+<pre>http://storage.example.foo/<span class="uripart">{document-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -465,7 +465,7 @@ while all additional attachments represent derivated or customized versions.
 				
 		
 				<h4>URI</h4>
-<pre>http://mediaserver/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>?token=<span class="uripart">{token}</span>
+<pre>http://storage.example.foo/<span class="uripart">{document-id}</span>/<span class="uripart">{attachment-id}</span>.<span class="uripart">{attachment-ext}</span>?token=<span class="uripart">{token}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -526,13 +526,13 @@ while all additional attachments represent derivated or customized versions.
 <p>The index resource provides static information about the deployed service.
 			</p>
 <h4>Resource URI</h4>
-<pre>http://mediaserver/</pre>
+<pre>http://storage.example.foo/</pre>
 <dl></dl>
 <a name="N65925"></a>
 <h3 class="operation">2.1 Get static information</h3>
 <h4>Description</h4>This operation allows to receive static information about the deployment.
 				<span style="font-family:monospace;">HEAD</span> requests against this resource may be useful to check the service's availability.<h4>URI</h4>
-<pre>http://mediaserver/</pre>
+<pre>http://storage.example.foo/</pre>
 <h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
@@ -570,7 +570,7 @@ while all additional attachments represent derivated or customized versions.
       "core":{
          "link":{
             "rel":"self",
-            "href":"http://coreservice/v2"
+            "href":"http://core.example.foo/v2"
          }
       }
    },
