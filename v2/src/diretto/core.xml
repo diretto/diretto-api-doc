@@ -1968,14 +1968,6 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<request>
 					<method>POST</method>
 					<authentication  mandatory="true" />
-					<entities />
-				</request>
-				<response>
-					<responses>
-						<answer code="201">Collection created.</answer>
-						<answer code="400">Invalid collection data.</answer>
-						<answer code="403">Not allowed for this user.</answer>
-					</responses>
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
@@ -1986,6 +1978,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 							<description>Note that the <tt>private</tt> flag must be set.</description>
 						</entity>					
 					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="201">Collection created.</answer>
+						<answer code="400">Invalid collection data.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+					</responses>
+					<entities />
 				</response>
 			</operation>
 						
@@ -2229,7 +2229,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 								
 			<operation>
 				<name>Delete a collection</name>
-				<description>Removes a collection. Warning: This operation cannot be undone.</description>
+				<description>Removes a collection. Only the owner of a collection can do this. Warning: This operation cannot be undone.</description>
 				<path/>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -2949,7 +2949,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			Attachment
 	============================================================================================================== -->
 		<resource>
-			<name>Attachment*</name>
+			<name>Attachment</name>
 			<description>An attachment represents an actual resource or media, while a document is only a conceptual item in the terms of diretto.
 			Thus, each document has at least one attachment - the file/resource submitted when the document has been created.
 			However, the platform allows users to add other attachments to any documents. While the first attachment is normally unaltered, raw footage,
@@ -3155,12 +3155,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
                ],
                "creators":[
-                  {
-                     "link":{
-                        "rel":"self",
-                        "href":"http://core.example.foo/v2/user/123456"
-                     }
-                  }
+	                 {
+	                    "user":{
+	                       "link":{
+	                          "rel":"self",
+	                          "href":"http://core.example.foo/v2/user/123456"
+	                       }
+	                    }
+	                 }
                ]
             }
          },
@@ -3231,7 +3233,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>
 
 			<operation>
-				<name>Create a new attachment*</name>
+				<name>Create a new attachment</name>
 				<description>Adds a new attachment to a document. Please note that this API call is not used
 				for the creation of an initial attachment of a document. It can only be used for adding alternative
 				submissions to a given document.</description>
@@ -3243,14 +3245,41 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   "todo": ""
+   "title":"A cool image of fubar",
+   "description":"yada yada",
+   "mimeType":"image/jpeg",
+   "fileSize":123456,
+   "license":"",
+   "contributors":[
+
+   ],
+   "creators":[
+
+   ]
 }]]></code>
 						<description>This request will create a new attachment with a media file. It must be stored by 
 						Storage API in a later step.</description>
 						</entity>
 						<entity>
 <code language="js"><![CDATA[{
-   "todo": ""
+   "title":"A cool image of fubar",
+   "description":"yada yada",
+   "mimeType":"image/x-diretto-twitpix+url",
+   "external":"http://twitpix.foo/135xa",
+   "license":"Creative Commons Attribution-ShareAlike 3.0 Unported - Deed",
+   "contributors":[
+
+   ],
+   "creators":[
+      {
+         "user":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/user/123456"
+            }
+         }
+      }
+   ]
 }]]></code>
 						<description>However, this request adds a new external resource as an attachment. If the external resource
 						is validated, the attachment creation directly succeeds in this call.</description>
@@ -3267,16 +3296,25 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   "todo": ""
+   "upload":{
+      "token":"00b19c9d7db4f1ae0824c62bda5a127588bde476",
+      "location":{
+         "link":{
+            "rel":"self",
+            "href":"http://storage.example.foo/d16e103e-4fda-433d-9309-179487ecad4a/d16e103e-4fda-433d-9309-179487ecad4a.jpg"
+         }
+      },
+      "target":{
+         "link":{
+            "rel":"self",
+            "href":"http://storage.example.foo/d16e103e-4fda-433d-9309-179487ecad4a/d16e103e-4fda-433d-9309-179487ecad4a.jpg?token=00b19c9d7db4f1ae0824c62bda5a127588bde476"
+         }
+      }
+   }
 }]]></code>
-						<description></description>
+						<description>When submitting valid attachment meta data for a file to be stored, 
+						the response contains the token and designated location for the upload</description>
 						</entity>
-<entity>
-<code language="js"><![CDATA[{
-   "todo": ""
-}]]></code>
-						<description></description>
-						</entity>						
 					</entities>					
 				</response>
 			</operation>
@@ -3336,7 +3374,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			Document
 	============================================================================================================== -->
 		<resource>
-			<name>Document*</name>
+			<name>Document</name>
 			<description>This resource represents a document.
 			
 	The following flow shows the steps involved when creating a new document including the initial attachment (not external).
@@ -3495,7 +3533,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          }
       },
       "title":"A cool image of fubar",
-      "desc":"…",
+      "description":"…",
       "comments":{
          "link":{
             "rel":"self",
@@ -3579,7 +3617,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          }
       },
       "title":"A cool image of fubar",
-      "desc":"…",
+      "description":"…",
       "snapshot":{
          "attachment":{
             "link":{
@@ -3615,12 +3653,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
             ],
             "creators":[
-               {
-                  "link":{
-                     "rel":"self",
-                     "href":"http://core.example.foo/v2/user/123456"
-                  }
-               }
+	            {
+	               "user":{
+	                  "link":{
+	                     "rel":"self",
+	                     "href":"http://core.example.foo/v2/user/789012"
+	                  }
+	               }
+	            }
             ]
          },
          "location":{
@@ -3784,22 +3824,22 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "document":{
       "link":{
          "rel":"self",
-         "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66"
+         "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66"
       },
       "mediaType":"image",
       "publishedTime":"2010-07-17T18:54:11.939Z",
       "publisher":{
          "link":{
             "rel":"self",
-            "href":"http://core/v2/user/123456"
+            "href":"http://core.example.foo/v2/user/123456"
          }
       },
       "title":"A cool image of fubar",
-      "desc":"…",
+      "description":"…",
       "comments":{
          "link":{
             "rel":"self",
-            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
          },
          "list":[
             {
@@ -3831,7 +3871,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "tags":{
          "link":{
             "rel":"self",
-            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tags"
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tags"
          },
          "list":[
             {
@@ -3869,7 +3909,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "attachments":{
          "link":{
             "rel":"self",
-            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachments"
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachments"
          },
          "list":[
             {
@@ -3908,9 +3948,11 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   ],
                   "creators":[
                      {
-                        "link":{
-                           "rel":"self",
-                           "href":"http://core.example.foo/v2/user/123456"
+                        "user":{
+                           "link":{
+                              "rel":"self",
+                              "href":"http://core.example.foo/v2/user/789012"
+                           }
                         }
                      }
                   ]
@@ -3979,7 +4021,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "locations":{
          "link":{
             "rel":"self",
-            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/locations"
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/locations"
          },
          "list":[
             {
@@ -4018,7 +4060,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "times":{
          "link":{
             "rel":"self",
-            "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/times"
+            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/times"
          },
          "list":[
             {
@@ -4072,7 +4114,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
       "documentlinks":{
          "link":{
             "rel":"self",
-            "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
+            "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
          },
          "in":[
             {
@@ -4214,7 +4256,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                }
             },
             "title":"A cool image of fubar",
-            "desc":"…",
+            "description":"…",
             "comments":{
                "link":{
                   "rel":"self",
@@ -4315,7 +4357,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                }
             },
             "title":"A cool image of fubar",
-            "desc":"…",
+            "description":"…",
             "snapshot":{
                "attachment":{
                   "link":{
@@ -4351,12 +4393,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
                   ],
                   "creators":[
-                     {
-                        "link":{
-                           "rel":"self",
-                           "href":"http://core.example.foo/v2/user/123456"
-                        }
-                     }
+	                  {
+	                     "user":{
+	                        "link":{
+	                           "rel":"self",
+	                           "href":"http://core.example.foo/v2/user/789012"
+	                        }
+	                     }
+	                  }
                   ]
                },
                "location":{
@@ -4538,22 +4582,22 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "document":{
             "link":{
                "rel":"self",
-               "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66"
+               "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66"
             },
             "mediaType":"image",
             "publishedTime":"2010-07-17T18:54:11.939Z",
             "publisher":{
                "link":{
                   "rel":"self",
-                  "href":"http://core/v2/user/123456"
+                  "href":"http://core.example.foo/v2/user/123456"
                }
             },
             "title":"A cool image of fubar",
-            "desc":"…",
+            "description":"…",
             "comments":{
                "link":{
                   "rel":"self",
-                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comments"
                },
                "list":[
                   {
@@ -4585,7 +4629,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "tags":{
                "link":{
                   "rel":"self",
-                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tags"
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/tags"
                },
                "list":[
                   {
@@ -4623,7 +4667,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "attachments":{
                "link":{
                   "rel":"self",
-                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachments"
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachments"
                },
                "list":[
                   {
@@ -4662,9 +4706,11 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                         ],
                         "creators":[
                            {
-                              "link":{
-                                 "rel":"self",
-                                 "href":"http://core.example.foo/v2/user/123456"
+                              "user":{
+                                 "link":{
+                                    "rel":"self",
+                                    "href":"http://core.example.foo/v2/user/123456"
+                                 }
                               }
                            }
                         ]
@@ -4733,7 +4779,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "locations":{
                "link":{
                   "rel":"self",
-                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/locations"
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/locations"
                },
                "list":[
                   {
@@ -4772,7 +4818,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "times":{
                "link":{
                   "rel":"self",
-                  "href":"http://core/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/times"
+                  "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/times"
                },
                "list":[
                   {
@@ -4826,7 +4872,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "documentlinks":{
                "link":{
                   "rel":"self",
-                  "href":"http://core/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
+                  "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
                },
                "in":[
                   {
@@ -4923,7 +4969,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>							
 
 			<operation>
-				<name>Create a new document*</name>
+				<name>Create a new document</name>
 				<description>.</description>
 				<path omitResourcePath="true"></path>
 				<formats><format>application/json</format></formats>
@@ -4933,21 +4979,107 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   "todo":null
+   "title":"A cool image of fubar",
+   "description":"yada yada",
+   "mimeType":"image/x-diretto-twitpix+url",
+   "external":"http://twitpix.foo/135xa",
+   "license":"Creative Commons Attribution-ShareAlike 3.0 Unported - Deed",
+   "position":{
+      "type":"Point",
+      "coordinates":[
+         9.991246,
+         48.39848
+      ]
+   },
+   "createdBetween":{
+      "after":"2010-06-29T19:00:00.000Z",
+      "before":"2010-06-29T20:00:00.000Z"
+   },
+   "contributors":[
+
+   ],
+   "creators":[
+      {
+         "user":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/user/123456"
+            }
+         }
+      }
+   ]
 }]]></code>
+						<description>This will create a new document with the given meta data. Due to the 
+						mime type and the <tt>external</tt> attribute, the included first attachment will be
+						an external attachment.</description>
 						</entity>
+						<entity>
+<code language="js"><![CDATA[{
+   "title":"A cool image of fubar",
+   "description":"yada yada",
+   "mimeType":"image/jpeg",
+   "fileSize":123456,
+   "license":"",
+   "position":{
+      "type":"Point",
+      "coordinates":[
+         9.991246,
+         48.39848
+      ]
+   },
+   "createdBetween":{
+      "after":"2010-06-29T19:00:00.000Z",
+      "before":"2010-06-29T20:00:00.000Z"
+   },
+   "contributors":[
+
+   ],
+   "creators":[
+
+   ]
+}]]></code>
+						<description>This will create a new document with the given meta data. Due to the 
+						mime type and the <tt>fileSize</tt> attribute, the included first attachment will be
+						an attachment to be stored on the platform. Therefore, the response will contain
+						upload credentials, if the document will be accepted.</description>
+						</entity>						
 					</entities>
 				</request>
 				<response>
 					<responses>
-						<answer code="200"></answer>
+						<answer code="201">New document created (only for external attachments).</answer>
+						<answer code="202">New document has been accepted, credentials for upload in response (only for attachments to be stored).</answer>
+						<answer code="400">Invalid or incomplete values.</answer>
+						<answer code="409">Document already exists.</answer>
 					</responses>
-					<entities/>					
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "upload":{
+      "token":"00b19c9d7db4f1ae0824c62bda5a127588bde476",
+      "location":{
+         "link":{
+            "rel":"self",
+            "href":"http://storage.example.foo/d16e103e-4fda-433d-9309-179487ecad4a/d16e103e-4fda-433d-9309-179487ecad4a.jpg"
+         }
+      },
+      "target":{
+         "link":{
+            "rel":"self",
+            "href":"http://storage.example.foo/d16e103e-4fda-433d-9309-179487ecad4a/d16e103e-4fda-433d-9309-179487ecad4a.jpg?token=00b19c9d7db4f1ae0824c62bda5a127588bde476"
+         }
+      }
+   }
+}]]></code>
+						<description>If the attached file is not external and must be stored on the platform, the document creation request will
+						return a token and a designated token where to upload the attachment in the next step.</description>
+						</entity>
+					</entities>					
 				</response>
 			</operation>							
 
 			<operation>
-				<name>List of documents created by an user (forward)</name>
+				<name>List of documents created by a user (forward)</name>
 				<description>Forwards to a list of documents that this user has published, ordered by publishing date.</description>
 				<path omitResourcePath="true"></path>
 				<formats><format>n/a</format></formats>
@@ -4967,7 +5099,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>							
 
 			<operation>
-				<name>List of documents created by an user (page)</name>
+				<name>List of documents created by a user (page)</name>
 				<description>Returns a page from the list of documents that this user has published, ordered by publishing date.</description>
 				<path omitResourcePath="true"></path>
 				<formats><format>application/json</format></formats>
