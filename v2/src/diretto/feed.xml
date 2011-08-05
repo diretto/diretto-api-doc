@@ -5,14 +5,20 @@
 	<name>diretto Feed API</name>
 	<version>v2 - Draft</version>
 	<author>Benjamin Erb</author>
-	<description>The Feed API provides non-JSON lists of entries in popular feed formats. It can be used for retrieving lists of available documents and attachments. Some of the feeds are PubSubHubbub-enabled, which allows clients to register for notifications upon new items. See also the Streaming API and the listing operations of the Core API as alternatives.</description>
-	<baseuri>http://feed.diretto.org/v2</baseuri>
+	<description>The Feed API provides non-JSON lists of entries in popular feed formats. 
+	It can be used for retrieving lists of available documents and attachments. Some of the feeds are PubSubHubbub-enabled, 
+	which allows clients to register for notifications upon new items. See also the Streaming API and 
+	the list resources of the Core API as alternatives.</description>
+	<baseuri>http://feed.example.foo/v2</baseuri>
 	<authentication>
 		<type>Basic Authentication</type>
 	</authentication>
 	
 	<resources>
 	
+	<!-- ============================================================================================================= 
+			Index
+	============================================================================================================== -->
 	<resource>
 			<name>Index</name>
 			<description>This entry resource provides information about the instance.</description>
@@ -60,31 +66,225 @@
 			</operation>	
 		</resource>		
 	
+	<!-- ============================================================================================================= 
+			Atome Feeds
+	============================================================================================================== -->
 		<resource>
-			<name>Document Feed (Atom)</name>
-			<description>An Atom feed of documents added to the platform, sorted by upload time. This feed is PubSubHubbub-enabled.</description>
-			<path>/feeds/list/documents/all</path>
+			<name>Atom Feeds</name>
+			<description>The following sub-resources provide feeds of entries added to the platform as Atom feeds. Feeds are paginated as described in RFC 5005.</description>
+			<path>/feeds</path>
+			
+			<operation>
+				<name>List of published documents</name>
+				<description>An Atom feed of documents added to the platform, sorted by publish time. This feed is PubSubHubbub-enabled.</description>
+				<path>/documents</path>
+				<formats><format>application/atom+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+			
+			<operation>
+				<name>List of comments</name>
+				<description>An Atom feed of comments added to the platform, sorted by creation time. Note that this feed will contain items
+				referring to different documents. This feed is PubSubHubbub-enabled.</description>
+				<path>/comments</path>
+				<formats><format>application/atom+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+
+			
+			<operation>
+				<name>List of attachments</name>
+				<description>An Atom feed of attachments added to the platform, sorted by creation time. Note that this feed will contain items
+				referring to different documents. This feed is PubSubHubbub-enabled.</description>
+				<path>/attachments</path>
+				<formats><format>application/atom+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+								
+			<operation>
+				<name>List of media-specific documents</name>
+				<description>An Atom feed of documents filtered by media type and sorted by publish time. The media type is described by the first part of the MIME type. This feed is PubSubHubbub-enabled.</description>
+				<path>/media/<param description="Media type, i.e. 'image' or 'text'">media-type</param></path>
+				<formats><format>application/atom+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+											
+			<operation>
+				<name>Document details feed</name>
+				<description>An Atom feed of items related to the given document. This feed will include comments and attachments.</description>
+				<path>/document/<param description="document id'">doc-id</param></path>
+				<formats><format>application/atom+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
 		</resource>		
-		
-		<resource>
-			<name>Media-specific Document Feed (Atom)</name>
-			<description>An Atom feed of documents added to the platform, sorted by upload time.</description>
-			<path>/feeds/list/documents/media/<param description="Media type, i.e. 'image' or 'text'">media-type</param></path>
-		</resource>	
 	
+	<!-- ============================================================================================================= 
+			Geo Feeds
+	============================================================================================================== -->	
 		<resource>
-			<name>Spatial Document Feed (KML)</name>
-			<description>An KML export feed of documents added to the platform. Only the position with the highest votes is emitted.</description>
-			<path>/feeds/geo/kml</path>
-		</resource>	
-	
-		<resource>
-			<name>Positions of a Document (KML)</name>
-			<description>This KML export emits a all positions submitted by users for the given document.</description>
-			<path>/feeds/geo/document/<param description="document ID">document-id</param>/kml</path>
-		</resource>	
+			<name>Geo Feeds</name>
+			<description>The following sub-resources provide feeds of entries added to the platform as spatial KML feeds.</description>
+			<path>/feeds/geo</path>		
+			
+			<operation>
+				<name>Suggested positions for a specific document</name>
+				<description>A KML feed of the positions that users have suggested as origin for a document.</description>
+				<path>/document/<param description="document id'">doc-id</param>/positions</path>
+				<formats><format>application/vnd.google-earth.kml+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>		
+					
+			<operation>
+				<name>List of document positions within a given bounding box</name>
+				<description>A KML feed of all document positions that are inside the given bounding box. The maximum size of the response is limited.
+				If the number of hits in the requested area exceeds a limit, the request will be denied and should be returned using a smaller bounding box.
+				If a document has multiple suggested positions, the best ranked will be chosen.</description>
+				<path>/area?bbox=<param description="min X value of bounding box">minX</param>,<param description="min Y value of bounding box">minY</param>,<param  description="max X value of bounding box">maxX</param>,<param description="max Y value of bounding box">maxY</param></path>
+				<formats><format>application/vnd.google-earth.kml+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+						<answer code="400">Invalid bounding box</answer>
+						<answer code="403">Too much hits, decrease bounding box size and retry</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Positions of the latest documents published</name>
+				<description>A KML feed containing the positions of the latest document added to the platform. 
+				If a document has multiple suggested positions, the best ranked will be chosen.</description>
+				<path>/documents</path>
+				<formats><format>application/vnd.google-earth.kml+xml</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Feed in response</answer>
+					</responses>
+					<entities>
+						<entity>
+						<code language="xml">
+<![CDATA[tbd]]>						
+						</code>
+						</entity>
+					</entities>
+				</response>
+			</operation>		
+					
+		</resource>			
 	
 	</resources>
-
-
+	
 </api>
