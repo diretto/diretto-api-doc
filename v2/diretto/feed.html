@@ -1,0 +1,792 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns:api="http://www.ioexception.de/rest-api-doc" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css">
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPlain.js" type="text/javascript"></script>
+<style type="text/css">
+			
+body {
+	background: #FFF;
+	color: #333;
+	font: normal 100% sans-serif;
+margin-left: auto;
+	margin-right: auto;
+
+	line-height: 1.5;
+	width:66%;
+}
+
+
+.uripart {
+	background:#666;
+	color: #fff;
+	font-style: italic;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+	color: #444;
+	font-weight: normal;
+	line-height: 1;
+	margin-bottom: 0.6em;
+	font-family:  Helvetica, sans-serif;
+
+}
+h4,h5,h6 {font-weight: bold;}
+
+h1 {font-size: 2.6em;}
+h2 {font-size: 2em;margin-top:3em;}
+h3 {font-size: 1.5em;margin-top:1.5em;}
+h4 {font-size: 1.25em;}
+h5 {font-size: 1.1em;}
+h6 {font-size: 1em;}
+
+h1 img, h2 img, h3 img, h4 img, h5 img, h6 img {margin: 0;}
+
+pre {
+	font: normal 100% monospace; 
+}
+
+
+dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-left:0.3em; padding-right:0.3em;  text-align: right; }  dd { margin: 0 0 0 110px; padding: 0 0 0.5em 0; }
+
+.statuscode, .method {
+	font: bold 100% monospace; 
+}
+
+#watermark {
+        position:fixed; 
+        left:0px; 
+        top:0px;
+        width:32px;
+        height:100%;
+        background-color:#EEE;
+        padding:0px;
+        margin:0px;
+} 
+
+
+
+#watermark-text {
+	color:#999;
+	border:0px solid red;
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform: rotate(90deg);
+	white-space:nowrap;
+	display:block;
+	bottom:0px;
+	width:20px;
+	height:20px;
+	font-family: Helvetica, sans-serif;
+	letter-spacing: 5px;
+	font-size:24px;
+	font-weight:normal;
+	text-shadow: 0px 0px 1px #999;
+	padding:0 10px 10px 5px;
+}
+
+#watermark-text span{
+	padding-left: 30px;
+}
+
+#sidemenu {
+z-index:300;  display:none;margin: 0;  text-align:left;
+}
+
+#sidemenu  li{
+	font-size: 0.8em;
+}
+#sidemenu  li a{
+	color: #333;
+	font-weight:bold;
+}
+
+#sidemenuopener{
+z-index:300; color: #333; background-color: #EEEEEE; border:1px solid #DDD; margin: 0;  position: fixed; top: 16px;  left: auto;  width: 56px;  right: 0px; text-align:center;
+min-height:32px;
+}
+
+#sidemenuopener a{
+	color: #333;
+	font-weight:bold;
+}
+
+a{
+	text-decoration: none;
+}
+
+#sidemenuopenerbox{
+	position: fixed; right:12px;
+}
+
+.shadow {
+	-moz-box-shadow: 2px 2px 3px #333;
+	-webkit-box-shadow: 2px 2px 3px #333;
+	box-shadow: 2px 2px 3px #333;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
+	
+}
+
+
+			</style>
+<script type="text/javascript">
+					SyntaxHighlighter.all();
+			</script><script type="text/javascript">
+			function showElement(layer,sx,t1,t2){
+			var l = document.getElementById(layer);
+			var s = document.getElementById(sx);
+			if(l.style.display=="none"){
+			l.style.display="block";
+			l.backgroundPosition="top";
+			s.innerHTML= t2;
+			} else {
+			l.style.display="none";
+			s.innerHTML= t1;
+			}
+			}
+			
+			function boxSize(x,a,b){
+				var el = document.getElementById(x);
+				if(el.style.width === a){
+					el.style.width = b;
+				}
+				else{
+					el.style.width = a;
+				}
+			}
+			
+			</script>
+<title>diretto Feed API - RESTful API Documentation</title>
+</head>
+<body>
+<div id="watermark">
+<div id="watermark-text">
+<span>diretto Feed API</span><span>v2 - Draft</span>
+</div>
+</div>
+<div id="sidemenuopener" class="shadow">
+<div id="sidemenuopenerbox">
+<a href="#" class="button" id="menuopener" onclick="javascript:showElement('sidemenu','menuopener','TOC','X'); boxSize('sidemenuopener','25%','56px'); return false;">TOC</a>
+</div>
+<ol id="sidemenu" style="display:none;">
+<li>
+<a id="lN65630" href="#" onclick="javascript:showElement('XN65630','lN65630','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65630">Atom Feeds</a>
+<ol id="XN65630" style="display:none;">
+<li>
+<a href="#N65832">Document details feed</a>
+</li>
+<li>
+<a href="#N65735">List of attachments</a>
+</li>
+<li>
+<a href="#N65688">List of comments</a>
+</li>
+<li>
+<a href="#N65782">List of media-specific documents</a>
+</li>
+<li>
+<a href="#N65641">List of published documents</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65885" href="#" onclick="javascript:showElement('XN65885','lN65885','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65885">Geo Feeds</a>
+<ol id="XN65885" style="display:none;">
+<li>
+<a href="#N65947">List of document positions within a given bounding box</a>
+</li>
+<li>
+<a href="#N66017">Positions of the latest documents published</a>
+</li>
+<li>
+<a href="#N65896">Suggested positions for a specific document</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65568" href="#" onclick="javascript:showElement('XN65568','lN65568','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65568">Index</a>
+<ol id="XN65568" style="display:none;">
+<li>
+<a href="#N65578">Get service instance data</a>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<h1>diretto Feed API</h1>
+<a name="introduction"></a>
+<h2>Introduction</h2>
+<h4>Version</h4>
+<p>v2 - Draft</p>
+<h4>Author</h4>
+<p>Benjamin Erb</p>
+<h4>Description</h4>
+<p>The Feed API provides non-JSON lists of entries in popular feed formats. 
+	It can be used for retrieving lists of available documents and attachments. Some of the feeds are PubSubHubbub-enabled, 
+	which allows clients to register for notifications upon new items. See also the Streaming API and 
+	the list resources of the Core API as alternatives.</p>
+<h4>Authentication Schemes</h4>
+<p>
+<ul>
+<li>Basic Authentication</li>
+</ul>
+</p>
+<h4>Base URI</h4>
+<p>
+<a xmlns="" href="http://feed.example.foo/v2">http://feed.example.foo/v2</a>
+</p>
+<a name="index"></a>
+<h2>Index of Resources and Operations</h2>
+<ol>
+<li xmlns="http://www.w3.org/1999/xhtml">
+<a href="#N65630">Atom Feeds</a>
+<ol>
+<li>
+<a href="#N65832">Document details feed</a>
+</li>
+<li>
+<a href="#N65735">List of attachments</a>
+</li>
+<li>
+<a href="#N65688">List of comments</a>
+</li>
+<li>
+<a href="#N65782">List of media-specific documents</a>
+</li>
+<li>
+<a href="#N65641">List of published documents</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65885">Geo Feeds</a>
+<ol>
+<li>
+<a href="#N65947">List of document positions within a given bounding box</a>
+</li>
+<li>
+<a href="#N66017">Positions of the latest documents published</a>
+</li>
+<li>
+<a href="#N65896">Suggested positions for a specific document</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65568">Index</a>
+<ol>
+<li>
+<a href="#N65578">Get service instance data</a>
+</li>
+</ol>
+</li>
+</ol>
+<a xmlns="" name="N65630"></a>
+<h2 class="resource">1. Atom Feeds</h2>
+<h4>Description</h4>
+<p>The following sub-resources provide feeds of entries added to the platform as Atom feeds. Feeds are paginated as described in RFC 5005.</p>
+<h4>Resource URI</h4>
+<pre>http://feed.example.foo/v2/feed</pre>
+<dl></dl>
+<a name="N65832"></a>
+<h3 class="operation">1.1 Document details feed</h3>
+<h4>Description</h4>An Atom feed of items related to the given document. This feed will include comments and attachments.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/document/<span class="uripart">{doc-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document id'</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/atom+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+	&lt;generator uri="http://www.diretto.org" version="0.1.0"&gt;diretto Feed Node&lt;/generator&gt;
+	&lt;link rel="self" href="http://feed.example.foo/v2/feeds/document/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
+	&lt;link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
+	&lt;link rel="hub" href="http://hub.example.foo/" /&gt;
+	&lt;title&gt;Document details feed&lt;/title&gt;
+	&lt;id&gt;http://feed.example.foo/v2/feeds/document/eafbad70-7972-11e0-a1f0-0800200c9a66&lt;/id&gt;
+	&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+	
+	 &lt;entry&gt;
+		&lt;id&gt;http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66&lt;/id&gt;
+		&lt;title&gt;Comment 8e252710-77cf-11e0-a1f0-0800200c9a66&lt;/title&gt;
+		&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+		&lt;category term="comment" /&gt;
+		&lt;author&gt;
+			&lt;uri&gt;http://core.example.foo/v2/user/123456&lt;/uri&gt;
+		&lt;/author&gt;
+		&lt;content&gt;blablabla&lt;/content&gt;
+	 &lt;/entry&gt;    	
+	
+	 &lt;entry&gt;
+		&lt;id&gt;http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66&lt;/id&gt;
+		&lt;title&gt;A cool image of Foobar&lt;/title&gt;
+		&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+		&lt;category term="image" /&gt;
+		&lt;author&gt;
+			&lt;uri&gt;http://core.example.foo/v2/user/123456&lt;/uri&gt;
+		&lt;/author&gt;
+		&lt;link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" /&gt;
+	 &lt;/entry&gt;    
+	 	 
+	 &lt;!-- more entries --&gt;
+ 
+&lt;/feed&gt;						
+						</pre>
+						
+					
+<a name="N65735"></a>
+<h3 class="operation">1.2 List of attachments</h3>
+<h4>Description</h4>An Atom feed of attachments added to the platform, sorted by creation time. Note that this feed will contain items
+				referring to different documents. This feed is PubSubHubbub-enabled.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/attachments</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/atom+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+	&lt;generator uri="http://www.diretto.org" version="0.1.0"&gt;diretto Feed Node&lt;/generator&gt;
+	&lt;link rel="self" href="http://feed.example.foo/v2/feed/attachments/cursor/d3419a0c-bc9a-493f-b842-e43bf1bc5e10" /&gt;
+	&lt;link rel="alternate" href="http://www.example.foo" /&gt;
+	&lt;link rel="next" href="http://feed.example.foo/v2/feed/attachments/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" /&gt;
+	&lt;link rel="previous" href="http://feed.example.foo/v2/feed/attachments/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" /&gt;
+	&lt;link rel="hub" href="http://hub.example.foo/" /&gt;
+	&lt;title&gt;List of Attachments&lt;/title&gt;
+	&lt;id&gt;http://feed.example.foo/v2/feed/attachments&lt;/id&gt;
+	&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+	
+	 &lt;entry&gt;
+		&lt;id&gt;http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66&lt;/id&gt;
+		&lt;title&gt;A cool image of Foobar&lt;/title&gt;
+		&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+		&lt;category term="image" /&gt;
+		&lt;author&gt;
+			&lt;uri&gt;http://core.example.foo/v2/user/123456&lt;/uri&gt;
+		&lt;/author&gt;
+		&lt;link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" /&gt;
+	 &lt;/entry&gt;    
+	 
+	 &lt;!-- more entries --&gt;
+ 
+&lt;/feed&gt;						
+						</pre>
+						
+					
+<a name="N65688"></a>
+<h3 class="operation">1.3 List of comments</h3>
+<h4>Description</h4>An Atom feed of comments added to the platform, sorted by creation time. Note that this feed will contain items
+				referring to different documents. This feed is PubSubHubbub-enabled.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/comments</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/atom+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+	&lt;generator uri="http://www.diretto.org" version="0.1.0"&gt;diretto Feed Node&lt;/generator&gt;
+	&lt;link rel="self" href="http://feed.example.foo/v2/feed/comments/cursor/d3419a0c-bc9a-493f-b842-e43bf1bc5e10" /&gt;
+	&lt;link rel="alternate" href="http://www.example.foo" /&gt;
+	&lt;link rel="next" href="http://feed.example.foo/v2/feed/comments/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" /&gt;
+	&lt;link rel="previous" href="http://feed.example.foo/v2/feed/comments/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" /&gt;
+	&lt;link rel="hub" href="http://hub.example.foo/" /&gt;
+	&lt;title&gt;List of Attachments&lt;/title&gt;
+	&lt;id&gt;http://feed.example.foo/v2/feed/comments&lt;/id&gt;
+	&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+	
+	 &lt;entry&gt;
+		&lt;id&gt;http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66&lt;/id&gt;
+		&lt;title&gt;Comment 8e252710-77cf-11e0-a1f0-0800200c9a66&lt;/title&gt;
+		&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+		&lt;category term="comment" /&gt;
+		&lt;author&gt;
+			&lt;uri&gt;http://core.example.foo/v2/user/123456&lt;/uri&gt;
+		&lt;/author&gt;
+		&lt;content&gt;blablabla&lt;/content&gt;
+	 &lt;/entry&gt;    
+	 
+	 &lt;!-- more entries --&gt;
+ 
+&lt;/feed&gt;						
+						</pre>
+						
+					
+<a name="N65782"></a>
+<h3 class="operation">1.4 List of media-specific documents</h3>
+<h4>Description</h4>An Atom feed of documents filtered by media type and sorted by publish time. The media type is described by the first part of the MIME type. This feed is PubSubHubbub-enabled.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/media/<span class="uripart">{media-type}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{media-type}</dt>
+<dd>Media type, i.e. 'image' or 'text'</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/atom+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+	&lt;generator uri="http://www.diretto.org" version="0.1.0"&gt;diretto Feed Node&lt;/generator&gt;
+	&lt;link rel="self" href="http://feed.example.foo/v2/feed/media/image/cursor/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
+	&lt;link rel="alternate" href="http://www.example.foo" /&gt;
+	&lt;link rel="next" href="http://feed.example.foo/v2/feed/media/image/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" /&gt;
+	&lt;link rel="previous" href="http://feed.example.foo/v2/feed/media/image/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" /&gt;
+	&lt;link rel="hub" href="http://hub.example.foo/" /&gt;
+	&lt;title&gt;List of published documents&lt;/title&gt;
+	&lt;id&gt;http://feed.example.foo/v2/feed/media/image&lt;/id&gt;
+	&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+	
+	 &lt;entry&gt;
+		&lt;id&gt;http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66&lt;/id&gt;
+		&lt;title&gt;A cool image of fubar&lt;/title&gt;
+		&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+		&lt;category term="document" /&gt;
+		&lt;author&gt;
+			&lt;uri&gt;http://core.example.foo/v2/user/123456&lt;/uri&gt;
+		&lt;/author&gt;
+		&lt;summary&gt;blablabla&lt;/summary&gt;
+		&lt;link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" /&gt;		
+	 &lt;/entry&gt;    
+	 
+	 &lt;!-- more entries --&gt;
+ 
+&lt;/feed&gt;						
+						</pre>
+						
+					
+<a name="N65641"></a>
+<h3 class="operation">1.5 List of published documents</h3>
+<h4>Description</h4>An Atom feed of documents added to the platform, sorted by publish time. This feed is PubSubHubbub-enabled.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/documents</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/atom+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+	&lt;generator uri="http://www.diretto.org" version="0.1.0"&gt;diretto Feed Node&lt;/generator&gt;
+	&lt;link rel="self" href="http://feed.example.foo/v2/feed/documents/cursor/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
+	&lt;link rel="alternate" href="http://www.example.foo" /&gt;
+	&lt;link rel="next" href="http://feed.example.foo/v2/feed/documents/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" /&gt;
+	&lt;link rel="previous" href="http://feed.example.foo/v2/feed/documents/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" /&gt;
+	&lt;link rel="hub" href="http://hub.example.foo/" /&gt;
+	&lt;title&gt;List of published documents&lt;/title&gt;
+	&lt;id&gt;http://feed.example.foo/v2/feed/documents&lt;/id&gt;
+	&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+	
+	 &lt;entry&gt;
+		&lt;id&gt;http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66&lt;/id&gt;
+		&lt;title&gt;A cool image of fubar&lt;/title&gt;
+		&lt;updated&gt;2010-07-17T18:54:11.939Z&lt;/updated&gt;
+		&lt;category term="document" /&gt;
+		&lt;author&gt;
+			&lt;uri&gt;http://core.example.foo/v2/user/123456&lt;/uri&gt;
+		&lt;/author&gt;
+		&lt;summary&gt;blablabla&lt;/summary&gt;
+		&lt;link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" /&gt;		
+	 &lt;/entry&gt;    
+	 
+	 &lt;!-- more entries --&gt;
+ 
+&lt;/feed&gt;						
+						</pre>
+						
+					
+<a name="N65885"></a>
+<h2 class="resource">2. Geo Feeds</h2>
+<h4>Description</h4>
+<p>The following sub-resources provide feeds of entries added to the platform as spatial KML feeds.</p>
+<h4>Resource URI</h4>
+<pre>http://feed.example.foo/v2/feed/geo</pre>
+<dl></dl>
+<a name="N65947"></a>
+<h3 class="operation">2.1 List of document positions within a given bounding box</h3>
+<h4>Description</h4>A KML feed of all document positions that are inside the given bounding box. The maximum size of the response is limited.
+				If the number of hits in the requested area exceeds a limit, the request will be denied and should be returned using a smaller bounding box.
+				If a document has multiple suggested positions, the best ranked will be chosen.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/geo/area?bbox=<span class="uripart">{minX}</span>,<span class="uripart">{minY}</span>,<span class="uripart">{maxX}</span>,<span class="uripart">{maxY}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{minX}</dt>
+<dd>min X value of bounding box</dd>
+<dt class="uripart">{minY}</dt>
+<dd>min Y value of bounding box</dd>
+<dt class="uripart">{maxX}</dt>
+<dd>max X value of bounding box</dd>
+<dt class="uripart">{maxY}</dt>
+<dd>max Y value of bounding box</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/vnd.google-earth.kml+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid bounding box</dd>
+<dt class="statuscode">403 Forbidden</dt>
+<dd>Too much hits, decrease bounding box size and retry</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom"&gt;
+&lt;Document&gt;
+	&lt;name&gt;List of document positions within a given bounding box: {minX},{minY},{maxX},{maxY}&lt;/name&gt;
+
+
+	&lt;!-- styles omitted --&gt;
+
+	&lt;Placemark&gt;
+		&lt;name&gt;Document tile&lt;/name&gt;
+		&lt;description&gt;Document Description&lt;/description&gt;
+		  &lt;atom:author&gt;
+			&lt;atom:uri&gt;http://core.example.foo/v2/user/123456&lt;/atom:uri&gt;		  	
+		  &lt;/atom:author&gt;
+		  &lt;atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
+
+		&lt;Point&gt;
+			&lt;coordinates&gt;10.01,49.7,0&lt;/coordinates&gt;
+		&lt;/Point&gt;
+	&lt;/Placemark&gt;
+
+	&lt;!-- more entries --&gt;
+
+ &lt;/Document&gt;
+&lt;/kml&gt;
+						
+						</pre>
+						
+					
+<a name="N66017"></a>
+<h3 class="operation">2.2 Positions of the latest documents published</h3>
+<h4>Description</h4>A KML feed containing the positions of the latest document added to the platform. 
+				If a document has multiple suggested positions, the best ranked will be chosen.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/geo/documents</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/vnd.google-earth.kml+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom"&gt;
+&lt;Document&gt;
+	&lt;name&gt;Positions of the latest documents published&lt;/name&gt;
+
+
+	&lt;!-- styles omitted --&gt;
+
+	&lt;Placemark&gt;
+		&lt;name&gt;Document tile&lt;/name&gt;
+		&lt;description&gt;Document Description&lt;/description&gt;
+		  &lt;atom:author&gt;
+			&lt;atom:uri&gt;http://core.example.foo/v2/user/123456&lt;/atom:uri&gt;		  	
+		  &lt;/atom:author&gt;
+		  &lt;atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
+
+		&lt;Point&gt;
+			&lt;coordinates&gt;10.01,49.7,0&lt;/coordinates&gt;
+		&lt;/Point&gt;
+	&lt;/Placemark&gt;
+
+	&lt;!-- more entries --&gt;
+
+ &lt;/Document&gt;
+&lt;/kml&gt;
+						
+						</pre>
+						
+					
+<a name="N65896"></a>
+<h3 class="operation">2.3 Suggested positions for a specific document</h3>
+<h4>Description</h4>A KML feed of the positions that users have suggested as origin for a document.<h4>URI</h4>
+<pre>http://feed.example.foo/v2/feed/geo/document/<span class="uripart">{doc-id}</span>/positions</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc-id}</dt>
+<dd>document id'</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/vnd.google-earth.kml+xml</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Feed in response</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+						
+<pre class="brush: xml">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom"&gt;
+&lt;Document&gt;
+	&lt;name&gt;Suggested positions for document 32b8c320-a28e-11e0-8264-0800200c9a66&lt;/name&gt;
+
+
+	&lt;!-- styles omitted --&gt;
+
+	&lt;Placemark&gt;
+		&lt;name&gt;48.39848,9.991246,100&lt;/name&gt;
+		&lt;description&gt;Position 48.39848,9.991246; Variance: 100m&lt;/description&gt;
+		  &lt;atom:author&gt;
+			&lt;atom:uri&gt;http://core.example.foo/v2/user/123456&lt;/atom:uri&gt;		  	
+		  &lt;/atom:author&gt;
+		  &lt;atom:link rel="alternate" href="http://core.example.foo/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100" /&gt;
+
+		&lt;Point&gt;
+			&lt;coordinates&gt;9.991246,48.39848,0&lt;/coordinates&gt;
+		&lt;/Point&gt;
+	&lt;/Placemark&gt;
+
+	&lt;!-- more entries --&gt;
+
+ &lt;/Document&gt;
+&lt;/kml&gt;
+						
+						</pre>
+						
+					
+<a name="N65568"></a>
+<h2 class="resource">3. Index</h2>
+<h4>Description</h4>
+<p>This entry resource provides information about the instance.</p>
+<h4>Resource URI</h4>
+<pre>http://feed.example.foo/v2</pre>
+<dl></dl>
+<a name="N65578"></a>
+<h3 class="operation">3.1 Get service instance data</h3>
+<h4>Description</h4>Returns a static information about the deployed Feed API service instance.<h4>URI</h4>
+<pre>http://feed.example.foo/v2</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Service instance data in response entity</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "api":{
+      "name":"org.diretto.api.main.feed",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Feed API Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Feed Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   }
+}</pre>
+						The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.
+						
+					</body>
+</html>
