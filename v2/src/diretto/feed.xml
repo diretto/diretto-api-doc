@@ -72,7 +72,7 @@
 		<resource>
 			<name>Atom Feeds</name>
 			<description>The following sub-resources provide feeds of entries added to the platform as Atom feeds. Feeds are paginated as described in RFC 5005.</description>
-			<path>/feeds</path>
+			<path>/feed</path>
 			
 			<operation>
 				<name>List of published documents</name>
@@ -91,7 +91,33 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<generator uri="http://www.diretto.org" version="0.1.0">diretto Feed Node</generator>
+	<link rel="self" href="http://feed.example.foo/v2/feed/documents/cursor/eafbad70-7972-11e0-a1f0-0800200c9a66" />
+	<link rel="alternate" href="http://www.example.foo" />
+	<link rel="next" href="http://feed.example.foo/v2/feed/documents/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" />
+	<link rel="previous" href="http://feed.example.foo/v2/feed/documents/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" />
+	<link rel="hub" href="http://hub.example.foo/" />
+	<title>List of published documents</title>
+	<id>http://feed.example.foo/v2/feed/documents</id>
+	<updated>2010-07-17T18:54:11.939Z</updated>
+	
+	 <entry>
+		<id>http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66</id>
+		<title>A cool image of fubar</title>
+		<updated>2010-07-17T18:54:11.939Z</updated>
+		<category term="document" />
+		<author>
+			<uri>http://core.example.foo/v2/user/123456</uri>
+		</author>
+		<summary>blablabla</summary>
+		<link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" />		
+	 </entry>    
+	 
+	 <!-- more entries -->
+ 
+</feed>]]>						
 						</code>
 						</entity>
 					</entities>
@@ -116,7 +142,32 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<generator uri="http://www.diretto.org" version="0.1.0">diretto Feed Node</generator>
+	<link rel="self" href="http://feed.example.foo/v2/feed/comments/cursor/d3419a0c-bc9a-493f-b842-e43bf1bc5e10" />
+	<link rel="alternate" href="http://www.example.foo" />
+	<link rel="next" href="http://feed.example.foo/v2/feed/comments/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" />
+	<link rel="previous" href="http://feed.example.foo/v2/feed/comments/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" />
+	<link rel="hub" href="http://hub.example.foo/" />
+	<title>List of Attachments</title>
+	<id>http://feed.example.foo/v2/feed/comments</id>
+	<updated>2010-07-17T18:54:11.939Z</updated>
+	
+	 <entry>
+		<id>http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66</id>
+		<title>Comment 8e252710-77cf-11e0-a1f0-0800200c9a66</title>
+		<updated>2010-07-17T18:54:11.939Z</updated>
+		<category term="comment" />
+		<author>
+			<uri>http://core.example.foo/v2/user/123456</uri>
+		</author>
+		<content>blablabla</content>
+	 </entry>    
+	 
+	 <!-- more entries -->
+ 
+</feed>]]>						
 						</code>
 						</entity>
 					</entities>
@@ -142,7 +193,32 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<generator uri="http://www.diretto.org" version="0.1.0">diretto Feed Node</generator>
+	<link rel="self" href="http://feed.example.foo/v2/feed/attachments/cursor/d3419a0c-bc9a-493f-b842-e43bf1bc5e10" />
+	<link rel="alternate" href="http://www.example.foo" />
+	<link rel="next" href="http://feed.example.foo/v2/feed/attachments/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" />
+	<link rel="previous" href="http://feed.example.foo/v2/feed/attachments/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" />
+	<link rel="hub" href="http://hub.example.foo/" />
+	<title>List of Attachments</title>
+	<id>http://feed.example.foo/v2/feed/attachments</id>
+	<updated>2010-07-17T18:54:11.939Z</updated>
+	
+	 <entry>
+		<id>http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66</id>
+		<title>A cool image of Foobar</title>
+		<updated>2010-07-17T18:54:11.939Z</updated>
+		<category term="image" />
+		<author>
+			<uri>http://core.example.foo/v2/user/123456</uri>
+		</author>
+		<link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" />
+	 </entry>    
+	 
+	 <!-- more entries -->
+ 
+</feed>]]>						
 						</code>
 						</entity>
 					</entities>
@@ -166,7 +242,33 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<generator uri="http://www.diretto.org" version="0.1.0">diretto Feed Node</generator>
+	<link rel="self" href="http://feed.example.foo/v2/feed/media/image/cursor/eafbad70-7972-11e0-a1f0-0800200c9a66" />
+	<link rel="alternate" href="http://www.example.foo" />
+	<link rel="next" href="http://feed.example.foo/v2/feed/media/image/cursor/86a4d8de-b358-43ff-a465-7d32a137c63c" />
+	<link rel="previous" href="http://feed.example.foo/v2/feed/media/image/cursor/03f2fc31-412b-4dc6-9973-87bb03c286f7" />
+	<link rel="hub" href="http://hub.example.foo/" />
+	<title>List of published documents</title>
+	<id>http://feed.example.foo/v2/feed/media/image</id>
+	<updated>2010-07-17T18:54:11.939Z</updated>
+	
+	 <entry>
+		<id>http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66</id>
+		<title>A cool image of fubar</title>
+		<updated>2010-07-17T18:54:11.939Z</updated>
+		<category term="document" />
+		<author>
+			<uri>http://core.example.foo/v2/user/123456</uri>
+		</author>
+		<summary>blablabla</summary>
+		<link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" />		
+	 </entry>    
+	 
+	 <!-- more entries -->
+ 
+</feed>]]>						
 						</code>
 						</entity>
 					</entities>
@@ -190,7 +292,41 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<generator uri="http://www.diretto.org" version="0.1.0">diretto Feed Node</generator>
+	<link rel="self" href="http://feed.example.foo/v2/feeds/document/eafbad70-7972-11e0-a1f0-0800200c9a66" />
+	<link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" />
+	<link rel="hub" href="http://hub.example.foo/" />
+	<title>Document details feed</title>
+	<id>http://feed.example.foo/v2/feeds/document/eafbad70-7972-11e0-a1f0-0800200c9a66</id>
+	<updated>2010-07-17T18:54:11.939Z</updated>
+	
+	 <entry>
+		<id>http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/comment/8e252710-77cf-11e0-a1f0-0800200c9a66</id>
+		<title>Comment 8e252710-77cf-11e0-a1f0-0800200c9a66</title>
+		<updated>2010-07-17T18:54:11.939Z</updated>
+		<category term="comment" />
+		<author>
+			<uri>http://core.example.foo/v2/user/123456</uri>
+		</author>
+		<content>blablabla</content>
+	 </entry>    	
+	
+	 <entry>
+		<id>http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66</id>
+		<title>A cool image of Foobar</title>
+		<updated>2010-07-17T18:54:11.939Z</updated>
+		<category term="image" />
+		<author>
+			<uri>http://core.example.foo/v2/user/123456</uri>
+		</author>
+		<link rel="enclosure" href="http://storage.example.foo/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66.jpg" length="61312" type="image/jpeg" />
+	 </entry>    
+	 	 
+	 <!-- more entries -->
+ 
+</feed>]]>						
 						</code>
 						</entity>
 					</entities>
@@ -204,7 +340,7 @@
 		<resource>
 			<name>Geo Feeds</name>
 			<description>The following sub-resources provide feeds of entries added to the platform as spatial KML feeds.</description>
-			<path>/feeds/geo</path>		
+			<path>/feed/geo</path>		
 			
 			<operation>
 				<name>Suggested positions for a specific document</name>
@@ -223,7 +359,32 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Suggested positions for document 32b8c320-a28e-11e0-8264-0800200c9a66</name>
+
+
+	<!-- styles omitted -->
+
+	<Placemark>
+		<name>48.39848,9.991246,100</name>
+		<description>Position 48.39848,9.991246; Variance: 100m</description>
+		  <atom:author>
+			<atom:uri>http://core.example.foo/v2/user/123456</atom:uri>		  	
+		  </atom:author>
+		  <atom:link rel="alternate" href="http://core.example.foo/v2/document/32b8c320-a28e-11e0-8264-0800200c9a66/location/48.39848,9.991246,100" />
+
+		<Point>
+			<coordinates>9.991246,48.39848,0</coordinates>
+		</Point>
+	</Placemark>
+
+	<!-- more entries -->
+
+ </Document>
+</kml>
+]]>						
 						</code>
 						</entity>
 					</entities>
@@ -251,7 +412,32 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>List of document positions within a given bounding box: {minX},{minY},{maxX},{maxY}</name>
+
+
+	<!-- styles omitted -->
+
+	<Placemark>
+		<name>Document tile</name>
+		<description>Document Description</description>
+		  <atom:author>
+			<atom:uri>http://core.example.foo/v2/user/123456</atom:uri>		  	
+		  </atom:author>
+		  <atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" />
+
+		<Point>
+			<coordinates>10.01,49.7,0</coordinates>
+		</Point>
+	</Placemark>
+
+	<!-- more entries -->
+
+ </Document>
+</kml>
+]]>						
 						</code>
 						</entity>
 					</entities>
@@ -276,7 +462,32 @@
 					<entities>
 						<entity>
 						<code language="xml">
-<![CDATA[tbd]]>						
+<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Positions of the latest documents published</name>
+
+
+	<!-- styles omitted -->
+
+	<Placemark>
+		<name>Document tile</name>
+		<description>Document Description</description>
+		  <atom:author>
+			<atom:uri>http://core.example.foo/v2/user/123456</atom:uri>		  	
+		  </atom:author>
+		  <atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" />
+
+		<Point>
+			<coordinates>10.01,49.7,0</coordinates>
+		</Point>
+	</Placemark>
+
+	<!-- more entries -->
+
+ </Document>
+</kml>
+]]>						
 						</code>
 						</entity>
 					</entities>
