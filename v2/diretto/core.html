@@ -290,7 +290,7 @@ a{
 <a href="#N70357">List of documents created by a user (forward)</a>
 </li>
 <li>
-<a href="#N70404">List of documents created by a user (page)</a>
+<a href="#N70409">List of documents created by a user (page)</a>
 </li>
 <li>
 <a href="#N69874">List of documents published since a specific date (forward)</a>
@@ -657,7 +657,7 @@ a{
 <a href="#N70357">List of documents created by a user (forward)</a>
 </li>
 <li>
-<a href="#N70404">List of documents created by a user (page)</a>
+<a href="#N70409">List of documents created by a user (page)</a>
 </li>
 <li>
 <a href="#N69874">List of documents published since a specific date (forward)</a>
@@ -1336,7 +1336,7 @@ a{
 <h2 class="resource">2. Collection</h2>
 <h4>Description</h4>
 <p>This resource represents a collection of documents that a user can create and maintain personally. Users can 
-			set a collection to private or non-private. Once a collection is private, only the user who created the collection
+			set a collection to nonpublic or public. Once a collection is private, only the user who created the collection
 			can see the collection. When the user changes the private setting, this only affects all subsequent views. 
 			Either way the creator of a collection is the only one who can add new documents to a collection.</p>
 <h4>Resource URI</h4>
@@ -1414,7 +1414,7 @@ a{
 <pre class="brush: js">{
    "title":"My Favorite Documents of Event X",
    "description":"This is a list of the coolest documents that show what happend during event X",
-   "private":false
+   "nonpublic":false
 }</pre>
 							Note that the <span style="font-family:monospace;">private</span> flag must be set.
 											
@@ -1450,14 +1450,14 @@ a{
 <pre class="brush: js">{
    "title":"My Favorite Documents of Event X",
    "description":"This is a list of the coolest documents that show what happend during event X",
-   "private":false
+   "nonpublic":false
 }</pre>
-							Note that the <span style="font-family:monospace;">private</span> flag must be set.
+							Note that the <span style="font-family:monospace;">nonpublic</span> flag must be set.
 											
 					<h4>Responses</h4>
 <dl>
 <dt class="statuscode">201 Created</dt>
-<dd>Collection created.</dd>
+<dd>Collection created, ID in location haeader</dd>
 <dt class="statuscode">400 Bad Request</dt>
 <dd>Invalid collection data.</dd>
 <dt class="statuscode">403 Forbidden</dt>
@@ -1535,7 +1535,7 @@ a{
             "href":"http://core.example.foo/v2/user/123456"
          }
       },
-      "private":false,
+      "nonpublic":false,
       "documents":{
          "link":{
             "rel":"self",
@@ -1548,7 +1548,7 @@ a{
 											
 					<a name="N68087"></a>
 <h3 class="operation">2.6 List of collected documents (forwarder)</h3>
-<h4>Description</h4>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.<h4>URI</h4>
+<h4>Description</h4>Forwards to a cursored list of documents of this collection. Only possible if collection is public.<h4>URI</h4>
 <pre>http://core.example.foo/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>/documents</pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -1680,7 +1680,7 @@ a{
                   "href":"http://core.example.foo/v2/user/123456"
                }
             },
-            "private":false,
+            "nonpublic":false,
             "documents":{
                "link":{
                   "rel":"self",
@@ -1696,7 +1696,7 @@ a{
 					<a name="N67263"></a>
 <h2 class="resource">3. Comment</h2>
 <h4>Description</h4>
-<p>This resource represents a comment.</p>
+<p>Comments allow users to debate about the content, value and impact of a document.</p>
 <h4>Resource URI</h4>
 <pre>http://core.example.foo/v2/document/<span class="uripart">{doc-id}</span>/comment/<span class="uripart">{comment-id}</span>
 </pre>
@@ -3749,8 +3749,13 @@ a{
 <a name="N70357"></a>
 <h3 class="operation">4.10 List of documents created by a user (forward)</h3>
 <h4>Description</h4>Forwards to a list of documents that this user has published, ordered by publishing date.<h4>URI</h4>
-<pre>http://core.example.foo/v2</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://core.example.foo/v2/user/<span class="uripart">{user-id}</span>/documents</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -3765,11 +3770,19 @@ a{
 <dt class="statuscode">404 Not Found</dt>
 <dd>User not found</dd>
 </dl>
-<h4>Response Entities</h4>n/a<a name="N70404"></a>
+<h4>Response Entities</h4>n/a<a name="N70409"></a>
 <h3 class="operation">4.11 List of documents created by a user (page)</h3>
 <h4>Description</h4>Returns a page from the list of documents that this user has published, ordered by publishing date.<h4>URI</h4>
-<pre>http://core.example.foo/v2</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<pre>http://core.example.foo/v2/user/<span class="uripart">{user-id}</span>/documents/cursor/<span class="uripart">{doc-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{user-id}</dt>
+<dd>user ID</dd>
+<dt class="uripart">{doc-id}</dt>
+<dd>doc ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">GET</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -3894,7 +3907,11 @@ a{
             "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/core.html"
          }
       }
-   ]   
+   ],
+   "parameters":{
+      "paginationSize":20,
+      "batchLimit":50
+   }   
 }</pre>
 						The JSON response contains information about the service identification and version and the actual deployment variables.
 						
