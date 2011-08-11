@@ -68,7 +68,11 @@
             "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/core.html"
          }
       }
-   ]   
+   ],
+   "parameters":{
+      "paginationSize":20,
+      "batchLimit":50
+   }   
 }]]></code>
 						<description>The JSON response contains information about the service identification and version and the actual deployment variables.</description>
 						</entity>
@@ -1955,7 +1959,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 		<resource>
 			<name>Collection</name>
 			<description>This resource represents a collection of documents that a user can create and maintain personally. Users can 
-			set a collection to private or non-private. Once a collection is private, only the user who created the collection
+			set a collection to nonpublic or public. Once a collection is private, only the user who created the collection
 			can see the collection. When the user changes the private setting, this only affects all subsequent views. 
 			Either way the creator of a collection is the only one who can add new documents to a collection.</description>
 			<path>/user/<param description="user ID">user-id</param>/collection/<param description="collection ID">collection-id</param></path>
@@ -1973,15 +1977,15 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <code language="js"><![CDATA[{
    "title":"My Favorite Documents of Event X",
    "description":"This is a list of the coolest documents that show what happend during event X",
-   "private":false
+   "nonpublic":false
 }]]></code>
-							<description>Note that the <tt>private</tt> flag must be set.</description>
+							<description>Note that the <tt>nonpublic</tt> flag must be set.</description>
 						</entity>					
 					</entities>
 				</request>
 				<response>
 					<responses>
-						<answer code="201">Collection created.</answer>
+						<answer code="201">Collection created, ID in location haeader</answer>
 						<answer code="400">Invalid collection data.</answer>
 						<answer code="403">Not allowed for this user.</answer>
 					</responses>
@@ -2024,7 +2028,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 								
 			<operation>
 				<name>List of collected documents (forwarder)</name>
-				<description>Forwards to a cursored list of documents of this collection. Only possible if collection is not private.</description>
+				<description>Forwards to a cursored list of documents of this collection. Only possible if collection is public.</description>
 				<path omitResourcePath="false">/documents</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -2132,7 +2136,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   "href":"http://core.example.foo/v2/user/123456"
                }
             },
-            "private":false,
+            "nonpublic":false,
             "documents":{
                "link":{
                   "rel":"self",
@@ -2182,7 +2186,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "href":"http://core.example.foo/v2/user/123456"
          }
       },
-      "private":false,
+      "nonpublic":false,
       "documents":{
          "link":{
             "rel":"self",
@@ -2210,7 +2214,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <code language="js"><![CDATA[{
    "title":"My Favorite Documents of Event X",
    "description":"This is a list of the coolest documents that show what happend during event X",
-   "private":false
+   "nonpublic":false
 }]]></code>
 							<description>Note that the <tt>private</tt> flag must be set.</description>
 						</entity>					
@@ -5088,7 +5092,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<operation>
 				<name>List of documents created by a user (forward)</name>
 				<description>Forwards to a list of documents that this user has published, ordered by publishing date.</description>
-				<path omitResourcePath="true"></path>
+				<path omitResourcePath="true">/user/<param description="user ID">user-id</param>/documents</path>
 				<formats><format>n/a</format></formats>
 				<request>
 					<method>GET</method>
@@ -5108,7 +5112,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<operation>
 				<name>List of documents created by a user (page)</name>
 				<description>Returns a page from the list of documents that this user has published, ordered by publishing date.</description>
-				<path omitResourcePath="true"></path>
+				<path omitResourcePath="true">/user/<param description="user ID">user-id</param>/documents/cursor/<param description="doc ID">doc-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
