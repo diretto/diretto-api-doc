@@ -328,7 +328,7 @@
       },
       "t":{
          "error":{
-            "message":"Invalid tag length"
+            "reason":"Invalid tag length"
          }
       }
    }
@@ -1314,8 +1314,59 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					</entities>									
 				</response>
 			</operation>	
+		
+			<operation>
+				<name>Fetch multiple users (batch request)</name>
+				<description>Given a list of user URIs, it returns a list containing details for each user.
+				This request will always contain the public data of all users, even if the requesting user is among
+				the result set.</description>
+				<path omitResourcePath="true">/users/multiple</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>POST</method>
+					<authentication mandatory="true"/>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "users":[
+      "http://core.example.foo/v2/user/123456",
+      "http://core.example.foo/v2/user/123invalid"
+   ]
+}]]></code>
+						</entity>
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Results in response body. Note that tasks may still have raised errors (i.e. when not found).</answer>
+						<answer code="400">Invalid query or too many items requested.</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "results":{
+      "http://core.example.foo/v2/user/123invalid":{
+         "error":{
+            "reason":"Not found"
+         }
+      },
+      "http://core.example.foo/v2/user/123456":{
+         "user":{
+            "link":{
+               "rel":"self",
+               "href":"http://core.example.foo/v2/user/123456"
+            },
+            "username":"John Doe"
+         }
+      }
+   }
+}]]></code>
+						</entity>
+					</entities>					
+				</response>
+			</operation>	
+			
 		</resource>
-
 	
 	<!-- ============================================================================================================= 
 			Comment
@@ -4249,7 +4300,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "results":{
       "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-00000invalid":{
          "error":{
-            "message":"Not found"
+            "reason":"Not found"
          }
       },
       "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66":{
@@ -4350,7 +4401,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "results":{
       "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-00000invalid":{
          "error":{
-            "message":"Not found"
+            "reason":"Not found"
          }
       },
       "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66":{
@@ -4586,7 +4637,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "results":{
       "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-00000invalid":{
          "error":{
-            "message":"Not found"
+            "reason":"Not found"
          }
       },
       "http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66":{
