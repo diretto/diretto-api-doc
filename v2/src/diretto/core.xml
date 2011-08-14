@@ -4273,7 +4273,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<operation>
 				<name>Fetch the meta-data of multiple documents (batch request)</name>
 				<description>Given a list of document URIs, it returns a list containing details for each document (meta data type).</description>
-				<path omitResourcePath="false">/full</path>
+				<path omitResourcePath="true">/documents/multiple</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>POST</method>
@@ -4374,7 +4374,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<name>Fetch snapshots of multiple documents (batch request)</name>
 				<description>Given a list of document URIs, it returns a list containing details for each document (meta data type).
 				</description>
-				<path omitResourcePath="false">/full</path>
+				<path omitResourcePath="true">/documents/snapshot</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>POST</method>
@@ -4610,7 +4610,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				to be sent over the network. Thus, please use this API call responsibly and prefer the other document request types,
 				if appropriate.				
 				</description>
-				<path omitResourcePath="false">/full</path>
+				<path omitResourcePath="true">/documents/full</path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>POST</method>
@@ -5032,8 +5032,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
 			<operation>
 				<name>Create a new document</name>
-				<description>.</description>
-				<path omitResourcePath="true"></path>
+				<description>Creates a new document.</description>
+				<path omitResourcePath="false"></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>PUT</method>
