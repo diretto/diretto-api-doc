@@ -101,7 +101,7 @@
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
-					<authentication mandatory="true"/>
+					<authentication mandatory="false"/>
 					<entities></entities>
 				</request>
 				<response>
@@ -731,7 +731,7 @@
    },
    "list":[
       {
-         "documentlink":{
+         "documentLink":{
             "link":{
                "rel":"self",
                "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -1710,7 +1710,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						<entity>
 							<code language="js">
 <![CDATA[{
-   "documentlink":{
+   "documentLink":{
       "link":{
          "rel":"self",
          "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -1811,14 +1811,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
-   "documentlinks":{
+   "documentLinks":{
       "link":{
          "rel":"self",
          "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
       },
       "in":[
          {
-            "documentlink":{
+            "documentLink":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -1972,7 +1972,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    },
    "list":[
       {
-         "documentlink":{
+         "documentLink":{
             "link":{
                "rel":"self",
                "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -2317,7 +2317,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			
 			<operation>
 				<name>Post a new message</name>
-				<description>Creates a new collection for this user.</description>
+				<description>Inserts the given message into the receiver's inbox.</description>
 				<path omitResourcePath="true">/user/<param description="user id (receiver)">user-id</param>/inbox/messages</path>
 				<formats><format>application/json</format></formats>
 				<request>
@@ -3044,6 +3044,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
       },
       "title":"A cool image of fubar",
+      "description":"yada yada",
       "publishedTime":"2010-07-17T18:54:11.939Z",
       "publisher":{
          "link":{
@@ -3091,6 +3092,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
          "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
       },
       "title":"A cool image of fubar",
+      "description":"yada yada",
       "publishedTime":"2010-07-17T18:54:11.939Z",
       "publisher":{
          "link":{
@@ -3182,6 +3184,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                },
                "title":"A cool image of fubar",
+               "description":"yada yada",
                "publishedTime":"2010-07-17T18:54:11.939Z",
                "publisher":{
                   "link":{
@@ -3228,6 +3231,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
                },
                "title":"A cool image of fubar",
+               "description":"yada yada",
                "publishedTime":"2010-07-17T18:54:11.939Z",
                "publisher":{
                   "link":{
@@ -3632,7 +3636,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "href":"http://core.example.foo/v2/document/values"
          }
       },
-      "documentlinks":{
+      "documentLinks":{
          "link":{
             "rel":"self",
             "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -3687,6 +3691,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
             },
             "title":"A cool image of fubar",
+            "description":"yada yada",
             "publishedTime":"2010-07-17T18:54:11.939Z",
             "publisher":{
                "link":{
@@ -3848,7 +3853,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             "href":"http://core.example.foo/v2/document/values"
          }
       },
-      "documentlinks":{
+      "documentLinks":{
          "link":{
             "rel":"self",
             "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -3981,6 +3986,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                   },
                   "title":"A cool image of fubar",
+                  "description":"yada yada",
                   "publishedTime":"2010-07-17T18:54:11.939Z",
                   "publisher":{
                      "link":{
@@ -4027,6 +4033,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
                   },
                   "title":"A cool image of fubar",
+                  "description":"yada yada",
                   "publishedTime":"2010-07-17T18:54:11.939Z",
                   "publisher":{
                      "link":{
@@ -4173,14 +4180,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
             }
          ]
       },
-      "documentlinks":{
+      "documentLinks":{
          "link":{
             "rel":"self",
             "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
          },
          "in":[
             {
-               "documentlink":{
+               "documentLink":{
                   "link":{
                      "rel":"self",
                      "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -4355,7 +4362,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/values"
                }
             },
-            "documentlinks":{
+            "documentLinks":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -4427,6 +4434,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                      "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                   },
                   "title":"A cool image of fubar",
+                  "description":"yada yada",
                   "publishedTime":"2010-07-17T18:54:11.939Z",
                   "publisher":{
                      "link":{
@@ -4588,7 +4596,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/values"
                }
             },
-            "documentlinks":{
+            "documentLinks":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -4739,6 +4747,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                         },
                         "title":"A cool image of fubar",
+                        "description":"yada yada",
                         "publishedTime":"2010-07-17T18:54:11.939Z",
                         "publisher":{
                            "link":{
@@ -4785,6 +4794,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
                         },
                         "title":"A cool image of fubar",
+                        "description":"yada yada",
                         "publishedTime":"2010-07-17T18:54:11.939Z",
                         "publisher":{
                            "link":{
@@ -4931,14 +4941,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
                   }
                ]
             },
-            "documentlinks":{
+            "documentLinks":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
                },
                "in":[
                   {
-                     "documentlink":{
+                     "documentLink":{
                         "link":{
                            "rel":"self",
                            "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
