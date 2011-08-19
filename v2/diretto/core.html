@@ -1067,6 +1067,7 @@ a{
          "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
       },
       "title":"A cool image of fubar",
+      "description":"yada yada",
       "publishedTime":"2010-07-17T18:54:11.939Z",
       "publisher":{
          "link":{
@@ -1114,6 +1115,7 @@ a{
          "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
       },
       "title":"A cool image of fubar",
+      "description":"yada yada",
       "publishedTime":"2010-07-17T18:54:11.939Z",
       "publisher":{
          "link":{
@@ -1209,6 +1211,7 @@ a{
                   "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                },
                "title":"A cool image of fubar",
+               "description":"yada yada",
                "publishedTime":"2010-07-17T18:54:11.939Z",
                "publisher":{
                   "link":{
@@ -1255,6 +1258,7 @@ a{
                   "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
                },
                "title":"A cool image of fubar",
+               "description":"yada yada",
                "publishedTime":"2010-07-17T18:54:11.939Z",
                "publisher":{
                   "link":{
@@ -2056,9 +2060,15 @@ a{
 </dl>
 <a name="N70328"></a>
 <h3 class="operation">4.1 Create a new document</h3>
-<h4>Description</h4>.<h4>URI</h4>
-<pre>http://core.example.foo/v2</pre>
-<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<h4>Description</h4>Creates a new document.<h4>URI</h4>
+<pre>http://core.example.foo/v2/document/<span class="uripart">{doc-id}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">doc-id</dt>
+<dd>document ID</dd>
+</dl>
+<h4>HTTP Method</h4>
 <span class="method">PUT</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2173,13 +2183,8 @@ a{
 				to be sent over the network. Thus, please use this API call responsibly and prefer the other document request types,
 				if appropriate.				
 				<h4>URI</h4>
-<pre>http://core.example.foo/v2/document/<span class="uripart">{doc-id}</span>/full</pre>
-<h4>URI Parameters</h4>
-<dl>
-<dt class="uripart">doc-id</dt>
-<dd>document ID</dd>
-</dl>
-<h4>HTTP Method</h4>
+<pre>http://core.example.foo/v2/documents/full</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2312,6 +2317,7 @@ a{
                            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                         },
                         "title":"A cool image of fubar",
+                        "description":"yada yada",
                         "publishedTime":"2010-07-17T18:54:11.939Z",
                         "publisher":{
                            "link":{
@@ -2358,6 +2364,7 @@ a{
                            "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
                         },
                         "title":"A cool image of fubar",
+                        "description":"yada yada",
                         "publishedTime":"2010-07-17T18:54:11.939Z",
                         "publisher":{
                            "link":{
@@ -2504,14 +2511,14 @@ a{
                   }
                ]
             },
-            "documentlinks":{
+            "documentLinks":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
                },
                "in":[
                   {
-                     "documentlink":{
+                     "documentLink":{
                         "link":{
                            "rel":"self",
                            "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -2604,13 +2611,8 @@ a{
 <h3 class="operation">4.3 Fetch snapshots of multiple documents (batch request)</h3>
 <h4>Description</h4>Given a list of document URIs, it returns a list containing details for each document (meta data type).
 				<h4>URI</h4>
-<pre>http://core.example.foo/v2/document/<span class="uripart">{doc-id}</span>/full</pre>
-<h4>URI Parameters</h4>
-<dl>
-<dt class="uripart">doc-id</dt>
-<dd>document ID</dd>
-</dl>
-<h4>HTTP Method</h4>
+<pre>http://core.example.foo/v2/documents/snapshot</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2667,6 +2669,7 @@ a{
                      "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                   },
                   "title":"A cool image of fubar",
+                  "description":"yada yada",
                   "publishedTime":"2010-07-17T18:54:11.939Z",
                   "publisher":{
                      "link":{
@@ -2828,7 +2831,7 @@ a{
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/values"
                }
             },
-            "documentlinks":{
+            "documentLinks":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -2843,13 +2846,8 @@ a{
 <a name="N70148"></a>
 <h3 class="operation">4.4 Fetch the meta-data of multiple documents (batch request)</h3>
 <h4>Description</h4>Given a list of document URIs, it returns a list containing details for each document (meta data type).<h4>URI</h4>
-<pre>http://core.example.foo/v2/document/<span class="uripart">{doc-id}</span>/full</pre>
-<h4>URI Parameters</h4>
-<dl>
-<dt class="uripart">doc-id</dt>
-<dd>document ID</dd>
-</dl>
-<h4>HTTP Method</h4>
+<pre>http://core.example.foo/v2/documents/multiple</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
 <span class="method">POST</span>
 <h4>Resource Formats</h4>
 <ul>
@@ -2935,7 +2933,7 @@ a{
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/values"
                }
             },
-            "documentlinks":{
+            "documentLinks":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -3076,6 +3074,7 @@ a{
                      "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
                   },
                   "title":"A cool image of fubar",
+                  "description":"yada yada",
                   "publishedTime":"2010-07-17T18:54:11.939Z",
                   "publisher":{
                      "link":{
@@ -3122,6 +3121,7 @@ a{
                      "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/c4139f47-a90e-4b37-aec1-1f1b3aae9e3c"
                   },
                   "title":"A cool image of fubar",
+                  "description":"yada yada",
                   "publishedTime":"2010-07-17T18:54:11.939Z",
                   "publisher":{
                      "link":{
@@ -3268,14 +3268,14 @@ a{
             }
          ]
       },
-      "documentlinks":{
+      "documentLinks":{
          "link":{
             "rel":"self",
             "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
          },
          "in":[
             {
-               "documentlink":{
+               "documentLink":{
                   "link":{
                      "rel":"self",
                      "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -3443,7 +3443,7 @@ a{
             "href":"http://core.example.foo/v2/document/values"
          }
       },
-      "documentlinks":{
+      "documentLinks":{
          "link":{
             "rel":"self",
             "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -3504,6 +3504,7 @@ a{
                "href":"http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66/attachment/eafbad70-7972-11e0-a1f0-0800200c9a66"
             },
             "title":"A cool image of fubar",
+            "description":"yada yada",
             "publishedTime":"2010-07-17T18:54:11.939Z",
             "publisher":{
                "link":{
@@ -3665,7 +3666,7 @@ a{
             "href":"http://core.example.foo/v2/document/values"
          }
       },
-      "documentlinks":{
+      "documentLinks":{
          "link":{
             "rel":"self",
             "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
@@ -4214,7 +4215,7 @@ a{
    },
    "list":[
       {
-         "documentlink":{
+         "documentLink":{
             "link":{
                "rel":"self",
                "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -4290,7 +4291,7 @@ a{
 							
 <pre class="brush: js">
 {
-   "documentlink":{
+   "documentLink":{
       "link":{
          "rel":"self",
          "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -4396,14 +4397,14 @@ a{
 						
 
 <pre class="brush: js">{
-   "documentlinks":{
+   "documentLinks":{
       "link":{
          "rel":"self",
          "href":"http://core.example.foo/v2/document/c0e33672-79ac-4d16-b097-5c3f68a66128/links"
       },
       "in":[
          {
-            "documentlink":{
+            "documentLink":{
                "link":{
                   "rel":"self",
                   "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
@@ -4843,7 +4844,7 @@ a{
 						
 					<a name="N68504"></a>
 <h3 class="operation">9.4 Post a new message</h3>
-<h4>Description</h4>Creates a new collection for this user.<h4>URI</h4>
+<h4>Description</h4>Inserts the given message into the receiver's inbox.<h4>URI</h4>
 <pre>http://core.example.foo/v2/user/<span class="uripart">{user-id}</span>/inbox/messages</pre>
 <h4>URI Parameters</h4>
 <dl>
@@ -5209,7 +5210,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <ul>
 <li>application/json</li>
 </ul>
-<h4>Authentication</h4>required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
 <dl>
 <dt class="statuscode">200 OK</dt>
 <dd>List in response entity</dd>
@@ -5716,7 +5717,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    },
    "list":[
       {
-         "documentlink":{
+         "documentLink":{
             "link":{
                "rel":"self",
                "href":"http://core.example.foo/v2/link/1ec99ce0-a28e-11e0-8264-0800200c9a66"
