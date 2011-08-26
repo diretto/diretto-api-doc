@@ -113,7 +113,7 @@
 						<code language="js">
 <![CDATA[{
    "mediatypes":{
-      "internal":{
+      "stored":{
          "image/jpeg":{
             "type":"image",
             "extension":"jpg",
@@ -2046,7 +2046,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 						
 			<operation>
 				<name>Add a document to a collection</name>
-				<description>Takes an existing document from the platform and attaches it to the collection. This call has no effect when the document has already been added. 
+				<description>Takes an existing document from the platform and attaches it to the collection.  
 				Note that only the creator can add documents to a collection.</description>
 				<path omitResourcePath="false">/documents</path>
 				<formats><format>application/json</format></formats>
@@ -2068,14 +2068,36 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				</request>
 				<response>
 					<responses>
-						<answer code="202">Document added (also returned when document already existed in collection).</answer>
+						<answer code="202">Document added.</answer>
 						<answer code="400">Invalid document data.</answer>
+						<answer code="403">Not allowed for this user.</answer>
+						<answer code="404">Document not found.</answer>
+						<answer code="409">Document is already in this collection.</answer>
+					</responses>
+					<entities />
+				</response>
+			</operation>	
+			
+			<operation>
+				<name>Remove a document from a collection</name>
+				<description>Removes a document from a collection. 
+				Note that only the creator can add documents to a collection.</description>
+				<path omitResourcePath="true">/document/<param description="Entry ID">entry-id</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>DELETE</method>
+					<authentication  mandatory="true" />
+					<entities />
+				</request>
+				<response>
+					<responses>
+						<answer code="204">Document removed.</answer>
 						<answer code="403">Not allowed for this user.</answer>
 						<answer code="404">Document not found.</answer>
 					</responses>
 					<entities />
 				</response>
-			</operation>	
+			</operation>				
 								
 			<operation>
 				<name>List of collected documents (forwarder)</name>
@@ -2648,14 +2670,6 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<request>
 					<method>PUT</method>
 					<authentication mandatory="true"/>
-					<entities />
-				</request>
-				<response>
-					<responses>
-						<answer code="202">Key/value pair has been set.</answer>
-						<answer code="400">Invalid key or value</answer>
-						<answer code="403">Wrong user, key namespace not allowed.</answer>
-					</responses>
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
@@ -2665,7 +2679,15 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
    "value":"VGhpcyBpcyBhbiBleGFtcGxl"
 }]]></code>
 						</entity>
-					</entities>					
+					</entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Key/value pair has been set.</answer>
+						<answer code="400">Invalid key or value</answer>
+						<answer code="403">Wrong user, key namespace not allowed.</answer>
+					</responses>
+					<entities />
 				</response>
 			</operation>
 			
@@ -3073,10 +3095,12 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 
       ],
       "creators":[
-         {
-            "link":{
-               "rel":"self",
-               "href":"http://core.example.foo/v2/user/123456"
+          {
+            "user":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/user/007007"
+               }
             }
          }
       ]
@@ -3355,6 +3379,10 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
+   "link":{
+      "rel":"self",
+      "href":"http://core.example.foo/document/d16e103e-4fda-433d-9309-179487ecad4a"
+   },
    "upload":{
       "token":"00b19c9d7db4f1ae0824c62bda5a127588bde476",
       "location":{
@@ -5133,6 +5161,10 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 					<entities>
 						<entity>
 <code language="js"><![CDATA[{
+   "link":{
+      "rel":"self",
+      "href":"http://core.example.foo/v2/document/d16e103e-4fda-433d-9309-179487ecad4a"
+   },
    "upload":{
       "token":"00b19c9d7db4f1ae0824c62bda5a127588bde476",
       "location":{
@@ -5157,7 +5189,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>							
 
 			<operation>
-				<name>List of documents created by a user (forward)</name>
+				<name>List of documents published by a user (forward)</name>
 				<description>Forwards to a list of documents that this user has published, ordered by publishing date.</description>
 				<path omitResourcePath="true">/user/<param description="user ID">user-id</param>/documents</path>
 				<formats><format>n/a</format></formats>
@@ -5177,7 +5209,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			</operation>							
 
 			<operation>
-				<name>List of documents created by a user (page)</name>
+				<name>List of documents published by a user (page)</name>
 				<description>Returns a page from the list of documents that this user has published, ordered by publishing date.</description>
 				<path omitResourcePath="true">/user/<param description="user ID">user-id</param>/documents/cursor/<param description="doc ID">doc-id</param></path>
 				<formats><format>application/json</format></formats>
