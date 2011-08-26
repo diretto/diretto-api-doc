@@ -1021,7 +1021,7 @@ a{
 <pre class="brush: js">{
    "link":{
       "rel":"self",
-      "href":"http://core.example.foo/document/d16e103e-4fda-433d-9309-179487ecad4a"
+      "href":"http://core.example.foo/document/d16e103e-4fda-433d-9309-179487ecad4a/attachment/d16e103e-4fda-433d-9309-179487ecad4a"
    },
    "upload":{
       "token":"00b19c9d7db4f1ae0824c62bda5a127588bde476",
@@ -1721,10 +1721,14 @@ a{
 <h3 class="operation">2.9 Remove a document from a collection</h3>
 <h4>Description</h4>Removes a document from a collection. 
 				Note that only the creator can add documents to a collection.<h4>URI</h4>
-<pre>http://core.example.foo/v2/document/<span class="uripart">{entry-id}</span>
+<pre>http://core.example.foo/v2/user/<span class="uripart">{user-id}</span>/collection/<span class="uripart">{collection-id}</span>/document/<span class="uripart">{entry-id}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
+<dt class="uripart">user-id</dt>
+<dd>user ID</dd>
+<dt class="uripart">collection-id</dt>
+<dd>collection ID</dd>
 <dt class="uripart">{entry-id}</dt>
 <dd>Entry ID</dd>
 </dl>
