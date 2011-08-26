@@ -2082,7 +2082,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<name>Remove a document from a collection</name>
 				<description>Removes a document from a collection. 
 				Note that only the creator can add documents to a collection.</description>
-				<path omitResourcePath="true">/document/<param description="Entry ID">entry-id</param></path>
+				<path omitResourcePath="false">/document/<param description="Entry ID">entry-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>DELETE</method>
@@ -3381,7 +3381,7 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 <code language="js"><![CDATA[{
    "link":{
       "rel":"self",
-      "href":"http://core.example.foo/document/d16e103e-4fda-433d-9309-179487ecad4a"
+      "href":"http://core.example.foo/document/d16e103e-4fda-433d-9309-179487ecad4a/attachment/d16e103e-4fda-433d-9309-179487ecad4a"
    },
    "upload":{
       "token":"00b19c9d7db4f1ae0824c62bda5a127588bde476",
