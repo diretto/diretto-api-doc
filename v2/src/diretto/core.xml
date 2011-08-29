@@ -2081,8 +2081,8 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<operation>
 				<name>Remove a document from a collection</name>
 				<description>Removes a document from a collection. 
-				Note that only the creator can add documents to a collection.</description>
-				<path omitResourcePath="false">/document/<param description="Entry ID">entry-id</param></path>
+				Note that only the creator can remove documents to a collection.</description>
+				<path omitResourcePath="false">/document/<param description="document ID">doc-id</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>DELETE</method>
@@ -2578,14 +2578,14 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 			<description>This resource represents a key-value pair. Key-value pairs can be seen as structured tags for machines, as opposed to regular tags for human users.
 			Key value pairs can be added to a document, and are accessable (readable) for all platform users. The key part consists of a namespace and a key name.
 			The user id will be used as namespace and will be added automatically. The key name can be any string, with the minimal length of 3 characters and a maximum of 64 characters.
-			Only alphanumerical chars plus the following symbols are allowed inside the key name: "<tt>-</tt>" "<tt>:</tt>" "<tt>_</tt>" and "<tt>.</tt>"
+			Only alphanumerical chars plus the following symbols are allowed inside the key name: "<tt>-</tt>" "<tt>:</tt>" and "<tt>.</tt>"
 			
 			The actual value must be string of limited length (actual length depends on the service implementation). Any non-textual content must be encoded using Base64 or similar encodings.
 			Due to the user-based namespacing, multiple users can put values into this storage using the same string as key, ending up in different entries, separated by the user id.
 			Please note that all key value pairs are public for all users, so they don't represent a mechanism for saving classified data.  
 			
 			</description>
-			<path>/document/<param description="document ID">doc-id</param>/value/<param description="user ID for namespacing">user-id</param>/<param description="key name (valid chars: alphanumercial or one of '-' ':' '.' '_')">key</param></path>
+			<path>/document/<param description="document ID">doc-id</param>/value/<param description="user ID for namespacing">user-id</param>/<param description="key name (valid chars: alphanumercial or one of '-' ':' '.')">key</param></path>
 			
 			
 			<operation>
@@ -3447,9 +3447,9 @@ Note that step 5 and 6 must be repeated for additional result pages. Also, step 
 				<response>
 					<responses>
 						<answer code="204">Lock removed</answer>
-						<answer code="400">Superfluous confirmation</answer>
 						<answer code="403">Invalid token</answer>
 						<answer code="404">Document/attachment not found</answer>
+						<answer code="410">Superfluous confirmation</answer>
 					</responses>
 					<entities />
 				</response>
