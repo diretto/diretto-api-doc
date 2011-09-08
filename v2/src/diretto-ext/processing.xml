@@ -1,0 +1,234 @@
+<api xmlns="http://www.ioexception.de/rest-api-doc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ioexception.de/rest-api-doc ../xsd/rest-api-doc.xsd ">
+	<name>diretto Processing API</name>
+	<version>v2 - Draft</version>
+	<author>Benjamin Erb</author>
+	<description>The Processing API defines a (very) loosely coupled service for creating thumbnails, resized images, video stills and other document derivates.
+	For client applications, the service can be seen as a lookup directory for attachments, that generates missing conversions transparently and on demand.  
+	</description>
+	<baseuri>http://processing.example.foo/v2</baseuri>
+	<authentication>
+		<type>none</type>
+	</authentication>
+	<resources>
+	
+		<resource>
+			<name>Index</name>
+			<description>This entry resource provides information about the service instance.</description>
+			<path></path>
+			<operation>
+				<name>Get service instance data</name>
+				<description>Returns a static information about the deployed service instance.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service instance data in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "api":{
+      "name":"org.diretto.api.external.processing",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Processing Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Processing Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":[{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2"
+         }
+      }
+   }],
+   "links":[
+      {
+         "title":"diretto Processing API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto-ext/processing.html"
+         }
+      }
+   ]   
+}]]></code>
+						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instances.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>			
+		</resource>	
+		
+		<resource>
+			<name>Processing Job</name>
+			<description>A job is defined by a document to be processed, a conversion type and additional job parameters. 
+			When a job is dispatched, the processing service handles the complete processing job in the background and finally 
+			provides an URI of the resulting attachment. There are basically two different operation modes - synchronous and asynchronous:   
+			
+<code language="plain">
+   Client                   Processing Service          Storage API Server
+
+     |                               |                         |
+     |                               |                         |
+     |      (1) GET  Job + Params    |                         |
+     |------------------------------>|                         |
+     |                               |                         |
+     |      (2) 202 Accepted         |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+
+           ...ZZZzzzzzZZZZ...
+
+     |                               |                         |
+     |      (3) GET  Job + Params    |                         |
+     |------------------------------>|                         |
+     |                               |                         |
+     |      (4) 202 Accepted         |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+
+           ...ZZZzzzzzZZZZ...
+
+     |                               |                         |
+     |      (5) GET  Job + Params    |                         |
+     |------------------------------>|                         |
+     |                               |                         |
+     |      (6) 303 + Attach. URI    |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+     |                               |                         |
+     |                   (7) GET Attachment                    |
+     |-------------------------------------------------------->|
+     |                               |                         |
+     |                   (8) Attachment recieved               |
+     |&lt;--------------------------------------------------------|
+     |                               |                         |
+  
+
+</code>		
+The chart above describes the asynchronous workflow. The first request (1) is directly answered with return code (2). 
+This means that the job has been dispatched, but no result is yet available. Any additional request (3) is answered 
+the same way (4), as long as the new attachment is generated. Once available, responses to all subsequent requests (7) 
+contain the URI of the attachment in the <tt>Location</tt> header (8).    
+<code language="plain">
+   Client                   Processing Service             Media Node
+
+     |                               |                         |
+     |                               |                         |
+     |      (1) GET  Job + Params    |                         |
+     |------------------------------>|                         |
+     |                               |                         |
+
+           ...ZZZzzzzzZZZZ...
+
+     |                               |                         |
+     |      (2) 303 + Attach. URI    |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+     |                               |                         |
+     |                   (3) GET Attachment                    |
+     |-------------------------------------------------------->|
+     |                               |                         |
+     |                   (4) Attachment recieved               |
+     |&lt;--------------------------------------------------------|
+     |                               |                         |
+     
+
+</code>		
+The synchronous approach blocks the response as long as the requested attachment (1) is not available.
+Once available, the response (2) contains the location of the attachment.	
+
+Please note that processing operations may fail due to unsupported formats, external documents etc.
+			</description>
+			<path>/process/<param description="media type">media-type</param>/<param description="conversion type">conversion-type</param>?doc=<param description="URI of the document to be processed (URL-encoded)">doc URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;<param description="parameters">params</param> </path>
+			
+			
+			<operation>
+				<name>Request a resized variant of an image</name>
+				<description>Generates a resized image. Note that it is not possible to create images with higher dimensions than the original attachment. If the ratio is different than original image ratio, the result contains a cropped variant.</description>
+				<path omitResourcePath="true">/process/image/resized?doc=<param description="Full URI of the image document to be processed (URL-encoded)">doc URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;resolution=<param description="Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)">dimension params</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Processing job accepted</answer>
+						<answer code="303">Processing job result available, see location header.</answer>
+						<answer code="400">Invalid job arguments or document type, JSON error message in body.</answer>
+						<answer code="404">Document not found.</answer>
+					</responses>
+					<entities>
+					</entities>
+				</response>
+			</operation>	
+			
+			<operation>
+				<name>Request a extracted image still from a video</name>
+				<description>Generates a resized image extracted from a video. Note that it is not possible to create images with higher dimensions than the original video resolution. If the ratio is different than original image ratio, the result contains a cropped variant. An optional float parameter between 0 and 1 selects the time of extraction, default value is 0.5. </description>
+				<path omitResourcePath="true">/process/video/still?doc=<param description="Full URI of the video document to be processed (URL-encoded)">doc URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;resolution=<param description="Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)">dimension params</param>&amp;timecode=<param description="optional float value between 0 and 1, otherwise defaults to 0.5 (middle of video)">code</param> </path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Processing job accepted</answer>
+						<answer code="303">Processing job result available, see location header.</answer>
+						<answer code="400">Invalid job arguments or document type, JSON error message in body.</answer>
+						<answer code="404">Document not found.</answer>
+					</responses>
+					<entities>
+					</entities>
+				</response>
+			</operation>	
+			
+			
+			<operation>
+				<name>Request a thumbnail of a document</name>
+				<description>Provides a thumbnail for the given document. If the document represents a visual item, a cropped and downsized variant may be used.
+				Otherwise, an icon of the requested size will be returned. Thumbnails always have quadratic resolutions.</description>
+				<path omitResourcePath="true">/process/generic/thumbnail?doc=<param description="Full URI of the document (URL-encoded)">doc URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;size=<param description="Size of thumbnail (single numeric value), between 16 and 256. Sets the size of the thumbnail in pixel.">thumbnail size</param></path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="202">Processing job accepted</answer>
+						<answer code="303">Processing job result available, see location header.</answer>
+						<answer code="400">Invalid job arguments or document type, JSON error message in body.</answer>
+						<answer code="404">Document not found.</answer>
+					</responses>
+					<entities>
+					</entities>
+				</response>
+			</operation>
+			
+		</resource>		
+	
+	</resources>
+</api>
