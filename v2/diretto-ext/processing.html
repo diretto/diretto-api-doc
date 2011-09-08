@@ -1,0 +1,512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns:api="http://www.ioexception.de/rest-api-doc" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css">
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css">
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js" type="text/javascript"></script><script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPlain.js" type="text/javascript"></script>
+<style type="text/css">
+			
+body {
+	background: #FFF;
+	color: #333;
+	font: normal 100% sans-serif;
+margin-left: auto;
+	margin-right: auto;
+
+	line-height: 1.5;
+	width:66%;
+}
+
+
+.uripart {
+	background:#666;
+	color: #fff;
+	font-style: italic;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+	color: #444;
+	font-weight: normal;
+	line-height: 1;
+	margin-bottom: 0.6em;
+	font-family:  Helvetica, sans-serif;
+
+}
+h4,h5,h6 {font-weight: bold;}
+
+h1 {font-size: 2.6em;}
+h2 {font-size: 2em;margin-top:3em;}
+h3 {font-size: 1.5em;margin-top:1.5em;}
+h4 {font-size: 1.25em;}
+h5 {font-size: 1.1em;}
+h6 {font-size: 1em;}
+
+h1 img, h2 img, h3 img, h4 img, h5 img, h6 img {margin: 0;}
+
+pre {
+	font: normal 100% monospace; 
+}
+
+
+dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-left:0.3em; padding-right:0.3em;  text-align: right; }  dd { margin: 0 0 0 110px; padding: 0 0 0.5em 0; }
+
+.statuscode, .method {
+	font: bold 100% monospace; 
+}
+
+#watermark {
+        position:fixed; 
+        left:0px; 
+        top:0px;
+        width:32px;
+        height:100%;
+        background-color:#EEE;
+        padding:0px;
+        margin:0px;
+} 
+
+
+
+#watermark-text {
+	color:#999;
+	border:0px solid red;
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform: rotate(90deg);
+	white-space:nowrap;
+	display:block;
+	bottom:0px;
+	width:20px;
+	height:20px;
+	font-family: Helvetica, sans-serif;
+	letter-spacing: 5px;
+	font-size:24px;
+	font-weight:normal;
+	text-shadow: 0px 0px 1px #999;
+	padding:0 10px 10px 5px;
+}
+
+#watermark-text span{
+	padding-left: 30px;
+}
+
+#sidemenu {
+z-index:300;  display:none;margin: 0;  text-align:left;
+}
+
+#sidemenu  li{
+	font-size: 0.8em;
+}
+#sidemenu  li a{
+	color: #333;
+	font-weight:bold;
+}
+
+#sidemenuopener{
+z-index:300; color: #333; background-color: #EEEEEE; border:1px solid #DDD; margin: 0;  position: fixed; top: 16px;  left: auto;  width: 56px;  right: 0px; text-align:center;
+min-height:32px;
+}
+
+#sidemenuopener a{
+	color: #333;
+	font-weight:bold;
+}
+
+a{
+	text-decoration: none;
+}
+
+#sidemenuopenerbox{
+	position: fixed; right:12px;
+}
+
+.shadow {
+	-moz-box-shadow: 2px 2px 3px #333;
+	-webkit-box-shadow: 2px 2px 3px #333;
+	box-shadow: 2px 2px 3px #333;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
+	
+}
+
+
+			</style>
+<script type="text/javascript">
+					SyntaxHighlighter.all();
+			</script><script type="text/javascript">
+			function showElement(layer,sx,t1,t2){
+			var l = document.getElementById(layer);
+			var s = document.getElementById(sx);
+			if(l.style.display=="none"){
+			l.style.display="block";
+			l.backgroundPosition="top";
+			s.innerHTML= t2;
+			} else {
+			l.style.display="none";
+			s.innerHTML= t1;
+			}
+			}
+			
+			function boxSize(x,a,b){
+				var el = document.getElementById(x);
+				if(el.style.width === a){
+					el.style.width = b;
+				}
+				else{
+					el.style.width = a;
+				}
+			}
+			
+			</script>
+<title>diretto Processing API - RESTful API Documentation</title>
+</head>
+<body>
+<div id="watermark">
+<div id="watermark-text">
+<span>diretto Processing API</span><span>v2 - Draft</span>
+</div>
+</div>
+<div id="sidemenuopener" class="shadow">
+<div id="sidemenuopenerbox">
+<a href="#" class="button" id="menuopener" onclick="javascript:showElement('sidemenu','menuopener','TOC','X'); boxSize('sidemenuopener','25%','56px'); return false;">TOC</a>
+</div>
+<ol id="sidemenu" style="display:none;">
+<li>
+<a id="lN65566" href="#" onclick="javascript:showElement('XN65566','lN65566','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65566">Index</a>
+<ol id="XN65566" style="display:none;">
+<li>
+<a href="#N65576">Get service instance data</a>
+</li>
+</ol>
+</li>
+<li>
+<a id="lN65626" href="#" onclick="javascript:showElement('XN65626','lN65626','[+]','[-]'); return false;">
+						[+]
+					</a> <a href="#N65626">Processing Job</a>
+<ol id="XN65626" style="display:none;">
+<li>
+<a href="#N65732">Request a extracted image still from a video</a>
+</li>
+<li>
+<a href="#N65668">Request a resized variant of an image</a>
+</li>
+<li>
+<a href="#N65801">Request a thumbnail of a document</a>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<h1>diretto Processing API</h1>
+<a name="introduction"></a>
+<h2>Introduction</h2>
+<h4>Version</h4>
+<p>v2 - Draft</p>
+<h4>Author</h4>
+<p>Benjamin Erb</p>
+<h4>Description</h4>
+<p>The Processing API defines a (very) loosely coupled service for creating thumbnails, resized images, video stills and other document derivates.
+	For client applications, the service can be seen as a lookup directory for attachments, that generates missing conversions transparently and on demand.  
+	</p>
+<h4>Authentication Schemes</h4>
+<p>
+<ul>
+<li>none</li>
+</ul>
+</p>
+<h4>Base URI</h4>
+<p>
+<a xmlns="" href="http://processing.example.foo/v2">http://processing.example.foo/v2</a>
+</p>
+<a name="index"></a>
+<h2>Index of Resources and Operations</h2>
+<ol>
+<li xmlns="http://www.w3.org/1999/xhtml">
+<a href="#N65566">Index</a>
+<ol>
+<li>
+<a href="#N65576">Get service instance data</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#N65626">Processing Job</a>
+<ol>
+<li>
+<a href="#N65732">Request a extracted image still from a video</a>
+</li>
+<li>
+<a href="#N65668">Request a resized variant of an image</a>
+</li>
+<li>
+<a href="#N65801">Request a thumbnail of a document</a>
+</li>
+</ol>
+</li>
+</ol>
+<a xmlns="" name="N65566"></a>
+<h2 class="resource">1. Index</h2>
+<h4>Description</h4>
+<p>This entry resource provides information about the service instance.</p>
+<h4>Resource URI</h4>
+<pre>http://processing.example.foo/v2</pre>
+<dl></dl>
+<a name="N65576"></a>
+<h3 class="operation">1.1 Get service instance data</h3>
+<h4>Description</h4>Returns a static information about the deployed service instance.<h4>URI</h4>
+<pre>http://processing.example.foo/v2</pre>
+<h4>URI Parameters</h4>n/a<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">200 OK</dt>
+<dd>Service instance data in response entity</dd>
+</dl>
+<h4>Response Entities</h4>
+						
+
+<pre class="brush: js">{
+   "api":{
+      "name":"org.diretto.api.external.processing",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Processing Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Processing Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":[{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2"
+         }
+      }
+   }],
+   "links":[
+      {
+         "title":"diretto Processing API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto-ext/processing.html"
+         }
+      }
+   ]   
+}</pre>
+						The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instances.
+						
+					<a name="N65626"></a>
+<h2 class="resource">2. Processing Job</h2>
+<h4>Description</h4>
+<p>A job is defined by a document to be processed, a conversion type and additional job parameters. 
+			When a job is dispatched, the processing service handles the complete processing job in the background and finally 
+			provides an URI of the resulting attachment. There are basically two different operation modes - synchronous and asynchronous:   
+			
+<pre class="brush: plain">
+   Client                   Processing Service          Storage API Server
+
+     |                               |                         |
+     |                               |                         |
+     |      (1) GET  Job + Params    |                         |
+     |------------------------------&gt;|                         |
+     |                               |                         |
+     |      (2) 202 Accepted         |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+
+           ...ZZZzzzzzZZZZ...
+
+     |                               |                         |
+     |      (3) GET  Job + Params    |                         |
+     |------------------------------&gt;|                         |
+     |                               |                         |
+     |      (4) 202 Accepted         |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+
+           ...ZZZzzzzzZZZZ...
+
+     |                               |                         |
+     |      (5) GET  Job + Params    |                         |
+     |------------------------------&gt;|                         |
+     |                               |                         |
+     |      (6) 303 + Attach. URI    |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+     |                               |                         |
+     |                   (7) GET Attachment                    |
+     |--------------------------------------------------------&gt;|
+     |                               |                         |
+     |                   (8) Attachment recieved               |
+     |&lt;--------------------------------------------------------|
+     |                               |                         |
+  
+
+</pre>		
+The chart above describes the asynchronous workflow. The first request (1) is directly answered with return code (2). 
+This means that the job has been dispatched, but no result is yet available. Any additional request (3) is answered 
+the same way (4), as long as the new attachment is generated. Once available, responses to all subsequent requests (7) 
+contain the URI of the attachment in the <span style="font-family:monospace;">Location</span> header (8).    
+<pre class="brush: plain">
+   Client                   Processing Service             Media Node
+
+     |                               |                         |
+     |                               |                         |
+     |      (1) GET  Job + Params    |                         |
+     |------------------------------&gt;|                         |
+     |                               |                         |
+
+           ...ZZZzzzzzZZZZ...
+
+     |                               |                         |
+     |      (2) 303 + Attach. URI    |                         |
+     |&lt;------------------------------|                         |
+     |                               |                         |
+     |                               |                         |
+     |                   (3) GET Attachment                    |
+     |--------------------------------------------------------&gt;|
+     |                               |                         |
+     |                   (4) Attachment recieved               |
+     |&lt;--------------------------------------------------------|
+     |                               |                         |
+     
+
+</pre>		
+The synchronous approach blocks the response as long as the requested attachment (1) is not available.
+Once available, the response (2) contains the location of the attachment.	
+
+Please note that processing operations may fail due to unsupported formats, external documents etc.
+			</p>
+<h4>Resource URI</h4>
+<pre>http://processing.example.foo/v2/process/<span class="uripart">{media-type}</span>/<span class="uripart">{conversion-type}</span>?doc=<span class="uripart">{doc URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;<span class="uripart">{params}</span> 
+</pre>
+<dl>
+<dt class="uripart">media-type</dt>
+<dd>media type</dd>
+<dt class="uripart">conversion-type</dt>
+<dd>conversion type</dd>
+<dt class="uripart">doc URI</dt>
+<dd>URI of the document to be processed (URL-encoded)</dd>
+<dt class="uripart">async</dt>
+<dd>true or false (default true): Wait for processed document or return immediately?</dd>
+<dt class="uripart">params</dt>
+<dd>parameters</dd>
+</dl>
+<a name="N65732"></a>
+<h3 class="operation">2.1 Request a extracted image still from a video</h3>
+<h4>Description</h4>Generates a resized image extracted from a video. Note that it is not possible to create images with higher dimensions than the original video resolution. If the ratio is different than original image ratio, the result contains a cropped variant. An optional float parameter between 0 and 1 selects the time of extraction, default value is 0.5. <h4>URI</h4>
+<pre>http://processing.example.foo/v2/process/video/still?doc=<span class="uripart">{doc URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;resolution=<span class="uripart">{dimension params}</span>&amp;timecode=<span class="uripart">{code}</span> 
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc URI}</dt>
+<dd>Full URI of the video document to be processed (URL-encoded)</dd>
+<dt class="uripart">{async}</dt>
+<dd>true or false (default true): Wait for processed document or return immediately?</dd>
+<dt class="uripart">{dimension params}</dt>
+<dd>Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)</dd>
+<dt class="uripart">{code}</dt>
+<dd>optional float value between 0 and 1, otherwise defaults to 0.5 (middle of video)</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Processing job accepted</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Processing job result available, see location header.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid job arguments or document type, JSON error message in body.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N65668"></a>
+<h3 class="operation">2.2 Request a resized variant of an image</h3>
+<h4>Description</h4>Generates a resized image. Note that it is not possible to create images with higher dimensions than the original attachment. If the ratio is different than original image ratio, the result contains a cropped variant.<h4>URI</h4>
+<pre>http://processing.example.foo/v2/process/image/resized?doc=<span class="uripart">{doc URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;resolution=<span class="uripart">{dimension params}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc URI}</dt>
+<dd>Full URI of the image document to be processed (URL-encoded)</dd>
+<dt class="uripart">{async}</dt>
+<dd>true or false (default true): Wait for processed document or return immediately?</dd>
+<dt class="uripart">{dimension params}</dt>
+<dd>Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Processing job accepted</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Processing job result available, see location header.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid job arguments or document type, JSON error message in body.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a<a name="N65801"></a>
+<h3 class="operation">2.3 Request a thumbnail of a document</h3>
+<h4>Description</h4>Provides a thumbnail for the given document. If the document represents a visual item, a cropped and downsized variant may be used.
+				Otherwise, an icon of the requested size will be returned. Thumbnails always have quadratic resolutions.<h4>URI</h4>
+<pre>http://processing.example.foo/v2/process/generic/thumbnail?doc=<span class="uripart">{doc URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;size=<span class="uripart">{thumbnail size}</span>
+</pre>
+<h4>URI Parameters</h4>
+<dl>
+<dt class="uripart">{doc URI}</dt>
+<dd>Full URI of the document (URL-encoded)</dd>
+<dt class="uripart">{async}</dt>
+<dd>true or false (default true): Wait for processed document or return immediately?</dd>
+<dt class="uripart">{thumbnail size}</dt>
+<dd>Size of thumbnail (single numeric value), between 16 and 256. Sets the size of the thumbnail in pixel.</dd>
+</dl>
+<h4>HTTP Method</h4>
+<span class="method">GET</span>
+<h4>Resource Formats</h4>
+<ul>
+<li>application/json</li>
+</ul>
+<h4>Authentication</h4>not required<h4>Request Entities</h4>n/a<h4>Responses</h4>
+<dl>
+<dt class="statuscode">202 Accepted</dt>
+<dd>Processing job accepted</dd>
+<dt class="statuscode">303 See Other</dt>
+<dd>Processing job result available, see location header.</dd>
+<dt class="statuscode">400 Bad Request</dt>
+<dd>Invalid job arguments or document type, JSON error message in body.</dd>
+<dt class="statuscode">404 Not Found</dt>
+<dd>Document not found.</dd>
+</dl>
+<h4>Response Entities</h4>n/a</body>
+</html>
