@@ -163,7 +163,7 @@ Please note that processing operations may fail due to unsupported formats, exte
 			<operation>
 				<name>Request a resized variant of an image</name>
 				<description>Generates a resized image. Note that it is not possible to create images with higher dimensions than the original attachment. If the ratio is different than original image ratio, the result contains a cropped variant.</description>
-				<path omitResourcePath="true">/process/image/resized?doc=<param description="Full URI of the image document to be processed (URL-encoded)">doc URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;resolution=<param description="Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)">dimension params</param></path>
+				<path omitResourcePath="true">/process/image/resized?item=<param description="Full URI of the document/attachment to be processed (URL-encoded)">item URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;resolution=<param description="Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)">dimension params</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -175,7 +175,7 @@ Please note that processing operations may fail due to unsupported formats, exte
 						<answer code="202">Processing job accepted</answer>
 						<answer code="303">Processing job result available, see location header.</answer>
 						<answer code="400">Invalid job arguments or document type, JSON error message in body.</answer>
-						<answer code="404">Document not found.</answer>
+						<answer code="404">Document/attachment not found.</answer>
 					</responses>
 					<entities>
 					</entities>
@@ -185,7 +185,7 @@ Please note that processing operations may fail due to unsupported formats, exte
 			<operation>
 				<name>Request a extracted image still from a video</name>
 				<description>Generates a resized image extracted from a video. Note that it is not possible to create images with higher dimensions than the original video resolution. If the ratio is different than original image ratio, the result contains a cropped variant. An optional float parameter between 0 and 1 selects the time of extraction, default value is 0.5. </description>
-				<path omitResourcePath="true">/process/video/still?doc=<param description="Full URI of the video document to be processed (URL-encoded)">doc URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;resolution=<param description="Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)">dimension params</param>&amp;timecode=<param description="optional float value between 0 and 1, otherwise defaults to 0.5 (middle of video)">code</param> </path>
+				<path omitResourcePath="true">/process/video/still?item=<param description="Full URI of the video document/attachment to be processed (URL-encoded)">item URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;resolution=<param description="Resolution mode, for example one of: 320x240 (fixed size, possibly cropped), Xx240 (fixed height) or 320xY (fixed width)">dimension params</param>&amp;timecode=<param description="optional float value between 0 and 1, otherwise defaults to 0.5 (middle of video)">code</param> </path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -197,7 +197,7 @@ Please note that processing operations may fail due to unsupported formats, exte
 						<answer code="202">Processing job accepted</answer>
 						<answer code="303">Processing job result available, see location header.</answer>
 						<answer code="400">Invalid job arguments or document type, JSON error message in body.</answer>
-						<answer code="404">Document not found.</answer>
+						<answer code="404">Document/attachment not found.</answer>
 					</responses>
 					<entities>
 					</entities>
@@ -206,10 +206,10 @@ Please note that processing operations may fail due to unsupported formats, exte
 			
 			
 			<operation>
-				<name>Request a thumbnail of a document</name>
-				<description>Provides a thumbnail for the given document. If the document represents a visual item, a cropped and downsized variant may be used.
+				<name>Request a thumbnail of a document/attachment</name>
+				<description>Provides a thumbnail for the given document/attachment. If the document/attachment represents a visual item, a cropped and downsized variant may be used.
 				Otherwise, an icon of the requested size will be returned. Thumbnails always have quadratic resolutions.</description>
-				<path omitResourcePath="true">/process/generic/thumbnail?doc=<param description="Full URI of the document (URL-encoded)">doc URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;size=<param description="Size of thumbnail (single numeric value), between 16 and 256. Sets the size of the thumbnail in pixel.">thumbnail size</param></path>
+				<path omitResourcePath="true">/process/generic/thumbnail?item=<param description="Full URI of the document/attachment (URL-encoded)">item URI</param>&amp;async=<param description="true or false (default true): Wait for processed document or return immediately?">async</param>&amp;size=<param description="Size of thumbnail (single numeric value), between 16 and 256. Sets the size of the thumbnail in pixel.">thumbnail size</param></path>
 				<formats><format>application/json</format></formats>
 				<request>
 					<method>GET</method>
@@ -221,7 +221,7 @@ Please note that processing operations may fail due to unsupported formats, exte
 						<answer code="202">Processing job accepted</answer>
 						<answer code="303">Processing job result available, see location header.</answer>
 						<answer code="400">Invalid job arguments or document type, JSON error message in body.</answer>
-						<answer code="404">Document not found.</answer>
+						<answer code="404">Document/attachment not found.</answer>
 					</responses>
 					<entities>
 					</entities>

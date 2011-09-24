@@ -57,6 +57,53 @@
             "href":"http://www.diretto.org"
          }
       }
+   },
+   "links":[
+      {
+         "title":"diretto Feed API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/feed.html"
+         }
+      },
+      {
+         "title":"Atom feed of published documents",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/documents"
+         }
+      },
+      {
+         "title":"Atom feed of published comments",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/comments"
+         }
+      },
+      {
+         "title":"Atom feed of published attachments",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/attachments"
+         }
+      },
+      {
+         "title":"Atom feed of published documents of a distinct media type",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/media/{type}"
+         }
+      },
+      {
+         "title":"Atom feed of resources related to a distinct document",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/document/{id}"
+         }
+      }
+   ],
+   "parameters":{
+      "paginationSize":20
    }
 }]]></code>
 						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.</description>
@@ -422,11 +469,8 @@
 
 	<Placemark>
 		<name>Document tile</name>
-		<description>Document Description</description>
-		  <atom:author>
-			<atom:uri>http://core.example.foo/v2/user/123456</atom:uri>		  	
-		  </atom:author>
-		  <atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" />
+		<description></description>
+        <atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" />
 
 		<Point>
 			<coordinates>10.01,49.7,0</coordinates>
