@@ -620,11 +620,8 @@ a{
 
 	&lt;Placemark&gt;
 		&lt;name&gt;Document tile&lt;/name&gt;
-		&lt;description&gt;Document Description&lt;/description&gt;
-		  &lt;atom:author&gt;
-			&lt;atom:uri&gt;http://core.example.foo/v2/user/123456&lt;/atom:uri&gt;		  	
-		  &lt;/atom:author&gt;
-		  &lt;atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
+		&lt;description&gt;&lt;/description&gt;
+        &lt;atom:link rel="alternate" href="http://core.example.foo/v2/document/eafbad70-7972-11e0-a1f0-0800200c9a66" /&gt;
 
 		&lt;Point&gt;
 			&lt;coordinates&gt;10.01,49.7,0&lt;/coordinates&gt;
@@ -784,6 +781,53 @@ a{
             "href":"http://www.diretto.org"
          }
       }
+   },
+   "links":[
+      {
+         "title":"diretto Feed API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto/feed.html"
+         }
+      },
+      {
+         "title":"Atom feed of published documents",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/documents"
+         }
+      },
+      {
+         "title":"Atom feed of published comments",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/comments"
+         }
+      },
+      {
+         "title":"Atom feed of published attachments",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/attachments"
+         }
+      },
+      {
+         "title":"Atom feed of published documents of a distinct media type",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/media/{type}"
+         }
+      },
+      {
+         "title":"Atom feed of resources related to a distinct document",
+         "link":{
+            "rel":"self",
+            "href":"http://feed.diretto.org/v2/feed/document/{id}"
+         }
+      }
+   ],
+   "parameters":{
+      "paginationSize":20
    }
 }</pre>
 						The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.

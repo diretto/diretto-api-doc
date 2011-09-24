@@ -198,7 +198,7 @@ a{
 <a href="#N65668">Request a resized variant of an image</a>
 </li>
 <li>
-<a href="#N65801">Request a thumbnail of a document</a>
+<a href="#N65801">Request a thumbnail of a document/attachment</a>
 </li>
 </ol>
 </li>
@@ -246,7 +246,7 @@ a{
 <a href="#N65668">Request a resized variant of an image</a>
 </li>
 <li>
-<a href="#N65801">Request a thumbnail of a document</a>
+<a href="#N65801">Request a thumbnail of a document/attachment</a>
 </li>
 </ol>
 </li>
@@ -415,12 +415,12 @@ Please note that processing operations may fail due to unsupported formats, exte
 <a name="N65732"></a>
 <h3 class="operation">2.1 Request a extracted image still from a video</h3>
 <h4>Description</h4>Generates a resized image extracted from a video. Note that it is not possible to create images with higher dimensions than the original video resolution. If the ratio is different than original image ratio, the result contains a cropped variant. An optional float parameter between 0 and 1 selects the time of extraction, default value is 0.5. <h4>URI</h4>
-<pre>http://processing.example.foo/v2/process/video/still?doc=<span class="uripart">{doc URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;resolution=<span class="uripart">{dimension params}</span>&amp;timecode=<span class="uripart">{code}</span> 
+<pre>http://processing.example.foo/v2/process/video/still?item=<span class="uripart">{item URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;resolution=<span class="uripart">{dimension params}</span>&amp;timecode=<span class="uripart">{code}</span> 
 </pre>
 <h4>URI Parameters</h4>
 <dl>
-<dt class="uripart">{doc URI}</dt>
-<dd>Full URI of the video document to be processed (URL-encoded)</dd>
+<dt class="uripart">{item URI}</dt>
+<dd>Full URI of the video document/attachment to be processed (URL-encoded)</dd>
 <dt class="uripart">{async}</dt>
 <dd>true or false (default true): Wait for processed document or return immediately?</dd>
 <dt class="uripart">{dimension params}</dt>
@@ -443,17 +443,17 @@ Please note that processing operations may fail due to unsupported formats, exte
 <dt class="statuscode">400 Bad Request</dt>
 <dd>Invalid job arguments or document type, JSON error message in body.</dd>
 <dt class="statuscode">404 Not Found</dt>
-<dd>Document not found.</dd>
+<dd>Document/attachment not found.</dd>
 </dl>
 <h4>Response Entities</h4>n/a<a name="N65668"></a>
 <h3 class="operation">2.2 Request a resized variant of an image</h3>
 <h4>Description</h4>Generates a resized image. Note that it is not possible to create images with higher dimensions than the original attachment. If the ratio is different than original image ratio, the result contains a cropped variant.<h4>URI</h4>
-<pre>http://processing.example.foo/v2/process/image/resized?doc=<span class="uripart">{doc URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;resolution=<span class="uripart">{dimension params}</span>
+<pre>http://processing.example.foo/v2/process/image/resized?item=<span class="uripart">{item URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;resolution=<span class="uripart">{dimension params}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
-<dt class="uripart">{doc URI}</dt>
-<dd>Full URI of the image document to be processed (URL-encoded)</dd>
+<dt class="uripart">{item URI}</dt>
+<dd>Full URI of the document/attachment to be processed (URL-encoded)</dd>
 <dt class="uripart">{async}</dt>
 <dd>true or false (default true): Wait for processed document or return immediately?</dd>
 <dt class="uripart">{dimension params}</dt>
@@ -474,18 +474,18 @@ Please note that processing operations may fail due to unsupported formats, exte
 <dt class="statuscode">400 Bad Request</dt>
 <dd>Invalid job arguments or document type, JSON error message in body.</dd>
 <dt class="statuscode">404 Not Found</dt>
-<dd>Document not found.</dd>
+<dd>Document/attachment not found.</dd>
 </dl>
 <h4>Response Entities</h4>n/a<a name="N65801"></a>
-<h3 class="operation">2.3 Request a thumbnail of a document</h3>
-<h4>Description</h4>Provides a thumbnail for the given document. If the document represents a visual item, a cropped and downsized variant may be used.
+<h3 class="operation">2.3 Request a thumbnail of a document/attachment</h3>
+<h4>Description</h4>Provides a thumbnail for the given document/attachment. If the document/attachment represents a visual item, a cropped and downsized variant may be used.
 				Otherwise, an icon of the requested size will be returned. Thumbnails always have quadratic resolutions.<h4>URI</h4>
-<pre>http://processing.example.foo/v2/process/generic/thumbnail?doc=<span class="uripart">{doc URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;size=<span class="uripart">{thumbnail size}</span>
+<pre>http://processing.example.foo/v2/process/generic/thumbnail?item=<span class="uripart">{item URI}</span>&amp;async=<span class="uripart">{async}</span>&amp;size=<span class="uripart">{thumbnail size}</span>
 </pre>
 <h4>URI Parameters</h4>
 <dl>
-<dt class="uripart">{doc URI}</dt>
-<dd>Full URI of the document (URL-encoded)</dd>
+<dt class="uripart">{item URI}</dt>
+<dd>Full URI of the document/attachment (URL-encoded)</dd>
 <dt class="uripart">{async}</dt>
 <dd>true or false (default true): Wait for processed document or return immediately?</dd>
 <dt class="uripart">{thumbnail size}</dt>
@@ -506,7 +506,7 @@ Please note that processing operations may fail due to unsupported formats, exte
 <dt class="statuscode">400 Bad Request</dt>
 <dd>Invalid job arguments or document type, JSON error message in body.</dd>
 <dt class="statuscode">404 Not Found</dt>
-<dd>Document not found.</dd>
+<dd>Document/attachment not found.</dd>
 </dl>
 <h4>Response Entities</h4>n/a</body>
 </html>
