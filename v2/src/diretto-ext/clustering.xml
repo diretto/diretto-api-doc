@@ -3,12 +3,409 @@
 	<name>diretto Clustering API</name>
 	<version>v2 - Draft</version>
 	<author>Benjamin Erb</author>
-	<description>The Clustering API is provided by an external service that extracts additional information from the collected documents and user-provided data.</description>
-	<baseuri>http://clustering/v2</baseuri>
+	<description>The Clustering API is provided by an external service that extracts additional information from the collected documents and user-provided data.
+	Actual implementations can choose different operational modes, such as live updates, asynchronous/delayed updates or periodic recomputations. 
+	Thus, services are not forced to return up-to-date information in any case, although services are encouraged to update data as soon as possible.
+	Delayed or periodic updates will result in a eventually consistent data model.   
+	Service implementations also have free choice in selecting features and metrics for calculating similarity, relations, trends etc.  
+	</description>
+	<baseuri>http://clustering.example.foo/v2</baseuri>
 	<authentication>
 		<type>Basic Authentication</type>
 	</authentication>
-	<resources></resources>
+	<resources>
+	
+	
+		<resource>
+			<name>Index</name>
+			<description>This entry resource provides information about the service instance.</description>
+			<path></path>
+			<operation>
+				<name>Get service instance data</name>
+				<description>Returns a static information about the deployed service instance.</description>
+				<path />
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">Service instance data in response entity</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "api":{
+      "name":"org.diretto.api.external.clustering",
+      "version":"v2"
+   },
+   "service":{
+      "name":"diretto Clustering Node",
+      "version":"0.1.0"
+   },
+   "deployment":{
+      "title":"fubar Clustering Service",
+      "contact":"n/a",
+      "website":{
+         "link":{
+            "rel":"self",
+            "href":"http://www.diretto.org"
+         }
+      }
+   },
+   "direttoMainServices":{
+      "core":{
+         "link":{
+            "rel":"self",
+            "href":"http://core.example.foo/v2"
+         }
+      }
+   },
+   "links":[
+      {
+         "title":"diretto Clustering API Documentation",
+         "link":{
+            "rel":"self",
+            "href":"http://diretto.github.com/diretto-api-doc/v2/diretto-ext/clustering.html"
+         }
+      }
+   ]
+}]]></code>
+						<description>The JSON response contains information about the service identification and version, the actual deployment variables and links to the main service instance.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>			
+		</resource>
+		
+		<resource>
+			<name>Document</name>
+			<description></description>
+			<path>/documents</path>
+			
+			<operation>
+				<name>Get similar documents to a given document</name>
+				<description>Returns a list of documents similar to the given document. Similarity can be determined by
+				similar spatial or temporal origin, tag coverage, link relations or other features.
+				</description>
+				<path>/similar/<param description="document ID">doc-id</param> </path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of similar items in response entity</answer>
+						<answer code="204">Not list available yet</answer>
+						<answer code="404">Document not found</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "similarDocuments":{
+      "link":{
+         "rel":"self",
+         "href":"http://clustering.example.foo/v2/documents/similar/32b8c320-a28e-11e0-8264-0800200c9a66"
+      },
+      "list":[
+         {
+            "document":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/550e8400-e29b-11d4-a716-446655440000"
+               }
+            }
+         },
+         {
+            "document":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/9331dd79-ff9a-4b75-b181-d17c088ec803"
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						<description>The JSON response contains a list of related documents.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Get popular documents</name>
+				<description>Returns a list of the most popular documents of this instance. 
+				</description>
+				<path>/popular</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of popular items in response entity</answer>
+						<answer code="204">Not list available yet</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "popularDocuments":{
+      "link":{
+         "rel":"self",
+         "href":"http://clustering.example.foo/v2/documents/popular"
+      },
+      "list":[
+         {
+            "document":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/550e8400-e29b-11d4-a716-446655440000"
+               }
+            }
+         },
+         {
+            "document":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/9331dd79-ff9a-4b75-b181-d17c088ec803"
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						<description>The JSON response contains a list of popular documents.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+			
+			<operation>
+				<name>Get trending documents</name>
+				<description>Returns a list of the documents that are currently trending. This may include documents
+				that have attracted many votes or visits recently.
+				</description>
+				<path>/trending</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of trending items in response entity</answer>
+						<answer code="204">Not list available yet</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "trendingDocuments":{
+      "link":{
+         "rel":"self",
+         "href":"http://clustering.example.foo/v2/documents/trending"
+      },
+      "list":[
+         {
+            "document":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/550e8400-e29b-11d4-a716-446655440000"
+               }
+            }
+         },
+         {
+            "document":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/document/9331dd79-ff9a-4b75-b181-d17c088ec803"
+               }
+            }
+         }
+      ]
+   }
+}]]></code>
+						<description>The JSON response contains a list of trending documents.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+		</resource>
+					
+		<resource>
+			<name>Tag</name>
+			<description></description>
+			<path>/tags</path>
+			
+			<operation>
+				<name>Get related tags to a given tag</name>
+				<description>Returns a list of tags related to a given tag. Similarity can be determined by
+				common tag usage on documents/links or other characteristics.
+				</description>
+				<path>/related/<param description="tag ID">tag-id</param> </path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of similar items in response entity</answer>
+						<answer code="204">Not list available yet</answer>
+						<answer code="404">Tag not found</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "relatedTags":{
+      "link":{
+         "rel":"self",
+         "href":"http://clustering.example.foo/v2/tags/related/ef7987f2bd22f4a8cf236c83a57c1f6b"
+      },
+      "list":[
+         {
+            "baseTag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/tag/202cb962ac59075b964b07152d234b70"
+               },
+               "value":"mytag"
+            }
+         },
+         {
+            "baseTag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/tag/7815696ecbf1c96e6894b779456d330e"
+               },
+               "value":"foobar"
+            }
+         }
+      ]
+   }
+}]]></code>
+						<description>The JSON response contains a list of related tags.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>
+			
+			<operation>
+				<name>Get popular tags</name>
+				<description>Returns a list of the most popular tags of this instance. 
+				</description>
+				<path>/popular</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of popular items in response entity</answer>
+						<answer code="204">Not list available yet</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "popularTags":{
+      "link":{
+         "rel":"self",
+         "href":"http://clustering.example.foo/v2/tags/popular"
+      },
+      "list":[
+         {
+            "baseTag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/tag/202cb962ac59075b964b07152d234b70"
+               },
+               "value":"mytag"
+            }
+         },
+         {
+            "baseTag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/tag/7815696ecbf1c96e6894b779456d330e"
+               },
+               "value":"foobar"
+            }
+         }
+      ]
+   }
+}]]></code>
+						<description>The JSON response contains a list of popular tags.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>	
+			
+			<operation>
+				<name>Get trending tags</name>
+				<description>Returns a list of the tags that are currently trending. This may include tags
+				that have been created and/or often used recently.
+				</description>
+				<path>/trending</path>
+				<formats><format>application/json</format></formats>
+				<request>
+					<method>GET</method>
+					<authentication mandatory="false"/>
+					<entities></entities>
+				</request>
+				<response>
+					<responses>
+						<answer code="200">List of trending items in response entity</answer>
+						<answer code="204">Not list available yet</answer>
+					</responses>
+					<entities>
+						<entity>
+<code language="js"><![CDATA[{
+   "trendingTags":{
+      "link":{
+         "rel":"self",
+         "href":"http://clustering.example.foo/v2/tags/trending"
+      },
+      "list":[
+         {
+            "baseTag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/tag/202cb962ac59075b964b07152d234b70"
+               },
+               "value":"mytag"
+            }
+         },
+         {
+            "baseTag":{
+               "link":{
+                  "rel":"self",
+                  "href":"http://core.example.foo/v2/tag/7815696ecbf1c96e6894b779456d330e"
+               },
+               "value":"foobar"
+            }
+         }
+      ]
+   }
+}]]></code>
+						<description>The JSON response contains a list of trending tags.</description>
+						</entity>
+					</entities>
+				</response>
+			</operation>			
+		</resource>			
+		
+	
+	</resources>
 </api>
 
  
